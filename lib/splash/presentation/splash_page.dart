@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sports_complex/core/shared/background_image_widget.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});
@@ -6,19 +7,13 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-          body: Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: const AssetImage("assets/images/bg.jpg"),
-                    fit: BoxFit.cover,
-                    colorFilter: ColorFilter.mode(
-                        Colors.blue.withOpacity(0.25), BlendMode.darken)),
-              ),
-              child: Padding(
+      child: BackgroundImageWidget(
+          image: const AssetImage("assets/images/bg.jpg"),
+          child: Scaffold(
+              backgroundColor: Colors.transparent,
+              body: Padding(
                 padding: const EdgeInsets.only(top: 100),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     SizedBox(
