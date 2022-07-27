@@ -1,0 +1,20 @@
+REQURIEMNENT GATHERING
+=======================================================================================================================
+
+The guys in the group realized that the process involved in booking the soccer pitch at the Brunei sports complex was 
+not proper. In the sense that sometimes we encountered some issues after paying for a particular time; then our booking 
+times coincide with others. This wasn't the best. We went ahead and asked some other students and they confirmed it 
+was a problem.
+Fast forward, we went to the Sport complex to inquire about this from the officials. We learnt from Tina that they are
+actually in the process of building a solution to fix this but it's still in production. We also learnt they have no
+software to store information at the gym (the members and payment receipts).
+
+Hence our group decided to build a solution hopefully to deliver the following
+1. Allow anyone to be able to book for sporting activities and pay (soccer, basketball, etc)
+2. Allow anyone to register and become a gym member and access his/her info there (personal info, payment receipts, etc)and allow payment for gym subscription
+3. Allow officials to track payment, number of members at the gym, number of booking and other data analysis related.
+
+=======================================================================================================================
+
+BELOW IS THE LINK TO OUR USE CASE DIAGRAM:
+https://www.figma.com/file/Req4mOFiqcH77c147GHveg/Use-Case-Diagram?node-id=0%3A1
