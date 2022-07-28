@@ -15,7 +15,7 @@ class SplashScreen extends StatelessWidget {
           // Within the `FirstScreen` widget
           onPressed: () {
             // Navigate to the second screen using a named route.
-            Navigator.pushNamed(context, '/second');
+            Navigator.pushNamed(context, '/home');
           },
           child: const Text('Get Started'),
         ),
