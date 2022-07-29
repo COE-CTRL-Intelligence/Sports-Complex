@@ -22,12 +22,12 @@ class BackgroundImageWidget extends StatelessWidget {
 }
 
 class BuildBackground extends StatelessWidget {
+  final ImageProvider<Object> image;
+
   const BuildBackground({
     Key? key,
     required this.image,
   }) : super(key: key);
-
-  final ImageProvider<Object> image;
 
   @override
   Widget build(BuildContext context) {
