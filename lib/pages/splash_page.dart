@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:sports_complex/core/shared/background_image_widget.dart';
+import 'package:sports_complex/pages/routes/app_router.gr.dart';
+import 'package:sports_complex/widgets/background_image_widget.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});
@@ -58,7 +60,7 @@ class SplashPage extends StatelessWidget {
                             ),
                           ),
                           onPressed: () {
-                            null;
+                            AutoRouter.of(context).push(const HomeRoute());
                           },
                           child: const Text("HOME")),
                     )
