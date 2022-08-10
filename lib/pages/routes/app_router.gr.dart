@@ -13,7 +13,7 @@
 import 'package:auto_route/auto_route.dart' as _i4;
 import 'package:flutter/material.dart' as _i5;
 
-import '../about_page.dart' as _i3;
+import '../booking_page.dart' as _i3;
 import '../home_page.dart' as _i2;
 import '../splash_page.dart' as _i1;
 
@@ -31,9 +31,9 @@ class AppRouter extends _i4.RootStackRouter {
       return _i4.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i2.HomePage());
     },
-    AboutRoute.name: (routeData) {
+    BookingRoute.name: (routeData) {
       return _i4.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i3.AboutPage());
+          routeData: routeData, child: const _i3.BookingPage());
     }
   };
 
@@ -41,7 +41,7 @@ class AppRouter extends _i4.RootStackRouter {
   List<_i4.RouteConfig> get routes => [
         _i4.RouteConfig(SplashRoute.name, path: '/'),
         _i4.RouteConfig(HomeRoute.name, path: '/home'),
-        _i4.RouteConfig(AboutRoute.name, path: '/about')
+        _i4.RouteConfig(BookingRoute.name, path: '/booking')
       ];
 }
 
@@ -63,8 +63,8 @@ class HomeRoute extends _i4.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i3.AboutPage]
-class AboutRoute extends _i4.PageRouteInfo<void> {
-  const AboutRoute() : super(AboutRoute.name, path: '/about');
+class BookingRoute extends _i4.PageRouteInfo<void> {
+  const BookingRoute() : super(BookingRoute.name, path: '/booking');
 
   static const String name = 'AboutRoute';
 }

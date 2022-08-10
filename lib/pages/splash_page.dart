@@ -22,7 +22,7 @@ class SplashPage extends StatelessWidget {
                       SizedBox(
                         height: 65,
                         child: Image.asset(
-                          "assets/icons/dumbell.png",
+                          "assets/icons/dumbbell.png",
                           color: const Color(0xffFEF7C0),
                         ),
                       ),

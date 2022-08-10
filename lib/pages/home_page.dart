@@ -1,6 +1,8 @@
 // ignore_for_file: unnecessary_const
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:sports_complex/pages/routes/app_router.gr.dart';
 import 'package:sports_complex/widgets/background_image_widget.dart';
 
 class HomePage extends StatelessWidget {
@@ -21,7 +23,7 @@ class HomePage extends StatelessWidget {
                 SizedBox(
                   height: 65,
                   child: Image.asset(
-                    "assets/icons/dumbell.png",
+                    "assets/icons/dumbbell.png",
                     color: const Color(0xffFEF7C0),
                   ),
                 ),
@@ -37,45 +39,117 @@ class HomePage extends StatelessWidget {
                                 fixedSize: MaterialStateProperty.all(
                                     const Size(120, 120)),
                                 shape: MaterialStateProperty.all(
-                                    const CircleBorder()),
+                                    const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20)))),
                                 backgroundColor: MaterialStateProperty.all(
                                   const Color.fromARGB(217, 217, 217, 217),
                                 ),
                               ),
-                              onPressed: null,
+                              onPressed: () {
+                                AutoRouter.of(context)
+                                    .push(const BookingRoute());
+                              },
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
-                                    children: const [
-                                      Text('i01'),
-                                      Text('i02'),
+                                    children: [
+                                      Image.asset(
+                                        "assets/icons/tennisball.png",
+                                        color: Colors.black,
+                                        height: 29,
+                                      ),
+                                      Image.asset(
+                                        "assets/icons/basketball.png",
+                                        color: Colors.black,
+                                        height: 25,
+                                      ),
                                     ],
                                   ),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
-                                    children: const [
-                                      Text('i03'),
+                                    children: [
+                                      Image.asset("assets/icons/soccerball.png",
+                                          color: Colors.black, height: 25),
                                     ],
                                   ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: const [
+                                      Text(
+                                        'BOOK A FACILITY',
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                          color: Colors.black,
+                                          height: 2.3,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      )
+                                    ],
+                                  )
                                 ],
                               ),
                             ),
                             ElevatedButton(
-                              style: ButtonStyle(
-                                fixedSize: MaterialStateProperty.all(
-                                    const Size(120, 120)),
-                                shape: MaterialStateProperty.all(
-                                    const CircleBorder()),
-                                backgroundColor: MaterialStateProperty.all(
-                                  const Color.fromARGB(217, 217, 217, 217),
+                                style: ButtonStyle(
+                                  fixedSize: MaterialStateProperty.all(
+                                      const Size(120, 120)),
+                                  shape: MaterialStateProperty.all(
+                                      const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20)))),
+                                  backgroundColor: MaterialStateProperty.all(
+                                    const Color.fromARGB(217, 217, 217, 217),
+                                  ),
                                 ),
-                              ),
-                              onPressed: null,
-                              child: null,
+                                onPressed: null,
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Row(
+                                      children: const [],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset(
+                                          "assets/icons/calendar.png",
+                                          height: 30,
+                                        )
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Row(
+                                          children: const [
+                                            Text(
+                                              "CHECK BOOKING",
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 11,
+                                                  fontWeight: FontWeight.bold,
+                                                  height: 2),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ))
+                          ],
+                        ),
+                        Row(
+                          children: const [
+                            SizedBox(
+                              height: 15,
                             )
                           ],
                         ),
@@ -87,13 +161,43 @@ class HomePage extends StatelessWidget {
                                 fixedSize: MaterialStateProperty.all(
                                     const Size(120, 120)),
                                 shape: MaterialStateProperty.all(
-                                    const CircleBorder()),
+                                    const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20)))),
                                 backgroundColor: MaterialStateProperty.all(
                                   const Color.fromARGB(217, 217, 217, 217),
                                 ),
                               ),
                               onPressed: null,
-                              child: null,
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.values.last,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        "assets/icons/dumbbell.png",
+                                        color: Colors.black,
+                                        height: 50,
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: const [
+                                      Text(
+                                        "GYM",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12,
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
                             )
                           ],
                         )
