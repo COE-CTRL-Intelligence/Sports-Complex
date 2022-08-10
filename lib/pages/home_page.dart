@@ -106,7 +106,10 @@ class HomePage extends StatelessWidget {
                                     const Color.fromARGB(217, 217, 217, 217),
                                   ),
                                 ),
-                                onPressed: null,
+                                onPressed: () {
+                                  AutoRouter.of(context)
+                                      .push(const CheckBookingRoute());
+                                },
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
@@ -168,7 +171,9 @@ class HomePage extends StatelessWidget {
                                   const Color.fromARGB(217, 217, 217, 217),
                                 ),
                               ),
-                              onPressed: null,
+                              onPressed: () {
+                                AutoRouter.of(context).push(const GymRoute());
+                              },
                               child: Column(
                                 mainAxisAlignment:
                                     MainAxisAlignment.values.last,
