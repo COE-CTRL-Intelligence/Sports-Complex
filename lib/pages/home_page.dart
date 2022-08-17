@@ -172,7 +172,8 @@ class HomePage extends StatelessWidget {
                                 ),
                               ),
                               onPressed: () {
-                                AutoRouter.of(context).push(const GymRoute());
+                                AutoRouter.of(context)
+                                    .push(const GymLoginRoute());
                               },
                               child: Column(
                                 mainAxisAlignment:
