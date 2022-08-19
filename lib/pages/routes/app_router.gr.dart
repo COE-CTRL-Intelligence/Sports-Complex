@@ -30,8 +30,12 @@ class AppRouter extends _i6.RootStackRouter {
           routeData: routeData, child: const _i1.SplashPage());
     },
     HomeRoute.name: (routeData) {
-      return _i6.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i2.HomePage());
+      return _i6.CustomPage<dynamic>(
+          routeData: routeData,
+          child: const _i2.HomePage(),
+          durationInMilliseconds: 1000,
+          opaque: true,
+          barrierDismissible: false);
     },
     BookingRoute.name: (routeData) {
       return _i6.MaterialPageX<dynamic>(
