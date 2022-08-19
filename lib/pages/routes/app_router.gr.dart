@@ -15,7 +15,7 @@ import 'package:flutter/material.dart' as _i7;
 
 import '../booking_page.dart' as _i3;
 import '../check_booking_page.dart' as _i4;
-import '../gym_page.dart' as _i5;
+import '../gym_login_page.dart' as _i5;
 import '../home_page.dart' as _i2;
 import '../splash_page.dart' as _i1;
 
@@ -41,9 +41,9 @@ class AppRouter extends _i6.RootStackRouter {
       return _i6.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i4.CheckBookingPage());
     },
-    GymRoute.name: (routeData) {
+    GymLoginRoute.name: (routeData) {
       return _i6.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i5.GymPage());
+          routeData: routeData, child: const _i5.GymLoginPage());
     }
   };
 
@@ -53,7 +53,7 @@ class AppRouter extends _i6.RootStackRouter {
         _i6.RouteConfig(HomeRoute.name, path: '/home'),
         _i6.RouteConfig(BookingRoute.name, path: '/booking'),
         _i6.RouteConfig(CheckBookingRoute.name, path: '/check_booking'),
-        _i6.RouteConfig(GymRoute.name, path: '/gym')
+        _i6.RouteConfig(GymLoginRoute.name, path: '/gym')
       ];
 }
 
@@ -91,9 +91,9 @@ class CheckBookingRoute extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i5.GymPage]
-class GymRoute extends _i6.PageRouteInfo<void> {
-  const GymRoute() : super(GymRoute.name, path: '/gym');
+/// [_i5.GymLoginPage]
+class GymLoginRoute extends _i6.PageRouteInfo<void> {
+  const GymLoginRoute() : super(GymLoginRoute.name, path: '/gym');
 
-  static const String name = 'GymRoute';
+  static const String name = 'GymLoginRoute';
 }
