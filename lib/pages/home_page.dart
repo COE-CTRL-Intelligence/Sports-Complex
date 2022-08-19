@@ -11,9 +11,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: BackgroundImageWidget(
-        image: const AssetImage("assets/images/bg.jpg"),
+    return BackgroundImageWidget(
+      image: const AssetImage("assets/images/bg.jpg"),
+      child: SafeArea(
         child: Scaffold(
           backgroundColor: Colors.transparent,
           body: Padding(

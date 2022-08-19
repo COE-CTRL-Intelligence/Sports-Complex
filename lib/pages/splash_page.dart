@@ -26,9 +26,9 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: BackgroundImageWidget(
-          image: const AssetImage("assets/images/bg.jpg"),
+    return BackgroundImageWidget(
+        image: const AssetImage("assets/images/bg.jpg"),
+        child: SafeArea(
           child: Scaffold(
               backgroundColor: Colors.transparent,
               body: Column(
@@ -53,7 +53,18 @@ class _SplashPageState extends State<SplashPage> {
                         child: SportifyLogo(logoSize: 45),
                       ),
                     ),
-                  ]))),
-    );
+                  ])),
+        ));
   }
 }
+
+
+// Container(
+//         decoration: BoxDecoration(
+//           image: DecorationImage(
+//             image: AssetImage("assets/images/bulb.jpg"),
+//             fit: BoxFit.cover,
+//           ),
+//         ),
+//         child: null /* add child content here */,
+//       )
