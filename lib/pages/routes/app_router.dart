@@ -17,3 +17,8 @@ import 'package:sports_complex/pages/splash_page.dart';
   replaceInRouteName: "Page,Route",
 )
 class $AppRouter {}
+
+
+// Terminal command to register page
+// Copy and paste the code below in terminal
+// flutter pub run build_runner build --delete-conflicting-outputs
