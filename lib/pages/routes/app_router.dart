@@ -1,4 +1,5 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:sports_complex/pages/booking_page.dart';
 import 'package:sports_complex/pages/check_booking_page.dart';
 import 'package:sports_complex/pages/gym_login_page.dart';
@@ -8,7 +9,7 @@ import 'package:sports_complex/pages/splash_page.dart';
 @MaterialAutoRouter(
   routes: [
     MaterialRoute(page: SplashPage, initial: true),
-    MaterialRoute(page: HomePage, path: "/home"),
+    CustomRoute(page: HomePage, path: "/home", durationInMilliseconds: 1000),
     MaterialRoute(page: BookingPage, path: "/booking"),
     MaterialRoute(page: CheckBookingPage, path: "/check_booking"),
     MaterialRoute(page: GymLoginPage, path: "/gym")

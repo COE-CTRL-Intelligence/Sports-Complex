@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:sports_complex/pages/routes/app_router.gr.dart';
 import 'package:sports_complex/widgets/background_image_widget.dart';
+import 'package:sports_complex/widgets/sportify_logo.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -212,28 +213,10 @@ class HomePage extends StatelessWidget {
                         )
                       ]),
                 ),
-                Hero(
+                const Hero(
                   tag: 'sportify_logo',
                   child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text("SPORT",
-                            style: TextStyle(
-                              fontFamily: "DroidSans",
-                              color: Color(0xffFEF7C0),
-                              fontSize: 36,
-                            )),
-                        Text(
-                          "IFY",
-                          style: TextStyle(
-                            fontFamily: "DroidSans",
-                            color: Color(0xff83D475),
-                            fontSize: 36,
-                          ),
-                        ),
-                      ],
-                    ),
+                    child: SportifyLogo(logoSize: 36),
                   ),
                 ),
               ],

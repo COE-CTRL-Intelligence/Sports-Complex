@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:sports_complex/pages/routes/app_router.gr.dart';
 import 'package:sports_complex/widgets/background_image_widget.dart';
+import 'package:sports_complex/widgets/sportify_logo.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -19,7 +20,7 @@ class _SplashPageState extends State<SplashPage> {
 
   void _navigateToHomePage() async {
     await Future.delayed(const Duration(milliseconds: 2000), () {
-      AutoRouter.of(context).popAndPush(const HomeRoute());
+      AutoRouter.of(context).replace(const HomeRoute());
     });
   }
 
@@ -46,28 +47,10 @@ class _SplashPageState extends State<SplashPage> {
                     const SizedBox(
                       height: 25,
                     ),
-                    Hero(
+                    const Hero(
                       tag: 'sportify_logo',
                       child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Text("SPORT",
-                                style: TextStyle(
-                                  fontFamily: "DroidSans",
-                                  color: Color(0xffFEF7C0),
-                                  fontSize: 45,
-                                )),
-                            Text(
-                              "IFY",
-                              style: TextStyle(
-                                fontFamily: "DroidSans",
-                                color: Color(0xff83D475),
-                                fontSize: 45,
-                              ),
-                            ),
-                          ],
-                        ),
+                        child: SportifyLogo(logoSize: 45),
                       ),
                     ),
                   ]))),
