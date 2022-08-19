@@ -3,8 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:sports_complex/pages/routes/app_router.gr.dart';
 import 'package:sports_complex/widgets/background_image_widget.dart';
 
-class SplashPage extends StatelessWidget {
+class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
+
+  @override
+  State<SplashPage> createState() => _SplashPageState();
+}
+
+class _SplashPageState extends State<SplashPage> {
+  @override
+  void initState() {
+    super.initState();
+    _navigateToHomePage();
+  }
+
+  void _navigateToHomePage() async {
+    await Future.delayed(const Duration(milliseconds: 2000), () {
+      AutoRouter.of(context).popAndPush(const HomeRoute());
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,23 +30,25 @@ class SplashPage extends StatelessWidget {
           image: const AssetImage("assets/images/bg.jpg"),
           child: Scaffold(
               backgroundColor: Colors.transparent,
-              body: Padding(
-                padding: const EdgeInsets.only(top: 100),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              body: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Column(children: [
-                      SizedBox(
-                        height: 65,
+                    Hero(
+                      tag: 'dumbell_logo',
+                      child: SizedBox(
+                        height: 100,
                         child: Image.asset(
                           "assets/icons/dumbbell.png",
                           color: const Color(0xffFEF7C0),
                         ),
                       ),
-                      const SizedBox(
-                        height: 25,
-                      ),
-                      Center(
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    Hero(
+                      tag: 'sportify_logo',
+                      child: Center(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const [
@@ -37,36 +56,21 @@ class SplashPage extends StatelessWidget {
                                 style: TextStyle(
                                   fontFamily: "DroidSans",
                                   color: Color(0xffFEF7C0),
-                                  fontSize: 36,
+                                  fontSize: 45,
                                 )),
                             Text(
                               "IFY",
                               style: TextStyle(
                                 fontFamily: "DroidSans",
                                 color: Color(0xff83D475),
-                                fontSize: 36,
+                                fontSize: 45,
                               ),
                             ),
                           ],
                         ),
                       ),
-                    ]),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                              const Color(0xff83D475),
-                            ),
-                          ),
-                          onPressed: () {
-                            AutoRouter.of(context).push(const HomeRoute());
-                          },
-                          child: const Text("HOME")),
-                    )
-                  ],
-                ),
-              ))),
+                    ),
+                  ]))),
     );
   }
 }

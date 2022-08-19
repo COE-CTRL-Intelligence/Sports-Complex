@@ -20,11 +20,14 @@ class HomePage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(
-                  height: 65,
-                  child: Image.asset(
-                    "assets/icons/dumbbell.png",
-                    color: const Color(0xffFEF7C0),
+                Hero(
+                  tag: 'dumbell_logo',
+                  child: SizedBox(
+                    height: 65,
+                    child: Image.asset(
+                      "assets/icons/dumbbell.png",
+                      color: const Color(0xffFEF7C0),
+                    ),
                   ),
                 ),
                 Center(
@@ -209,27 +212,28 @@ class HomePage extends StatelessWidget {
                         )
                       ]),
                 ),
-                Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text(
-                        "Sport",
-                        style: TextStyle(
-                          fontFamily: "DroidSans",
-                          color: Color(0xffFEF7C0),
-                          fontSize: 36,
+                Hero(
+                  tag: 'sportify_logo',
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text("SPORT",
+                            style: TextStyle(
+                              fontFamily: "DroidSans",
+                              color: Color(0xffFEF7C0),
+                              fontSize: 36,
+                            )),
+                        Text(
+                          "IFY",
+                          style: TextStyle(
+                            fontFamily: "DroidSans",
+                            color: Color(0xff83D475),
+                            fontSize: 36,
+                          ),
                         ),
-                      ),
-                      Text(
-                        "ify",
-                        style: TextStyle(
-                          fontFamily: "DroidSans",
-                          color: Color(0xff83D475),
-                          fontSize: 36,
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ],
