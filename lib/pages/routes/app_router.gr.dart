@@ -17,7 +17,7 @@ import '../booking_page_basketball.dart' as _i3;
 import '../booking_page_soccer.dart' as _i7;
 import '../booking_page_tennis.dart' as _i6;
 import '../check_booking_page.dart' as _i4;
-import '../gym_page.dart' as _i5;
+import '../gym_login_page.dart' as _i5;
 import '../home_page.dart' as _i2;
 import '../splash_page.dart' as _i1;
 
@@ -32,8 +32,12 @@ class AppRouter extends _i8.RootStackRouter {
           routeData: routeData, child: const _i1.SplashPage());
     },
     HomeRoute.name: (routeData) {
-      return _i8.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i2.HomePage());
+      return _i8.CustomPage<dynamic>(
+          routeData: routeData,
+          child: const _i2.HomePage(),
+          durationInMilliseconds: 1000,
+          opaque: true,
+          barrierDismissible: false);
     },
     BasketballBookingRoute.name: (routeData) {
       return _i8.MaterialPageX<dynamic>(
@@ -43,9 +47,9 @@ class AppRouter extends _i8.RootStackRouter {
       return _i8.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i4.CheckBookingPage());
     },
-    GymRoute.name: (routeData) {
+    GymLoginRoute.name: (routeData) {
       return _i8.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i5.GymPage());
+          routeData: routeData, child: const _i5.GymLoginPage());
     },
     TennisBookingRoute.name: (routeData) {
       return _i8.MaterialPageX<dynamic>(
@@ -65,7 +69,7 @@ class AppRouter extends _i8.RootStackRouter {
             path: '/basketball_booking'),
         _i8.RouteConfig(CheckBookingRoute.name,
             path: '/check_booking_basketball'),
-        _i8.RouteConfig(GymRoute.name, path: '/gym'),
+        _i8.RouteConfig(GymLoginRoute.name, path: '/gym'),
         _i8.RouteConfig(TennisBookingRoute.name, path: '/tennis_booking'),
         _i8.RouteConfig(SoccerBookingRoute.name, path: '/soccer_booking')
       ];
@@ -106,11 +110,11 @@ class CheckBookingRoute extends _i8.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i5.GymPage]
-class GymRoute extends _i8.PageRouteInfo<void> {
-  const GymRoute() : super(GymRoute.name, path: '/gym');
+/// [_i5.GymLoginPage]
+class GymLoginRoute extends _i8.PageRouteInfo<void> {
+  const GymLoginRoute() : super(GymLoginRoute.name, path: '/gym');
 
-  static const String name = 'GymRoute';
+  static const String name = 'GymLoginRoute';
 }
 
 /// generated route for
