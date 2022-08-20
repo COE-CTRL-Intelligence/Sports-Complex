@@ -2,6 +2,7 @@
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:sports_complex/pages/booking_page_basketball.dart';
 import 'package:sports_complex/pages/routes/app_router.gr.dart';
 import 'package:sports_complex/widgets/background_image_widget.dart';
 
@@ -48,7 +49,7 @@ class HomePage extends StatelessWidget {
                               ),
                               onPressed: () {
                                 AutoRouter.of(context)
-                                    .push(const BookingRoute());
+                                    .push(const BasketballBookingRoute());
                               },
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,

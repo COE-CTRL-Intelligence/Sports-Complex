@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:sports_complex/pages/routes/app_router.gr.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-class BasketballBookingPage extends StatelessWidget {
-  const BasketballBookingPage({Key? key}) : super(key: key);
+class SoccerBookingPage extends StatelessWidget {
+  const SoccerBookingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("BASKETBALL"),
+        title: const Text("SOCCER"),
         backgroundColor: const Color.fromARGB(255, 44, 93, 46),
         actions: [
           Padding(

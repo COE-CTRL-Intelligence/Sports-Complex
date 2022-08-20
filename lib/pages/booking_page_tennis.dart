@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:sports_complex/pages/routes/app_router.gr.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-class BasketballBookingPage extends StatelessWidget {
-  const BasketballBookingPage({Key? key}) : super(key: key);
+class TennisBookingPage extends StatelessWidget {
+  const TennisBookingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("BASKETBALL"),
+        title: const Text("TENNIS"),
         backgroundColor: const Color.fromARGB(255, 44, 93, 46),
         actions: [
           Padding(
@@ -22,7 +22,7 @@ class BasketballBookingPage extends StatelessWidget {
                   shape: MaterialStateProperty.all(const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20)))),
                 ),
-                onPressed: null,
+                onPressed: (null),
                 child: const Text(
                   "BOOK HERE",
                   style: TextStyle(color: Colors.white, fontSize: 12),
