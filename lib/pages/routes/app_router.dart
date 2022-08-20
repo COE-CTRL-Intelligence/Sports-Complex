@@ -1,5 +1,5 @@
 import 'package:auto_route/annotations.dart';
-import 'package:sports_complex/pages/booking_page.dart';
+import 'package:sports_complex/pages/booking_page_basketball.dart';
 import 'package:sports_complex/pages/check_booking_page.dart';
 import 'package:sports_complex/pages/gym_page.dart';
 import 'package:sports_complex/pages/home_page.dart';
