@@ -7,13 +7,32 @@ class BookingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SfCalendar(
-          view: CalendarView.week,
-          dataSource: MeetingDataSource(getAppointments()),
-        ),
+      appBar: AppBar(
+        actions: const [],
       ),
-      // bottomNavigationBar:
+      body: Column(
+        children: [
+          SizedBox(
+              height: 600,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 0, top: 40),
+                child: SfCalendar(
+                  headerStyle: const CalendarHeaderStyle(
+                    textAlign: TextAlign.center,
+                    textStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                  view: CalendarView.week,
+                  dataSource: MeetingDataSource(getAppointments()),
+                ),
+              )),
+          Row(
+            children: [],
+          )
+        ],
+      ),
     );
   }
 }
@@ -29,6 +48,21 @@ List<Appointment> getAppointments() {
     endTime: endTime,
     subject: 'Conference',
     color: Colors.green,
+  ));
+
+  meetings.add(Appointment(
+    startTime: DateTime(2022, 8, 19, 9, 0, 0),
+    endTime: DateTime(2022, 8, 19, 11, 0, 0),
+    subject: "Kwame's Test",
+    color: Colors.black,
+  ));
+
+  meetings.add(Appointment(
+    startTime: DateTime(2022, 8, 19, 23, 0, 0),
+    endTime: DateTime(2022, 8, 19, 23, 0, 0).add(const Duration(hours: 3)),
+    subject: "Checking Something",
+    color: Colors.black,
+    notes: "hi",
   ));
 
   return meetings;
