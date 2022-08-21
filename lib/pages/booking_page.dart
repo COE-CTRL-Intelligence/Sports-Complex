@@ -1,16 +1,14 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:sports_complex/pages/routes/app_router.gr.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-class SoccerBookingPage extends StatelessWidget {
-  const SoccerBookingPage({Key? key}) : super(key: key);
+class BookingPage extends StatelessWidget {
+  const BookingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("SOCCER"),
+        title: const Text("BASKETBALL"),
         backgroundColor: const Color.fromARGB(255, 44, 93, 46),
         actions: [
           Padding(
@@ -41,49 +39,43 @@ class SoccerBookingPage extends StatelessWidget {
         view: CalendarView.week,
         dataSource: MeetingDataSource(getAppointments()),
       ),
-      bottomNavigationBar: Container(
-        height: 60,
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-          color: const Color.fromARGB(255, 129, 126, 126).withOpacity(0.4),
-        ),
-        child: ButtonBar(
-          alignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(Colors.transparent)),
-              onPressed: () {
-                AutoRouter.of(context).push(const BasketballBookingRoute());
-              },
-              child: Image.asset("assets/icons/basketball_b.png",
-                  color: const Color.fromARGB(255, 31, 95, 33)),
-            ),
-            ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(Colors.transparent)),
-              onPressed: () {
-                AutoRouter.of(context).push(const SoccerBookingRoute());
-              },
-              child: Image.asset("assets/icons/soccerball_b.png",
-                  color: const Color.fromARGB(255, 31, 95, 33)),
-            ),
-            ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(Colors.transparent)),
-              onPressed: () {
-                AutoRouter.of(context).push(const TennisBookingRoute());
-              },
-              child: Image.asset("assets/icons/tennisball_b.png",
-                  color: const Color.fromARGB(255, 31, 95, 33)),
-            )
-          ],
-        ),
-      ),
+      // bottomNavigationBar: Container(
+      //   height: 60,
+      //   decoration: BoxDecoration(
+      //     borderRadius: const BorderRadius.only(
+      //         topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+      //     color: const Color.fromARGB(255, 129, 126, 126).withOpacity(0.4),
+      //   ),
+      //   child: ButtonBar(
+      //     alignment: MainAxisAlignment.spaceEvenly,
+      //     children: [
+      //       ElevatedButton(
+      //         style: ButtonStyle(
+      //             backgroundColor:
+      //                 MaterialStateProperty.all(Colors.transparent)),
+      //         onPressed: (null),
+      //         child: Image.asset("assets/icons/basketball_b.png",
+      //             color: const Color.fromARGB(255, 31, 95, 33)),
+      //       ),
+      //       ElevatedButton(
+      //         style: ButtonStyle(
+      //             backgroundColor:
+      //                 MaterialStateProperty.all(Colors.transparent)),
+      //         onPressed: (null),
+      //         child: Image.asset("assets/icons/soccerball_b.png",
+      //             color: const Color.fromARGB(255, 31, 95, 33)),
+      //       ),
+      //       ElevatedButton(
+      //         style: ButtonStyle(
+      //             backgroundColor:
+      //                 MaterialStateProperty.all(Colors.transparent)),
+      //         onPressed: (null),
+      //         child: Image.asset("assets/icons/tennisball_b.png",
+      //             color: const Color.fromARGB(255, 31, 95, 33)),
+      //       )
+      //     ],
+      //   ),
+      // ),
     );
   }
 }
