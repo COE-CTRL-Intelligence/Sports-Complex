@@ -3,6 +3,7 @@ import 'package:sports_complex/pages/booking_page.dart';
 import 'package:sports_complex/pages/check_booking_page.dart';
 import 'package:sports_complex/pages/gym_login_page.dart';
 import 'package:sports_complex/pages/home_page.dart';
+import 'package:sports_complex/pages/schedule_booking_page.dart';
 import 'package:sports_complex/pages/splash_page.dart';
 
 @MaterialAutoRouter(
@@ -12,6 +13,7 @@ import 'package:sports_complex/pages/splash_page.dart';
     MaterialRoute(page: BookingPage, path: "/booking"),
     MaterialRoute(page: CheckBookingPage, path: "/check_booking"),
     MaterialRoute(page: GymLoginPage, path: "/gym"),
+    MaterialRoute(page: ScheduleBookingPage, path: "/schedule_booking"),
     //All other pages go here in this format
   ],
   replaceInRouteName: "Page,Route",

@@ -1,4 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:sports_complex/pages/routes/app_router.gr.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class BookingPage extends StatelessWidget {
@@ -20,7 +22,9 @@ class BookingPage extends StatelessWidget {
                   shape: MaterialStateProperty.all(const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20)))),
                 ),
-                onPressed: null,
+                onPressed: () {
+                  AutoRouter.of(context).push(const ScheduleBookingRoute());
+                },
                 child: const Text(
                   "BOOK HERE",
                   style: TextStyle(color: Colors.white, fontSize: 12),
