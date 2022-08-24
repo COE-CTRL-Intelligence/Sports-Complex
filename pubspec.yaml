@@ -31,6 +31,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
+  intl: ^0.17.0
   flutter_hooks: ^0.18.5+1
   hooks_riverpod: ^1.0.4
   syncfusion_flutter_calendar: ^20.2.44
