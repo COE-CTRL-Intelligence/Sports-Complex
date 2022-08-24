@@ -1,19 +1,21 @@
-import 'dart:ffi';
-
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:sports_complex/pages/routes/app_router.gr.dart';
 
-class ScheduleBookingPage extends StatelessWidget {
+class ScheduleBookingPage extends StatefulWidget {
   const ScheduleBookingPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final startDateController = TextEditingController();
-    final endDateController = TextEditingController();
-    final startTimeController = TextEditingController();
-    final endTimeController = TextEditingController();
+  State<ScheduleBookingPage> createState() => _ScheduleBookingPageState();
+}
 
+class _ScheduleBookingPageState extends State<ScheduleBookingPage> {
+  var startDateController = TextEditingController();
+  var endDateController = TextEditingController();
+  var startTimeController = TextEditingController();
+  var endTimeController = TextEditingController();
+  var text = "";
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffC2C3A0),
       appBar: AppBar(
@@ -48,6 +50,7 @@ class ScheduleBookingPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              Text(text),
               const Text(
                 "STARTS",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -59,10 +62,28 @@ class ScheduleBookingPage extends StatelessWidget {
                     height: 40,
                     width: 150,
                     child: TextFormField(
-                      onTap: (null),
+                      readOnly: true,
+                      onTap: () {
+                        showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(DateTime.now().year),
+                          lastDate: DateTime(DateTime.now().year + 2),
+                        ).then((date) => setState(
+                              () {
+                                text = date.toString();
+                              },
+                            ));
+                      },
                       cursorColor: Colors.black,
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.only(top: 10),
+                        hintStyle: TextStyle(
+                            color: Colors.grey.withOpacity(0.6),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12),
+                        hintText: "Start Date",
                         filled: true,
                         fillColor: Colors.white,
                         border: OutlineInputBorder(
@@ -76,10 +97,20 @@ class ScheduleBookingPage extends StatelessWidget {
                     height: 40,
                     width: 105,
                     child: TextFormField(
-                      onTap: (null),
+                      readOnly: true,
+                      onTap: () {
+                        showTimePicker(
+                            context: context, initialTime: TimeOfDay.now());
+                      },
                       cursorColor: Colors.black,
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.only(top: 10),
+                        hintStyle: TextStyle(
+                            color: Colors.grey.withOpacity(0.6),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12),
+                        hintText: "Start Time",
                         filled: true,
                         fillColor: Colors.white,
                         border: OutlineInputBorder(
@@ -102,10 +133,28 @@ class ScheduleBookingPage extends StatelessWidget {
                     height: 40,
                     width: 150,
                     child: TextFormField(
-                      onTap: (null),
+                      onTap: () {
+                        showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(DateTime.now().year),
+                          lastDate: DateTime(DateTime.now().year + 2),
+                        ).then((date) => setState(
+                              () {
+                                text = date.toString();
+                              },
+                            ));
+                      },
+                      readOnly: true,
                       cursorColor: Colors.black,
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.only(top: 10),
+                        hintStyle: TextStyle(
+                            color: Colors.grey.withOpacity(0.6),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12),
+                        hintText: "End Date",
                         filled: true,
                         fillColor: Colors.white,
                         border: OutlineInputBorder(
@@ -119,10 +168,20 @@ class ScheduleBookingPage extends StatelessWidget {
                     height: 40,
                     width: 105,
                     child: TextFormField(
-                      onTap: (null),
+                      readOnly: true,
+                      onTap: () {
+                        showTimePicker(
+                            context: context, initialTime: TimeOfDay.now());
+                      },
                       cursorColor: Colors.black,
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.only(top: 10),
+                        hintStyle: TextStyle(
+                            color: Colors.grey.withOpacity(0.6),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12),
+                        hintText: "End Time",
                         filled: true,
                         fillColor: Colors.white,
                         border: OutlineInputBorder(
