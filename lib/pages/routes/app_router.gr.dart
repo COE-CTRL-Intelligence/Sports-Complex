@@ -20,6 +20,8 @@ import '../contact_us_page.dart' as _i8;
 import '../gym_login_page.dart' as _i5;
 import '../gym_signup_page.dart' as _i6;
 import '../home_page.dart' as _i2;
+import '../schedule_booking_page.dart' as _i6;
+import '../select_sport_page.dart' as _i7;
 import '../splash_page.dart' as _i1;
 
 class AppRouter extends _i9.RootStackRouter {

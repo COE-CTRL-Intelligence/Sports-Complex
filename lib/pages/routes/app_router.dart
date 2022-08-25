@@ -6,6 +6,8 @@ import 'package:sports_complex/pages/contact_us_page.dart';
 import 'package:sports_complex/pages/gym_login_page.dart';
 import 'package:sports_complex/pages/gym_signup_page.dart';
 import 'package:sports_complex/pages/home_page.dart';
+import 'package:sports_complex/pages/schedule_booking_page.dart';
+import 'package:sports_complex/pages/select_sport_page.dart';
 import 'package:sports_complex/pages/splash_page.dart';
 
 @MaterialAutoRouter(
@@ -17,9 +19,16 @@ import 'package:sports_complex/pages/splash_page.dart';
     MaterialRoute(page: GymLoginPage, path: "/gym_login"),
     MaterialRoute(page: GymSignUpPage, path: "/gym_signup"),
     MaterialRoute(page: AboutPage, path: "/About"),
-    MaterialRoute(page: ContactUsPage, path: "/Contact")
+    MaterialRoute(page: ContactUsPage, path: "/Contact"),
+    MaterialRoute(page: ScheduleBookingPage, path: "/schedule_booking"),
+    MaterialRoute(page: SelectSportPage, path: "/select_sport_page"),
     //All other pages go here in this format
   ],
   replaceInRouteName: "Page,Route",
 )
 class $AppRouter {}
+
+
+// Terminal command to register page
+// Copy and paste the code below in terminal
+// flutter pub run build_runner build --delete-conflicting-outputs

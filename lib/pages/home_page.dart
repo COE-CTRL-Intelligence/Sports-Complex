@@ -4,15 +4,16 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:sports_complex/pages/routes/app_router.gr.dart';
 import 'package:sports_complex/widgets/background_image_widget.dart';
+import 'package:sports_complex/widgets/sportify_logo.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: BackgroundImageWidget(
-        image: const AssetImage("assets/images/bg.jpg"),
+    return BackgroundImageWidget(
+      image: const AssetImage("assets/images/bg.jpg"),
+      child: SafeArea(
         child: Scaffold(
           backgroundColor: Colors.transparent,
           body: Padding(
@@ -20,11 +21,14 @@ class HomePage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(
-                  height: 65,
-                  child: Image.asset(
-                    "assets/icons/dumbbell.png",
-                    color: const Color(0xffFEF7C0),
+                Hero(
+                  tag: 'dumbell_logo',
+                  child: SizedBox(
+                    height: 65,
+                    child: Image.asset(
+                      "assets/icons/dumbbell.png",
+                      color: const Color(0xffFEF7C0),
+                    ),
                   ),
                 ),
                 Center(
@@ -48,7 +52,7 @@ class HomePage extends StatelessWidget {
                               ),
                               onPressed: () {
                                 AutoRouter.of(context)
-                                    .push(const BookingRoute());
+                                    .push(const SelectSportRoute());
                               },
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -209,27 +213,10 @@ class HomePage extends StatelessWidget {
                         )
                       ]),
                 ),
-                Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text(
-                        "Sport",
-                        style: TextStyle(
-                          fontFamily: "DroidSans",
-                          color: Color(0xffFEF7C0),
-                          fontSize: 36,
-                        ),
-                      ),
-                      Text(
-                        "ify",
-                        style: TextStyle(
-                          fontFamily: "DroidSans",
-                          color: Color(0xff83D475),
-                          fontSize: 36,
-                        ),
-                      ),
-                    ],
+                const Hero(
+                  tag: 'sportify_logo',
+                  child: Center(
+                    child: SportifyLogo(logoSize: 36),
                   ),
                 ),
               ],
