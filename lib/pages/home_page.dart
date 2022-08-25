@@ -52,7 +52,7 @@ class HomePage extends StatelessWidget {
                               ),
                               onPressed: () {
                                 AutoRouter.of(context)
-                                    .push(const BookingRoute());
+                                    .push(const SelectSportRoute());
                               },
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
