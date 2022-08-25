@@ -6,11 +6,13 @@ class CustomInputField extends StatelessWidget {
     required this.fieldController,
     required this.fieldName,
     required this.obscureText,
+    required this.icon,
   }) : super(key: key);
 
   final TextEditingController fieldController;
   final String fieldName;
   final bool obscureText;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +36,9 @@ class CustomInputField extends StatelessWidget {
             controller: fieldController,
             cursorColor: Colors.black,
             decoration: InputDecoration(
+              prefixIcon: Icon(
+                icon,
+              ),
               filled: true,
               fillColor: Colors.white,
               border: OutlineInputBorder(
