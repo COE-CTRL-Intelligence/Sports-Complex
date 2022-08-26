@@ -1,18 +1,21 @@
 import 'package:auto_route/annotations.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:sports_complex/pages/booking_page.dart';
 import 'package:sports_complex/pages/check_booking_page.dart';
 import 'package:sports_complex/pages/gym_login_page.dart';
 import 'package:sports_complex/pages/home_page.dart';
+import 'package:sports_complex/pages/schedule_booking_page.dart';
+import 'package:sports_complex/pages/select_sport_page.dart';
 import 'package:sports_complex/pages/splash_page.dart';
 
 @MaterialAutoRouter(
   routes: [
     MaterialRoute(page: SplashPage, initial: true),
-    CustomRoute(page: HomePage, path: "/home", durationInMilliseconds: 1000),
+    CustomRoute(page: HomePage, path: "/home", durationInMilliseconds: 1500),
     MaterialRoute(page: BookingPage, path: "/booking"),
     MaterialRoute(page: CheckBookingPage, path: "/check_booking"),
-    MaterialRoute(page: GymLoginPage, path: "/gym")
+    MaterialRoute(page: GymLoginPage, path: "/gym"),
+    MaterialRoute(page: ScheduleBookingPage, path: "/schedule_booking"),
+    MaterialRoute(page: SelectSportPage, path: "/select_sport_page"),
     //All other pages go here in this format
   ],
   replaceInRouteName: "Page,Route",
