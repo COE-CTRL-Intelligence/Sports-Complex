@@ -10,7 +10,7 @@ import 'package:sports_complex/pages/splash_page.dart';
 @MaterialAutoRouter(
   routes: [
     MaterialRoute(page: SplashPage, initial: true),
-    MaterialRoute(page: HomePage, path: "/home"),
+    CustomRoute(page: HomePage, path: "/home", durationInMilliseconds: 1500),
     MaterialRoute(page: BookingPage, path: "/booking"),
     MaterialRoute(page: CheckBookingPage, path: "/check_booking"),
     MaterialRoute(page: GymLoginPage, path: "/gym"),
