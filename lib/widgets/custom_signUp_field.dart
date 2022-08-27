@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomSignUpInputField extends StatelessWidget {
-  CustomSignUpInputField(
+  const CustomSignUpInputField(
       {Key? key,
       required this.fieldController,
       required this.fieldName,
@@ -16,7 +16,7 @@ class CustomSignUpInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    // Size size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 40),
       child: Column(
