@@ -62,9 +62,12 @@ class HomePage extends StatelessWidget {
                       },
                     ),
                     HomePageButton(
-                      icon: Image.asset(
-                        "assets/icons/calendar.png",
-                        height: 30,
+                      icon: Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Image.asset(
+                          "assets/icons/calendar.png",
+                          height: 30,
+                        ),
                       ),
                       title: "CHECK BOOKING",
                       onPressed: () {
