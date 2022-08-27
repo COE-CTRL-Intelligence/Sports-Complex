@@ -1,7 +1,10 @@
 import 'package:auto_route/annotations.dart';
+import 'package:sports_complex/pages/about_page.dart';
 import 'package:sports_complex/pages/booking_page.dart';
 import 'package:sports_complex/pages/check_booking_page.dart';
+import 'package:sports_complex/pages/contact_us_page.dart';
 import 'package:sports_complex/pages/gym_login_page.dart';
+import 'package:sports_complex/pages/gym_signup_page.dart';
 import 'package:sports_complex/pages/home_page.dart';
 import 'package:sports_complex/pages/schedule_booking_page.dart';
 import 'package:sports_complex/pages/select_sport_page.dart';
@@ -13,7 +16,10 @@ import 'package:sports_complex/pages/splash_page.dart';
     CustomRoute(page: HomePage, path: "/home", durationInMilliseconds: 1500),
     MaterialRoute(page: BookingPage, path: "/booking"),
     MaterialRoute(page: CheckBookingPage, path: "/check_booking"),
-    MaterialRoute(page: GymLoginPage, path: "/gym"),
+    MaterialRoute(page: GymLoginPage, path: "/gym_login"),
+    MaterialRoute(page: GymSignUpPage, path: "/gym_signup"),
+    MaterialRoute(page: AboutPage, path: "/About"),
+    MaterialRoute(page: ContactUsPage, path: "/Contact"),
     MaterialRoute(page: ScheduleBookingPage, path: "/schedule_booking"),
     MaterialRoute(page: SelectSportPage, path: "/select_sport_page"),
     //All other pages go here in this format

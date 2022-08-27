@@ -14,7 +14,7 @@ class BookingPage extends StatelessWidget {
         backgroundColor: const Color.fromARGB(255, 44, 93, 46),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(top: 10, bottom: 10),
+            padding: const EdgeInsets.only(top: 10, bottom: 10, right: 6),
             child: ElevatedButton(
                 style: ButtonStyle(
                   fixedSize: MaterialStateProperty.all(const Size(100, 50)),
@@ -27,7 +27,7 @@ class BookingPage extends StatelessWidget {
                 },
                 child: const Text(
                   "BOOK HERE",
-                  style: TextStyle(color: Colors.white, fontSize: 12),
+                  style: TextStyle(color: Colors.white, fontSize: 11.5),
                 )),
           ),
         ],

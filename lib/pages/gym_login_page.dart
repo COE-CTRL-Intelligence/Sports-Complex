@@ -2,10 +2,16 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:sports_complex/pages/routes/app_router.gr.dart';
 import 'package:sports_complex/widgets/custom_input_field.dart';
+import '../widgets/sidebar.dart';
 
-class GymLoginPage extends StatelessWidget {
+class GymLoginPage extends StatefulWidget {
   const GymLoginPage({Key? key}) : super(key: key);
 
+  @override
+  State<GymLoginPage> createState() => _GymLoginPageState();
+}
+
+class _GymLoginPageState extends State<GymLoginPage> {
   @override
   Widget build(BuildContext context) {
     final emailController = TextEditingController();
@@ -13,9 +19,15 @@ class GymLoginPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: const Color(0xffC2C3A0),
+      endDrawer: const Sidebar(),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0.0,
+        leading: GestureDetector(
+            onTap: () {
+              AutoRouter.of(context).push(const HomeRoute());
+            },
+            child: const Icon(Icons.arrow_back_ios_new)),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -36,25 +48,30 @@ class GymLoginPage extends StatelessWidget {
             CustomInputField(
                 fieldName: 'Email',
                 fieldController: emailController,
-                obscureText: false),
+                obscureText: false,
+                icon: Icons.alternate_email),
             const SizedBox(height: 10),
             CustomInputField(
                 fieldController: passwordController,
                 fieldName: 'Password',
-                obscureText: true),
+                obscureText: true,
+                icon: Icons.lock),
             const SizedBox(height: 50),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: SizedBox(
                 height: 40,
                 width: 200,
-                child: ElevatedButton(
+                child: ElevatedButton.icon(
+                    icon: const Icon(
+                      Icons.login,
+                    ),
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16)),
                         primary: const Color(0xff83D475)),
-                    child: const Text(
+                    label: const Text(
                       'Login',
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -69,7 +86,7 @@ class GymLoginPage extends StatelessWidget {
                 const SizedBox(width: 5),
                 InkWell(
                     onTap: () {
-                      AutoRouter.of(context).push(const HomeRoute());
+                      AutoRouter.of(context).push(const GymSignUpRoute());
                     },
                     child: const Text(
                       'Sign up',

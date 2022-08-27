@@ -22,6 +22,7 @@ class CheckBookingPage extends StatelessWidget {
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
             const SizedBox(height: 150),
             CustomInputField(
+                icon: const IconData(0),
                 fieldName: "Enter Booking Code Here",
                 fieldController: bookingCodeController,
                 obscureText: false),
