@@ -18,7 +18,7 @@ class _GymSignUpPageState extends State<GymSignUpPage> {
     final passwordController = TextEditingController();
     final repeatPasswordController = TextEditingController();
 
-    Size size = MediaQuery.of(context).size;
+    // Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: const Color(0xffC2C3A0),
       endDrawer: const Sidebar(),
@@ -94,7 +94,7 @@ class _GymSignUpPageState extends State<GymSignUpPage> {
               const SizedBox(width: 5),
               InkWell(
                   onTap: () {
-                    AutoRouter.of(context).push(const GymLoginRoute());
+                    AutoRouter.of(context).pop(const GymLoginRoute());
                   },
                   child: const Text(
                     'login',
