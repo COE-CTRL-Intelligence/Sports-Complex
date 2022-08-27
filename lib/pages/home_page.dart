@@ -31,64 +31,71 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 45),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                Column(
                   children: [
-                    HomePageButton(
-                      icon: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        HomePageButton(
+                          icon: Column(
                             children: [
-                              Image.asset(
-                                "assets/icons/tennisball.png",
-                                color: Colors.black,
-                                height: 29,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Image.asset(
+                                    "assets/icons/tennisball.png",
+                                    color: Colors.black,
+                                    height: 29,
+                                  ),
+                                  Image.asset(
+                                    "assets/icons/basketball.png",
+                                    color: Colors.black,
+                                    height: 25,
+                                  ),
+                                ],
                               ),
-                              Image.asset(
-                                "assets/icons/basketball.png",
-                                color: Colors.black,
-                                height: 25,
-                              ),
+                              Image.asset("assets/icons/soccerball.png",
+                                  color: Colors.black, height: 25),
                             ],
                           ),
-                          Image.asset("assets/icons/soccerball.png",
-                              color: Colors.black, height: 25),
-                        ],
-                      ),
-                      title: 'BOOK FACILITY',
-                      onPressed: () {
-                        AutoRouter.of(context).push(const SelectSportRoute());
-                      },
+                          title: 'BOOK FACILITY',
+                          onPressed: () {
+                            AutoRouter.of(context)
+                                .push(const SelectSportRoute());
+                          },
+                        ),
+                        HomePageButton(
+                          icon: Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Image.asset(
+                              "assets/icons/calendar.png",
+                              height: 30,
+                            ),
+                          ),
+                          title: "CHECK BOOKING",
+                          onPressed: () {
+                            AutoRouter.of(context)
+                                .push(const CheckBookingRoute());
+                          },
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 15,
                     ),
                     HomePageButton(
-                      icon: Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: Image.asset(
-                          "assets/icons/calendar.png",
-                          height: 30,
-                        ),
+                      icon: Image.asset(
+                        "assets/icons/dumbbell.png",
+                        color: Colors.black,
+                        height: 50,
                       ),
-                      title: "CHECK BOOKING",
+                      title: "GYM",
                       onPressed: () {
-                        AutoRouter.of(context).push(const CheckBookingRoute());
+                        AutoRouter.of(context).push(const GymLoginRoute());
                       },
                     ),
                   ],
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                HomePageButton(
-                  icon: Image.asset(
-                    "assets/icons/dumbbell.png",
-                    color: Colors.black,
-                    height: 50,
-                  ),
-                  title: "GYM",
-                  onPressed: () {
-                    AutoRouter.of(context).push(const GymLoginRoute());
-                  },
                 ),
                 const SizedBox(height: 45),
                 const Hero(
