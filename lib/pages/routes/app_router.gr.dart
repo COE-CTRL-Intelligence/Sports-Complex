@@ -35,7 +35,7 @@ class AppRouter extends _i11.RootStackRouter {
           routeData: routeData, child: const _i1.SplashPage());
     },
     HomeRoute.name: (routeData) {
-      return _i11.MaterialPageX<dynamic>(
+      return _i8.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i2.HomePage());
     },
     BookingRoute.name: (routeData) {
