@@ -42,6 +42,7 @@ class _GymSignUpPageState extends State<GymSignUpPage> {
           child: Center(
               child: Column(
             children: [
+              // Head
               Container(
                 height: 35,
                 width: 150,
@@ -55,27 +56,27 @@ class _GymSignUpPageState extends State<GymSignUpPage> {
                 ),
               ),
               SizedBox(height: screenHeight * 0.1),
+
+              // Body
               Column(
                 children: [
                   CustomInputField(
                       fieldController: nameController,
                       fieldName: 'Name',
-                      obscureText: false,
                       icon: Icons.book),
                   CustomInputField(
                       fieldController: emailController,
                       fieldName: 'Email',
-                      obscureText: false,
                       icon: Icons.alternate_email),
                   CustomInputField(
                       fieldController: passwordController,
                       fieldName: 'Password',
-                      obscureText: true,
+                      type: CustomInputType.password,
                       icon: Icons.lock),
                   CustomInputField(
                     fieldController: repeatPasswordController,
                     fieldName: 'Repeat Password',
-                    obscureText: true,
+                    type: CustomInputType.password,
                     icon: Icons.lock,
                   ),
                   Row(
@@ -117,6 +118,8 @@ class _GymSignUpPageState extends State<GymSignUpPage> {
                 ],
               ),
               SizedBox(height: screenHeight * 0.05),
+
+              // Tail
               Column(
                 children: [
                   Padding(

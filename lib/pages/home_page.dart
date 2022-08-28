@@ -22,6 +22,7 @@ class HomePage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 80),
               child: Column(
                 children: [
+                  // Head
                   Hero(
                     tag: 'dumbell_logo',
                     child: Image.asset(
@@ -31,6 +32,8 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: screenHeight * 0.1),
+
+                  // Body
                   Column(
                     children: [
                       Row(
@@ -81,9 +84,7 @@ class HomePage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 15,
-                      ),
+                      const SizedBox(height: 15),
                       HomePageButton(
                         icon: Image.asset(
                           "assets/icons/dumbbell.png",
@@ -98,6 +99,8 @@ class HomePage extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: screenHeight * 0.1),
+
+                  // Tail
                   const Hero(
                     tag: 'sportify_logo',
                     child: Center(

@@ -38,6 +38,7 @@ class _GymLoginPageState extends State<GymLoginPage> {
           padding: const EdgeInsets.symmetric(horizontal: 40),
           child: Column(
             children: [
+              // Head
               Container(
                 height: 35,
                 width: 150,
@@ -51,24 +52,28 @@ class _GymLoginPageState extends State<GymLoginPage> {
                 ),
               ),
               SizedBox(height: screenHeight * 0.1),
+
+              // Body
               Column(
                 children: [
                   CustomInputField(
                       fieldName: 'Email',
                       fieldController: emailController,
-                      obscureText: false,
+                      type: CustomInputType.email,
                       icon: Icons.alternate_email),
                   const SizedBox(height: 10),
                   CustomInputField(
                       fieldController: passwordController,
                       fieldName: 'Password',
-                      obscureText: true,
+                      type: CustomInputType.password,
                       icon: Icons.lock),
                 ],
               ),
               SizedBox(
                 height: screenHeight * 0.05,
               ),
+
+              // Tail
               Column(
                 children: [
                   Padding(
