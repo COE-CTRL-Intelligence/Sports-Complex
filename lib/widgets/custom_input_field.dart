@@ -4,6 +4,7 @@ enum CustomInputType { email, password }
 
 class CustomInputField extends StatefulWidget {
   final TextEditingController fieldController;
+  final TextEditingController? twinFieldController;
   final String fieldName;
   final IconData icon;
   final CustomInputType? type; // when null it builds an ordinary textfield,
@@ -15,7 +16,8 @@ class CustomInputField extends StatefulWidget {
       required this.fieldController,
       required this.fieldName,
       required this.icon,
-      this.type});
+      this.type,
+      this.twinFieldController});
 
   @override
   State<CustomInputField> createState() => _CustomInputFieldState();
@@ -40,8 +42,11 @@ class _CustomInputFieldState extends State<CustomInputField> {
         ),
         TextFormField(
           validator: widget.type == CustomInputType.email
-              ? (value) => validateEmail(value)
-              : null,
+              ? (value) => validateEmail(value, widget.fieldController)
+              : widget.type == CustomInputType.password
+                  ? (value) => validatePassword(
+                      value, widget.fieldController, widget.twinFieldController)
+                  : (value) => validateField(value, widget.fieldName),
           obscureText:
               widget.type == CustomInputType.password ? isVisible : false,
           controller: widget.fieldController,
@@ -77,14 +82,36 @@ class _CustomInputFieldState extends State<CustomInputField> {
   }
 }
 
-String? validateEmail(String? value) {
+String? validateEmail(String? value, TextEditingController controller) {
   String pattern =
       r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
       r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
       r"{0,253}[a-zA-Z0-9])?)*$";
   RegExp regex = RegExp(pattern);
   if (value == null || value.isEmpty || !regex.hasMatch(value)) {
+    controller.clear();
     return 'Enter a valid email address';
+  } else {
+    return null;
+  }
+}
+
+String? validatePassword(String? value, TextEditingController controller,
+    TextEditingController? twinController) {
+  if (value == null || value.isEmpty && twinController != null) {
+    return 'Password cannot be empty';
+  } else if (twinController != null && value != twinController.text) {
+    controller.clear();
+    twinController.clear();
+    return 'Passwords don\'t match';
+  } else {
+    return null;
+  }
+}
+
+String? validateField(String? value, String? fieldName) {
+  if (value == null || value.isEmpty) {
+    return '$fieldName cannot be empty';
   } else {
     return null;
   }
