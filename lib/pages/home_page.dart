@@ -1,5 +1,3 @@
-
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:sports_complex/pages/routes/app_router.gr.dart';
@@ -12,6 +10,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return BackgroundImageWidget(
       image: const AssetImage("assets/images/bg.jpg"),
       child: SafeArea(
@@ -21,7 +21,6 @@ class HomePage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 80),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Hero(
                     tag: 'dumbell_logo',
@@ -31,7 +30,7 @@ class HomePage extends StatelessWidget {
                       color: const Color(0xffFEF7C0),
                     ),
                   ),
-                  const SizedBox(height: 45),
+                  SizedBox(height: screenHeight * 0.1),
                   Column(
                     children: [
                       Row(
@@ -98,7 +97,7 @@ class HomePage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 45),
+                  SizedBox(height: screenHeight * 0.1),
                   const Hero(
                     tag: 'sportify_logo',
                     child: Center(

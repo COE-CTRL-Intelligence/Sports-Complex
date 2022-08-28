@@ -16,38 +16,35 @@ class CustomInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 40),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              const SizedBox(
-                width: 10,
-              ),
-              Text(fieldName),
-            ],
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          TextFormField(
-            obscureText: obscureText,
-            controller: fieldController,
-            cursorColor: Colors.black,
-            decoration: InputDecoration(
-              prefixIcon: Icon(
-                icon,
-              ),
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16),
-                  borderSide: BorderSide.none),
+    return Column(
+      children: [
+        Row(
+          children: [
+            const SizedBox(
+              height: 28,
+              width: 10,
             ),
-          )
-        ],
-      ),
+            Text(fieldName),
+          ],
+        ),
+        TextFormField(
+          obscureText: obscureText,
+          controller: fieldController,
+          cursorColor: Colors.black,
+          decoration: InputDecoration(
+            prefixIcon: Icon(
+              icon,
+            ),
+            isDense: true,
+            contentPadding: const EdgeInsets.all(0),
+            filled: true,
+            fillColor: Colors.white,
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: BorderSide.none),
+          ),
+        )
+      ],
     );
   }
 }

@@ -12,10 +12,13 @@ class GymLoginPage extends StatefulWidget {
 }
 
 class _GymLoginPageState extends State<GymLoginPage> {
+  // Variables
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
+    double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: const Color(0xffC2C3A0),
@@ -31,72 +34,86 @@ class _GymLoginPageState extends State<GymLoginPage> {
       ),
       body: SingleChildScrollView(
         child: Center(
-            child: Column(
-          children: [
-            Container(
-              height: 35,
-              width: 150,
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(16)),
-              child: const Center(
-                child: Text('LOG-IN',
-                    style:
-                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-              ),
-            ),
-            const SizedBox(height: 100),
-            CustomInputField(
-                fieldName: 'Email',
-                fieldController: emailController,
-                obscureText: false,
-                icon: Icons.alternate_email),
-            const SizedBox(height: 10),
-            CustomInputField(
-                fieldController: passwordController,
-                fieldName: 'Password',
-                obscureText: true,
-                icon: Icons.lock),
-            const SizedBox(height: 50),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: SizedBox(
-                height: 40,
-                width: 200,
-                child: ElevatedButton.icon(
-                    icon: const Icon(
-                      Icons.login,
-                    ),
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16)),
-                        primary: const Color(0xff83D475)),
-                    label: const Text(
-                      'Login',
+            child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 40),
+          child: Column(
+            children: [
+              Container(
+                height: 35,
+                width: 150,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16)),
+                child: const Center(
+                  child: Text('LOG-IN',
                       style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    )),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                ),
               ),
-            ),
-            const SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('Don\'t have an account?'),
-                const SizedBox(width: 5),
-                InkWell(
-                    onTap: () {
-                      AutoRouter.of(context).push(const GymSignUpRoute());
-                    },
-                    child: const Text(
-                      'Sign up',
-                      style: TextStyle(
-                        color: Colors.blue,
-                      ),
-                    ))
-              ],
-            )
-          ],
+              SizedBox(height: screenHeight * 0.1),
+              Column(
+                children: [
+                  CustomInputField(
+                      fieldName: 'Email',
+                      fieldController: emailController,
+                      obscureText: false,
+                      icon: Icons.alternate_email),
+                  const SizedBox(height: 10),
+                  CustomInputField(
+                      fieldController: passwordController,
+                      fieldName: 'Password',
+                      obscureText: true,
+                      icon: Icons.lock),
+                ],
+              ),
+              SizedBox(
+                height: screenHeight * 0.05,
+              ),
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: SizedBox(
+                      height: 40,
+                      width: 200,
+                      child: ElevatedButton.icon(
+                          icon: const Icon(
+                            Icons.login,
+                          ),
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16)),
+                              primary: const Color(0xff83D475)),
+                          label: const Text(
+                            'Login',
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          )),
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text('Don\'t have an account?'),
+                      const SizedBox(width: 5),
+                      InkWell(
+                          onTap: () {
+                            AutoRouter.of(context).push(const GymSignUpRoute());
+                          },
+                          child: const Text(
+                            'Sign up',
+                            style: TextStyle(
+                              color: Colors.blue,
+                            ),
+                          ))
+                    ],
+                  )
+                ],
+              ),
+            ],
+          ),
         )),
       ),
     );
