@@ -141,6 +141,8 @@ class _GymSignUpPageState extends State<GymSignUpPage> {
                                   _gender != null) {
                                 debugPrint('Validation Passed!!!');
                                 // debugPrint(_gender!.name[0].toUpperCase());
+                                AutoRouter.of(context)
+                                    .replace(const GymDashboardRoute());
                               } else {
                                 debugPrint('Validation Failed!!!');
                               }
