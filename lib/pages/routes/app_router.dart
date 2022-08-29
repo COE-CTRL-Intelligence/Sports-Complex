@@ -11,6 +11,8 @@ import 'package:sports_complex/pages/schedule_booking_page.dart';
 import 'package:sports_complex/pages/select_sport_page.dart';
 import 'package:sports_complex/pages/splash_page.dart';
 
+import '../gym_signup_page.dart';
+
 @MaterialAutoRouter(
   routes: [
     MaterialRoute(page: SplashPage, initial: true),
