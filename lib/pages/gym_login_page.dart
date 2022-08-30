@@ -29,7 +29,7 @@ class _GymLoginPageState extends State<GymLoginPage> {
         elevation: 0.0,
         leading: GestureDetector(
             onTap: () {
-              AutoRouter.of(context).push(const HomeRoute());
+              AutoRouter.of(context).pop(const HomeRoute());
             },
             child: const Icon(Icons.arrow_back_ios_new)),
       ),
