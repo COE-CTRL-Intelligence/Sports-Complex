@@ -104,6 +104,9 @@ String? validatePassword(String? value, TextEditingController controller,
     controller.clear();
     twinController.clear();
     return 'Passwords don\'t match';
+  } else if (value.length < 6) {
+    controller.clear();
+    return 'Password too short';
   } else {
     return null;
   }
