@@ -56,8 +56,10 @@ class _GymSignUpPageState extends State<GymSignUpPage> {
       } else {
         if (!mounted) return;
         snackBarMessage(jsonData.toString(), context);
+        toggleButtonLoad();
       }
     } catch (e) {
+      toggleButtonLoad();
       snackBarMessage(e.toString(), context);
     }
   }
@@ -99,7 +101,7 @@ class _GymSignUpPageState extends State<GymSignUpPage> {
 
     return WillPopScope(
       onWillPop: () async {
-        // AutoRouter.of(context).navigate(const GymLoginRoute());
+        AutoRouter.of(context).navigate(const GymLoginRoute());
         return false;
       },
       child: Scaffold(
