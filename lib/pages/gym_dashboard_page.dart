@@ -1,14 +1,11 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 import 'package:sports_complex/pages/routes/app_router.gr.dart';
 
 class GymDashboardPage extends StatefulWidget {
-  // final Map<String, dynamic> user;
   const GymDashboardPage({super.key});
 
   @override
@@ -16,15 +13,25 @@ class GymDashboardPage extends StatefulWidget {
 }
 
 class _GymDashboardPageState extends State<GymDashboardPage> {
+  // Variables
+  Map<String, dynamic> userData = {};
+
+  // Methods
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    getUserData();
   }
 
-  Future<String?> getToken() async {
+  void getUserData() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    return pref.getString('login');
+    String? val = pref.getString('jsonResString');
+    if (val != null) {
+      setState(() {
+        userData = json.decode(val);
+      });
+    }
   }
 
   void logout() async {
@@ -38,7 +45,6 @@ class _GymDashboardPageState extends State<GymDashboardPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        debugPrint('Back Button Pressed');
         AutoRouter.of(context).navigate(const HomeRoute());
         return false;
       },
@@ -59,13 +65,20 @@ class _GymDashboardPageState extends State<GymDashboardPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(
-                  Icons.man,
-                  size: 50,
-                ),
-                // Text('Hello ${widget.user["name"]}'),
-                // const SizedBox(height: 15),
-                // Text('Your Email: ${widget.user["email"]}')
+                userData['gender'] == 'M'
+                    ? const Icon(
+                        Icons.man,
+                        color: Colors.blue,
+                        size: 100,
+                      )
+                    : const Icon(
+                        Icons.woman,
+                        size: 100,
+                        color: Colors.pink,
+                      ),
+                Text('Hello ${userData["name"]}'),
+                const SizedBox(height: 15),
+                Text('Your Email: ${userData["email"]}')
               ],
             ),
           ),

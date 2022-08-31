@@ -1,12 +1,15 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sports_complex/pages/routes/app_router.gr.dart';
+import 'package:sports_complex/utils/snakbar_msg.dart';
 import 'package:sports_complex/widgets/custom_input_field.dart';
 import 'package:sports_complex/widgets/custom_radio_button.dart';
 import 'package:sports_complex/widgets/sidebar.dart';
+import 'package:sports_complex/utils/constants.dart';
 import 'package:http/http.dart' as http;
 
 class GymSignUpPage extends StatefulWidget {
@@ -24,13 +27,13 @@ class _GymSignUpPageState extends State<GymSignUpPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final repeatPasswordController = TextEditingController();
+  bool isVisible = true;
 
   // http register/signup method
   Future<void> register(
       String name, String email, String password, String gender) async {
     try {
-      var response = await http.post(
-          Uri.parse('http://172.20.10.2:5050/api/v1/auth/register'),
+      var response = await http.post(Uri.parse('$baseURL/api/v1/auth/register'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8'
           },
@@ -44,38 +47,49 @@ class _GymSignUpPageState extends State<GymSignUpPage> {
       var jsonData = jsonDecode(response.body);
 
       if (response.statusCode == 201) {
-        debugPrint('Created User');
         var token = jsonData['token'];
-        var userName = jsonData['user']['name'];
         SharedPreferences pref = await SharedPreferences.getInstance();
         pref.setString('login', token);
-        pref.setString('userName', userName);
-        if (!mounted) return;
-        AutoRouter.of(context).replace(const GymDashboardRoute());
+        getUserData(token);
+
+        // If StatusCode != 201
       } else {
-        debugPrint('Something went wrong');
         if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: Colors.black,
-            content: jsonData.isNotEmpty
-                ? Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    Text(
-                      jsonData.toString(),
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  ])
-                : const Text('Something went wrong, please try again later')));
+        snackBarMessage(jsonData.toString(), context);
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: Colors.black,
-          content:
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
-            Text(
-              'Something went wrong, please try again later.',
-              style: TextStyle(color: Colors.white),
-            ),
-          ])));
+      snackBarMessage(e.toString(), context);
+    }
+  }
+
+  // Toggles Load indicator on button
+  void toggleButtonLoad() {
+    setState(() {
+      isVisible = !isVisible;
+    });
+  }
+
+  // http getUserData method
+  void getUserData(String token) async {
+    try {
+      var response = await http
+          .get(Uri.parse('$baseURL/api/v1/users'), headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      });
+
+      var userData = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        String jsonResString = jsonEncode(userData).toString();
+        SharedPreferences pref = await SharedPreferences.getInstance();
+        pref.setString('jsonResString', jsonResString);
+        if (!mounted) return;
+        AutoRouter.of(context).replace(const GymDashboardRoute());
+      }
+    } catch (e) {
+      toggleButtonLoad();
+      snackBarMessage(e.toString(), context);
     }
   }
 
@@ -192,36 +206,39 @@ class _GymSignUpPageState extends State<GymSignUpPage> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: SizedBox(
-                          height: 40,
-                          width: 200,
-                          child: ElevatedButton.icon(
-                              icon: const Icon(
-                                Icons.person_add,
-                              ),
-                              onPressed: () {
-                                if (_formKey.currentState!.validate() &&
-                                    _gender != null) {
-                                  debugPrint('Validation Passed!!!');
-                                  // debugPrint(_gender!.name[0].toUpperCase());
-                                  register(
-                                      nameController.text,
-                                      emailController.text,
-                                      passwordController.text,
-                                      _gender!.name[0].toUpperCase());
-                                } else {
-                                  debugPrint('Validation Failed!!!');
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16)),
-                                  primary: const Color(0xff83D475)),
-                              label: const Text(
-                                'Sign up',
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              )),
+                        child: Visibility(
+                          visible: isVisible,
+                          replacement: const CircularProgressIndicator(),
+                          child: SizedBox(
+                            height: 40,
+                            width: 200,
+                            child: ElevatedButton.icon(
+                                icon: const Icon(
+                                  Icons.person_add,
+                                ),
+                                onPressed: () {
+                                  if (_formKey.currentState!.validate() &&
+                                      _gender != null) {
+                                    toggleButtonLoad();
+                                    register(
+                                        nameController.text,
+                                        emailController.text,
+                                        passwordController.text,
+                                        _gender!.name[0].toUpperCase());
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(16)),
+                                    primary: const Color(0xff83D475)),
+                                label: const Text(
+                                  'Sign up',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                )),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 20),

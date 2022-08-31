@@ -5,6 +5,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sports_complex/pages/routes/app_router.gr.dart';
+import 'package:sports_complex/utils/constants.dart';
+import 'package:sports_complex/utils/snakbar_msg.dart';
 import 'package:sports_complex/widgets/custom_input_field.dart';
 import '../widgets/sidebar.dart';
 import 'package:http/http.dart' as http;
@@ -26,8 +28,7 @@ class _GymLoginPageState extends State<GymLoginPage> {
   // http login method
   Future<void> login(String email, String password) async {
     try {
-      var response = await http.post(
-          Uri.parse('http://172.20.10.2:5050/api/v1/auth/login'),
+      var response = await http.post(Uri.parse('$baseURL/api/v1/auth/login'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
@@ -37,44 +38,23 @@ class _GymLoginPageState extends State<GymLoginPage> {
       var jsonData = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
-        var token = jsonData['token'];
-        var userName = jsonData['user']['name'];
-        SharedPreferences pref = await SharedPreferences.getInstance();
-        pref.setString('login', token);
-        pref.setString('userName', userName);
-        debugPrint(userName);
-        if (!mounted) return;
-        AutoRouter.of(context).replace(const GymDashboardRoute());
+        String token = jsonData['token'].toString();
+        getUserData(token);
+
+        // If StatusCode != 200
       } else {
-        // debugPrint(jsonData.toString());
-        toggleLoad();
+        toggleButtonLoad();
         if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: Colors.black,
-            content: jsonData.isNotEmpty
-                ? Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    Text(
-                      jsonData.toString(),
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  ])
-                : const Text('Something went wrong, please try again later')));
+        snackBarMessage(jsonData.toString(), context);
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: Colors.black,
-          content:
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
-            Text(
-              'Something went wrong, please try again later.',
-              style: TextStyle(color: Colors.white),
-            ),
-          ])));
-      toggleLoad();
+      snackBarMessage(e.toString(), context);
+      toggleButtonLoad();
     }
   }
 
-  void toggleLoad() {
+  // Toggles Load indicator on button
+  void toggleButtonLoad() {
     setState(() {
       isVisible = !isVisible;
     });
@@ -83,38 +63,40 @@ class _GymLoginPageState extends State<GymLoginPage> {
   // Check if user already logged in
   void isLogged() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    String? token = pref.getString('login');
-    if (token != null) {}
+    String? token = pref.getString('jsonResString');
+    if (token != null) {
+      toggleButtonLoad();
+      if (!mounted) return;
+      AutoRouter.of(context).push(const GymDashboardRoute());
+    }
   }
 
   // http getUserData method
   void getUserData(String token) async {
     try {
-      Map<String, dynamic> userData;
-      var response = await http.get(
-          Uri.parse('http://172.20.10.2:5050/api/v1/users'),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-            HttpHeaders.authorizationHeader: 'Bearer $token',
-          });
+      var response = await http
+          .get(Uri.parse('$baseURL/api/v1/users'), headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      });
 
-      userData = jsonDecode(response.body)["user"];
+      var userData = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
+        String jsonResString = jsonEncode(userData).toString();
+        SharedPreferences pref = await SharedPreferences.getInstance();
+        pref.setString('jsonResString', jsonResString);
         if (!mounted) return;
         AutoRouter.of(context).replace(const GymDashboardRoute());
-      } else {
-        debugPrint(userData.toString());
-        debugPrint('Something went wrong retrieving data');
       }
     } catch (e) {
-      debugPrint(e.toString());
+      toggleButtonLoad();
+      snackBarMessage(e.toString(), context);
     }
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     isLogged();
   }
@@ -199,11 +181,9 @@ class _GymLoginPageState extends State<GymLoginPage> {
                                 icon: const Icon(Icons.login),
                                 onPressed: () {
                                   if (_formKey.currentState!.validate()) {
-                                    toggleLoad();
+                                    toggleButtonLoad();
                                     login(emailController.text,
                                         passwordController.text);
-                                  } else {
-                                    debugPrint('Validation Failed');
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
