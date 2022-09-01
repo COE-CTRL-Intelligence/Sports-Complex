@@ -37,14 +37,12 @@ class BookingPage extends StatelessWidget {
         ],
       ),
       body: SfCalendar(
-        todayHighlightColor: Colors.red,
         allowAppointmentResize: true,
         controller: calendarController,
         minDate: DateTime.now(),
         selectionDecoration: BoxDecoration(
           color: Colors.transparent,
-          border: Border.all(
-              color: const Color.fromARGB(255, 68, 140, 255), width: 2),
+          border: Border.all(color: Colors.green, width: 2),
           borderRadius: const BorderRadius.all(Radius.circular(4)),
           shape: BoxShape.rectangle,
         ),
