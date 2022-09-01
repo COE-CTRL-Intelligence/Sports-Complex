@@ -15,7 +15,7 @@ class HomePageButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
         style: ButtonStyle(
-          fixedSize: MaterialStateProperty.all(const Size(125, 125)),
+          fixedSize: MaterialStateProperty.all(const Size(128, 125)),
           shape: MaterialStateProperty.all(const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20)))),
           backgroundColor: MaterialStateProperty.all(

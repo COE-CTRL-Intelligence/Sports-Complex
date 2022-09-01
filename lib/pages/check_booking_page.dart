@@ -16,35 +16,39 @@ class CheckBookingPage extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Center(
-            child: Column(
-          children: [
-            const Text('CHECK BOOKING',
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 150),
-            CustomInputField(
+            child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 40),
+          child: Column(
+            children: [
+              const Text('CHECK BOOKING',
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 150),
+              CustomInputField(
+                icon: Icons.numbers,
                 fieldName: "Enter Booking Code Here",
                 fieldController: bookingCodeController,
-                obscureText: false),
-            const SizedBox(height: 150),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40),
-              child: SizedBox(
-                height: 40,
-                width: 200,
-                child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16)),
-                        primary: const Color(0xff83D475)),
-                    child: const Text(
-                      "Check Booking",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    )),
               ),
-            ),
-          ],
+              const SizedBox(height: 150),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                child: SizedBox(
+                  height: 40,
+                  width: 200,
+                  child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16)),
+                          primary: const Color(0xff83D475)),
+                      child: const Text(
+                        "Check Booking",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      )),
+                ),
+              ),
+            ],
+          ),
         )),
       ),
     );

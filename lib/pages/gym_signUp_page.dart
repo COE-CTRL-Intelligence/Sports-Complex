@@ -5,51 +5,62 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sports_complex/pages/routes/app_router.gr.dart';
-import 'package:sports_complex/utils/constants.dart';
 import 'package:sports_complex/utils/snackbar_msg.dart';
 import 'package:sports_complex/widgets/custom_input_field.dart';
-import '../widgets/sidebar.dart';
+import 'package:sports_complex/widgets/custom_radio_button.dart';
+import 'package:sports_complex/widgets/sidebar.dart';
+import 'package:sports_complex/utils/constants.dart';
 import 'package:http/http.dart' as http;
 
-class GymLoginPage extends StatefulWidget {
-  const GymLoginPage({Key? key}) : super(key: key);
+class GymSignUpPage extends StatefulWidget {
+  const GymSignUpPage({Key? key}) : super(key: key);
 
   @override
-  State<GymLoginPage> createState() => _GymLoginPageState();
+  State<GymSignUpPage> createState() => _GymSignUpPageState();
 }
 
-class _GymLoginPageState extends State<GymLoginPage> {
+class _GymSignUpPageState extends State<GymSignUpPage> {
   // Variables
+  Gender? _gender;
   final _formKey = GlobalKey<FormState>();
+  final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final repeatPasswordController = TextEditingController();
   bool isVisible = true;
 
-  // http login method
-  Future<void> login(String email, String password) async {
+  // http register/signup method
+  Future<void> register(
+      String name, String email, String password, String gender) async {
     try {
-      var response = await http.post(Uri.parse('$baseURL/api/v1/auth/login'),
+      var response = await http.post(Uri.parse('$baseURL/api/v1/auth/register'),
           headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
+            'Content-Type': 'application/json; charset=UTF-8'
           },
-          body: jsonEncode(
-              <String, dynamic>{"email": email, "password": password}));
+          body: jsonEncode(<String, dynamic>{
+            "name": name,
+            "email": email,
+            "password": password,
+            "gender": gender
+          }));
 
       var jsonData = jsonDecode(response.body);
 
-      if (response.statusCode == 200) {
-        String token = jsonData['token'].toString();
+      if (response.statusCode == 201) {
+        var token = jsonData['token'];
+        SharedPreferences pref = await SharedPreferences.getInstance();
+        pref.setString('login', token);
         getUserData(token);
 
-        // If StatusCode != 200
+        // If StatusCode != 201
       } else {
-        toggleButtonLoad();
         if (!mounted) return;
         snackBarMessage(jsonData.toString(), context);
+        toggleButtonLoad();
       }
     } catch (e) {
-      snackBarMessage(e.toString(), context);
       toggleButtonLoad();
+      snackBarMessage(e.toString(), context);
     }
   }
 
@@ -58,17 +69,6 @@ class _GymLoginPageState extends State<GymLoginPage> {
     setState(() {
       isVisible = !isVisible;
     });
-  }
-
-  // Check if user already logged in
-  void isLogged() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    String? token = pref.getString('jsonResString');
-    if (token != null) {
-      toggleButtonLoad();
-      if (!mounted) return;
-      AutoRouter.of(context).push(const GymDashboardRoute());
-    }
   }
 
   // http getUserData method
@@ -96,56 +96,12 @@ class _GymLoginPageState extends State<GymLoginPage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    isLogged();
-  }
-
-  @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
-
-    return Scaffold(
-      backgroundColor: Color.fromARGB(255, 9, 9, 8),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-      ),
-      body: SingleChildScrollView(
-        child: Center(
-            child: Column(
-          children: [
-            Container(
-              height: 35,
-              width: 150,
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(16)),
-              child: const Center(
-                child: Text('LOG-IN',
-                    style:
-                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-              ),
-            ),
-            const SizedBox(height: 100),
-            CustomInputField(
-                fieldName: 'Email',
-                fieldController: emailController,
-                obscureText: false),
-            const SizedBox(height: 10),
-            CustomInputField(
-                fieldController: passwordController,
-                fieldName: 'Password',
-                obscureText: true),
-            const SizedBox(height: 50),
-            Padding(
-=======
     double screenHeight = MediaQuery.of(context).size.height;
 
     return WillPopScope(
       onWillPop: () async {
-        AutoRouter.of(context).navigate(const HomeRoute());
+        AutoRouter.of(context).navigate(const GymLoginRoute());
         return false;
       },
       child: Scaffold(
@@ -156,18 +112,17 @@ class _GymLoginPageState extends State<GymLoginPage> {
           elevation: 0.0,
           leading: GestureDetector(
               onTap: () {
-                AutoRouter.of(context).push(const HomeRoute());
+                AutoRouter.of(context).push(const GymLoginRoute());
               },
               child: const Icon(Icons.arrow_back_ios_new)),
         ),
         body: SingleChildScrollView(
-          child: Center(
-              child: Form(
+          child: Form(
             key: _formKey,
             child: Padding(
->>>>>>> 92b051cd531043971fd3bc1d13f8b2d7aa447417
               padding: const EdgeInsets.symmetric(horizontal: 40),
-              child: Column(
+              child: Center(
+                  child: Column(
                 children: [
                   // Head
                   Container(
@@ -177,7 +132,7 @@ class _GymLoginPageState extends State<GymLoginPage> {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(16)),
                     child: const Center(
-                      child: Text('LOG-IN',
+                      child: Text('SIGN-UP',
                           style: TextStyle(
                               fontSize: 15, fontWeight: FontWeight.bold)),
                     ),
@@ -188,22 +143,65 @@ class _GymLoginPageState extends State<GymLoginPage> {
                   Column(
                     children: [
                       CustomInputField(
-                          fieldName: 'Email',
-                          fieldController: emailController,
+                          fieldController: nameController,
+                          fieldName: 'Name',
+                          icon: Icons.book),
+                      CustomInputField(
                           type: CustomInputType.email,
+                          fieldController: emailController,
+                          fieldName: 'Email',
                           icon: Icons.alternate_email),
-                      const SizedBox(height: 10),
                       CustomInputField(
                           fieldController: passwordController,
-                          twinFieldController: passwordController,
+                          twinFieldController: repeatPasswordController,
                           fieldName: 'Password',
                           type: CustomInputType.password,
                           icon: Icons.lock),
+                      CustomInputField(
+                        fieldController: repeatPasswordController,
+                        fieldName: 'Repeat Password',
+                        type: CustomInputType.password,
+                        icon: Icons.lock,
+                      ),
+                      Row(
+                        children: const [
+                          SizedBox(
+                            height: 28,
+                            width: 10,
+                          ),
+                          Text('Gender')
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          CustomRadioButton(
+                            title: Gender.male.name,
+                            value: Gender.male,
+                            groupValue: _gender,
+                            onChanged: (value) {
+                              setState(() {
+                                _gender = value;
+                              });
+                            },
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          CustomRadioButton(
+                            title: Gender.female.name,
+                            value: Gender.female,
+                            groupValue: _gender,
+                            onChanged: (value) {
+                              setState(() {
+                                _gender = value;
+                              });
+                            },
+                          )
+                        ],
+                      ),
                     ],
                   ),
-                  SizedBox(
-                    height: screenHeight * 0.05,
-                  ),
+                  SizedBox(height: screenHeight * 0.05),
 
                   // Tail
                   Column(
@@ -217,12 +215,18 @@ class _GymLoginPageState extends State<GymLoginPage> {
                             height: 40,
                             width: 200,
                             child: ElevatedButton.icon(
-                                icon: const Icon(Icons.login),
+                                icon: const Icon(
+                                  Icons.person_add,
+                                ),
                                 onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
+                                  if (_formKey.currentState!.validate() &&
+                                      _gender != null) {
                                     toggleButtonLoad();
-                                    login(emailController.text,
-                                        passwordController.text);
+                                    register(
+                                        nameController.text,
+                                        emailController.text,
+                                        passwordController.text,
+                                        _gender!.name[0].toUpperCase());
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
@@ -231,7 +235,7 @@ class _GymLoginPageState extends State<GymLoginPage> {
                                             BorderRadius.circular(16)),
                                     primary: const Color(0xff83D475)),
                                 label: const Text(
-                                  'Login',
+                                  'Sign up',
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
@@ -239,19 +243,19 @@ class _GymLoginPageState extends State<GymLoginPage> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text('Don\'t have an account?'),
+                          const Text('Already have an account?'),
                           const SizedBox(width: 5),
                           InkWell(
                               onTap: () {
-                                AutoRouter.of(context)
-                                    .push(const GymSignUpRoute());
+                                // AutoRouter.of(context)
+                                // .navigate(const GymLoginRoute());
                               },
                               child: const Text(
-                                'Sign up',
+                                'login',
                                 style: TextStyle(
                                   color: Colors.blue,
                                 ),
@@ -261,9 +265,9 @@ class _GymLoginPageState extends State<GymLoginPage> {
                     ],
                   ),
                 ],
-              ),
+              )),
             ),
-          )),
+          ),
         ),
       ),
     );
