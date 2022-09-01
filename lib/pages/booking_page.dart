@@ -4,7 +4,9 @@ import 'package:sports_complex/pages/routes/app_router.gr.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class BookingPage extends StatelessWidget {
-  const BookingPage({Key? key}) : super(key: key);
+  final String title;
+
+  const BookingPage({Key? key, required this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +14,7 @@ class BookingPage extends StatelessWidget {
     final calendarController = CalendarController();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Basketball'),
+        title: Text(title),
         backgroundColor: const Color.fromARGB(255, 44, 93, 46),
         actions: [
           Padding(

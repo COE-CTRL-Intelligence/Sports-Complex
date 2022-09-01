@@ -8,7 +8,7 @@ import 'package:sports_complex/pages/routes/app_router.gr.dart';
 import 'package:sports_complex/utils/constants.dart';
 import 'package:sports_complex/utils/snackbar_msg.dart';
 import 'package:sports_complex/widgets/custom_input_field.dart';
-import '../widgets/sidebar.dart';
+import '../widgets/side_bar.dart';
 import 'package:http/http.dart' as http;
 
 class GymLoginPage extends StatefulWidget {

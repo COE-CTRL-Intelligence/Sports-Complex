@@ -1,17 +1,23 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:sports_complex/pages/booking_page.dart';
 import 'package:sports_complex/pages/routes/app_router.gr.dart';
+import 'package:sports_complex/widgets/side_bar.dart';
 
-class SelectSportPage extends StatelessWidget {
+class SelectSportPage extends StatefulWidget {
   const SelectSportPage({Key? key}) : super(key: key);
 
+  @override
+  State<SelectSportPage> createState() => _SelectSportPageState();
+}
+
+class _SelectSportPageState extends State<SelectSportPage> {
   final double space = 30;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 76, 126, 78),
+      endDrawer: const Sidebar(),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
@@ -40,7 +46,8 @@ class SelectSportPage extends StatelessWidget {
               elevation: MaterialStateProperty.all(0),
             ),
             onPressed: () {
-              AutoRouter.of(context).push(const BookingRoute());
+              AutoRouter.of(context)
+                  .push(BookingRoute(title: 'Astro-Turf Pitch'));
             },
             child: Column(
               children: [
@@ -73,7 +80,8 @@ class SelectSportPage extends StatelessWidget {
               elevation: MaterialStateProperty.all(0),
             ),
             onPressed: () {
-              AutoRouter.of(context).push(const BookingRoute());
+              AutoRouter.of(context)
+                  .push(BookingRoute(title: 'Basketball Court'));
             },
             child: Column(
               children: [
@@ -106,7 +114,8 @@ class SelectSportPage extends StatelessWidget {
               elevation: MaterialStateProperty.all(0),
             ),
             onPressed: () {
-              AutoRouter.of(context).push(const BookingRoute());
+              AutoRouter.of(context)
+                  .push(BookingRoute(title: 'Lawn Tennis Court'));
             },
             child: Column(
               children: [

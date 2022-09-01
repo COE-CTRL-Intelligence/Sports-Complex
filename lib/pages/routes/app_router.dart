@@ -11,10 +11,10 @@ import 'package:sports_complex/pages/schedule_booking_page.dart';
 import 'package:sports_complex/pages/select_sport_page.dart';
 import 'package:sports_complex/pages/splash_page.dart';
 
-import '../gym_signup_page.dart';
-
 @MaterialAutoRouter(
   routes: [
+    //All other pages go here in this format
+
     MaterialRoute(page: SplashPage, initial: true),
     CustomRoute(page: HomePage, path: "/home", durationInMilliseconds: 1500),
     MaterialRoute(page: BookingPage, path: "/booking"),
@@ -26,7 +26,6 @@ import '../gym_signup_page.dart';
     MaterialRoute(page: ScheduleBookingPage, path: "/schedule_booking"),
     MaterialRoute(page: SelectSportPage, path: "/select_sport_page"),
     MaterialRoute(page: GymDashboardPage, path: "/gym_dashboard"),
-    //All other pages go here in this format
   ],
   replaceInRouteName: "Page,Route",
 )

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sports_complex/widgets/side_bar.dart';
 import '../widgets/custom_input_field.dart';
 
 class CheckBookingPage extends StatelessWidget {
@@ -10,6 +11,7 @@ class CheckBookingPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: const Color(0xffC2C3A0),
+      endDrawer: const Sidebar(),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0.0,

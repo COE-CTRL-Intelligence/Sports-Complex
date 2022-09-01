@@ -31,40 +31,55 @@ class _SidebarState extends State<Sidebar> {
             ListTile(
               leading: const Icon(Icons.home_filled),
               title: const Text('Home'),
-              onTap: () => {AutoRouter.of(context).push(const HomeRoute())},
+              onTap: () => {AutoRouter.of(context).popUntilRoot()},
             ),
             const SizedBox(height: 15),
             ListTile(
               leading: const Icon(Icons.fitness_center),
               title: const Text('Gym'),
-              onTap: () =>
-                  {AutoRouter.of(context).push(const GymSignUpRoute())},
+              onTap: () => {
+                AutoRouter.of(context).replaceAll([
+                  const HomeRoute(),
+                  const GymLoginRoute(),
+                ])
+              },
             ),
             const SizedBox(height: 15),
             ListTile(
               leading: const Icon(Icons.hotel_class_rounded),
               title: const Text('Book a facility'),
-              onTap: () => {AutoRouter.of(context).push(const BookingRoute())},
+              onTap: () {
+                // debugPrint(context.debugDoingBuild);
+                AutoRouter.of(context)
+                    .replaceAll([const HomeRoute(), const SelectSportRoute()]);
+              },
             ),
             const SizedBox(height: 15),
             ListTile(
               leading: const Icon(Icons.free_cancellation_rounded),
               title: const Text('Check booking'),
-              onTap: () =>
-                  {AutoRouter.of(context).push(const CheckBookingRoute())},
+              onTap: () => {
+                AutoRouter.of(context)
+                    .replaceAll([const HomeRoute(), const CheckBookingRoute()])
+              },
             ),
             const SizedBox(height: 15),
             ListTile(
               leading: const Icon(Icons.contact_support),
               title: const Text('Contact us'),
-              onTap: () =>
-                  {AutoRouter.of(context).push(const ContactUsRoute())},
+              onTap: () => {
+                AutoRouter.of(context)
+                    .replaceAll([const HomeRoute(), const ContactUsRoute()])
+              },
             ),
             const SizedBox(height: 15),
             ListTile(
               leading: const Icon(Icons.info),
               title: const Text('About'),
-              onTap: () => {AutoRouter.of(context).push(const AboutRoute())},
+              onTap: () => {
+                AutoRouter.of(context)
+                    .replaceAll([const HomeRoute(), const AboutRoute()])
+              },
             ),
           ],
         ),

@@ -44,8 +44,10 @@ class AppRouter extends _i12.RootStackRouter {
           barrierDismissible: false);
     },
     BookingRoute.name: (routeData) {
+      final args = routeData.argsAs<BookingRouteArgs>();
       return _i12.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i3.BookingPage());
+          routeData: routeData,
+          child: _i3.BookingPage(key: args.key, title: args.title));
     },
     CheckBookingRoute.name: (routeData) {
       return _i12.MaterialPageX<dynamic>(
@@ -115,10 +117,25 @@ class HomeRoute extends _i12.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i3.BookingPage]
-class BookingRoute extends _i12.PageRouteInfo<void> {
-  const BookingRoute() : super(BookingRoute.name, path: '/booking');
+class BookingRoute extends _i12.PageRouteInfo<BookingRouteArgs> {
+  BookingRoute({_i13.Key? key, required String title})
+      : super(BookingRoute.name,
+            path: '/booking', args: BookingRouteArgs(key: key, title: title));
 
   static const String name = 'BookingRoute';
+}
+
+class BookingRouteArgs {
+  const BookingRouteArgs({this.key, required this.title});
+
+  final _i13.Key? key;
+
+  final String title;
+
+  @override
+  String toString() {
+    return 'BookingRouteArgs{key: $key, title: $title}';
+  }
 }
 
 /// generated route for

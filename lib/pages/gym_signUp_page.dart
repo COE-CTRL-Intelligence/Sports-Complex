@@ -8,7 +8,7 @@ import 'package:sports_complex/pages/routes/app_router.gr.dart';
 import 'package:sports_complex/utils/snackbar_msg.dart';
 import 'package:sports_complex/widgets/custom_input_field.dart';
 import 'package:sports_complex/widgets/custom_radio_button.dart';
-import 'package:sports_complex/widgets/sidebar.dart';
+import 'package:sports_complex/widgets/side_bar.dart';
 import 'package:sports_complex/utils/constants.dart';
 import 'package:http/http.dart' as http;
 
