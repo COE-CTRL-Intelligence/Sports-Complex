@@ -103,44 +103,6 @@ class _GymLoginPageState extends State<GymLoginPage> {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
-
-    return Scaffold(
-      backgroundColor: Color.fromARGB(255, 9, 9, 8),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-      ),
-      body: SingleChildScrollView(
-        child: Center(
-            child: Column(
-          children: [
-            Container(
-              height: 35,
-              width: 150,
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(16)),
-              child: const Center(
-                child: Text('LOG-IN',
-                    style:
-                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-              ),
-            ),
-            const SizedBox(height: 100),
-            CustomInputField(
-                fieldName: 'Email',
-                fieldController: emailController,
-                obscureText: false),
-            const SizedBox(height: 10),
-            CustomInputField(
-                fieldController: passwordController,
-                fieldName: 'Password',
-                obscureText: true),
-            const SizedBox(height: 50),
-            Padding(
-=======
     double screenHeight = MediaQuery.of(context).size.height;
 
     return WillPopScope(
@@ -165,7 +127,6 @@ class _GymLoginPageState extends State<GymLoginPage> {
               child: Form(
             key: _formKey,
             child: Padding(
->>>>>>> 92b051cd531043971fd3bc1d13f8b2d7aa447417
               padding: const EdgeInsets.symmetric(horizontal: 40),
               child: Column(
                 children: [
