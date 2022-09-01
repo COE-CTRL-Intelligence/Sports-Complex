@@ -12,7 +12,7 @@ class GymLoginPage extends StatelessWidget {
     final passwordController = TextEditingController();
 
     return Scaffold(
-      backgroundColor: const Color(0xffC2C3A0),
+      backgroundColor: Color.fromARGB(255, 9, 9, 8),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0.0,
