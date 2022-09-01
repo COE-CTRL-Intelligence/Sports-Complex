@@ -8,9 +8,11 @@ class BookingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Variables
+    final calendarController = CalendarController();
     return Scaffold(
       appBar: AppBar(
-        title: const Text("BASKETBALL"),
+        title: const Text('Basketball'),
         backgroundColor: const Color.fromARGB(255, 44, 93, 46),
         actions: [
           Padding(
@@ -33,6 +35,19 @@ class BookingPage extends StatelessWidget {
         ],
       ),
       body: SfCalendar(
+        todayHighlightColor: Colors.red,
+        allowAppointmentResize: true,
+        controller: calendarController,
+        minDate: DateTime.now(),
+        selectionDecoration: BoxDecoration(
+          color: Colors.transparent,
+          border: Border.all(
+              color: const Color.fromARGB(255, 68, 140, 255), width: 2),
+          borderRadius: const BorderRadius.all(Radius.circular(4)),
+          shape: BoxShape.rectangle,
+        ),
+        showDatePickerButton: true,
+        allowedViews: const [CalendarView.day, CalendarView.week],
         headerStyle: const CalendarHeaderStyle(
           textAlign: TextAlign.center,
           textStyle: TextStyle(
@@ -42,6 +57,10 @@ class BookingPage extends StatelessWidget {
         ),
         view: CalendarView.week,
         dataSource: MeetingDataSource(getAppointments()),
+        onTap: (calendarTapDetails) {
+          calendarController.selectedDate = calendarTapDetails.date;
+          calendarController.view = CalendarView.day;
+        },
       ),
       // bottomNavigationBar: Container(
       //   height: 60,
