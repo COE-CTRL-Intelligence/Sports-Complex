@@ -251,8 +251,8 @@ class _GymSignUpPageState extends State<GymSignUpPage> {
                           const SizedBox(width: 5),
                           InkWell(
                               onTap: () {
-                                // AutoRouter.of(context)
-                                // .navigate(const GymLoginRoute());
+                                AutoRouter.of(context)
+                                    .navigate(const GymLoginRoute());
                               },
                               child: const Text(
                                 'login',
