@@ -50,6 +50,57 @@ class CustomDateTime extends StatelessWidget {
   }
 }
 
+class CustomEndDateTimeField extends StatelessWidget {
+  const CustomEndDateTimeField({super.key, this.endDate});
+
+  final DateTime? endDate;
+
+  @override
+  Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    return Row(
+      children: [
+        SizedBox(
+          width: screenWidth * 0.2,
+          child: Text(
+            'Ends',
+            style: TextStyle(
+              fontSize: 25,
+              color: AppColor.headerColor,
+            ),
+          ),
+        ),
+        Expanded(
+          child: Container(
+              decoration: BoxDecoration(
+                  color: AppColor.customWidgetBG.withOpacity(0.5),
+                  borderRadius: const BorderRadius.all(Radius.circular(16))),
+              alignment: Alignment.center,
+              height: 50,
+              child: Text(DateFormat('d MMM y').format(endDate!),
+                  style: TextStyle(
+                      color: AppColor.headerColor.withOpacity(0.5),
+                      fontSize: 20))),
+        ),
+        const SizedBox(width: 15),
+        Expanded(
+          child: Container(
+              decoration: BoxDecoration(
+                  color: AppColor.customWidgetBG.withOpacity(0.5),
+                  borderRadius: const BorderRadius.all(Radius.circular(16))),
+              alignment: Alignment.center,
+              height: 50,
+              child: Text(DateFormat.jm().format(endDate!),
+                  style: TextStyle(
+                      color: AppColor.headerColor.withOpacity(0.5),
+                      fontSize: 20))),
+        ),
+      ],
+    );
+  }
+}
+
 class TimeLabel extends StatelessWidget {
   const TimeLabel({
     Key? key,
@@ -73,14 +124,18 @@ class TimeLabel extends StatelessWidget {
               initialEntryMode: TimePickerEntryMode.input,
               context: context,
               initialTime: TimeOfDay.fromDateTime(selectedTime!));
-          DateTime? newDate = DateTime(
-            selectedTime!.year,
-            selectedTime!.month,
-            selectedTime!.day,
-            time!.hour,
-            time.minute,
-          );
-          updateTime(newDate, 'TIME');
+          try {
+            DateTime? newDate = DateTime(
+              selectedTime!.year,
+              selectedTime!.month,
+              selectedTime!.day,
+              time!.hour,
+              time.minute,
+            );
+            updateTime(newDate, 'TIME');
+          } catch (e) {
+            null;
+          }
         }
         // if IOS
         else if (Platform.isIOS) {
@@ -178,6 +233,126 @@ class DateLabel extends StatelessWidget {
             child: Text(DateFormat('d MMM y').format(selectedDate!),
                 style: TextStyle(color: AppColor.headerColor, fontSize: 20))),
       ),
+    );
+  }
+}
+
+class DurationController {
+  int? value;
+}
+
+class CustomIncrementWidget extends StatefulWidget {
+  const CustomIncrementWidget({
+    super.key,
+    required this.controller,
+    required this.onPressed,
+  });
+
+  final DurationController? controller;
+  final Function onPressed;
+
+  @override
+  State<CustomIncrementWidget> createState() => _CustomIncrementWidgetState();
+}
+
+class _CustomIncrementWidgetState extends State<CustomIncrementWidget> {
+  // Variables
+  int value = 1;
+
+  // Methods
+  void increment() {
+    DurationController? durationController = widget.controller;
+    if (value < 9) {
+      setState(() {
+        value = value + 1;
+        durationController!.value = value;
+      });
+    }
+  }
+
+  void decrement() {
+    DurationController? durationController = widget.controller;
+    if (value > 1) {
+      setState(() {
+        value = value - 1;
+        durationController!.value = value;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    DurationController? durationController = widget.controller;
+    durationController!.value = value;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    return Row(
+      children: [
+        SizedBox(
+          width: screenWidth * 0.3,
+          child: Text(
+            'Duration',
+            style: TextStyle(
+              fontSize: 25,
+              color: AppColor.headerColor,
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            if (value != 1) {
+              decrement();
+              widget.onPressed();
+            }
+          },
+          child: Container(
+            width: screenWidth * 0.15,
+            decoration: BoxDecoration(
+                color: AppColor.customWidgetBG,
+                borderRadius: const BorderRadius.all(Radius.circular(30))),
+            alignment: Alignment.center,
+            height: 50,
+            child: Icon(
+              Icons.remove,
+              color: (value != 1)
+                  ? AppColor.headerColor
+                  : AppColor.headerColor.withOpacity(0.5),
+            ),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 30),
+          child: Text(
+            value.toString(),
+            style: TextStyle(color: AppColor.headerColor, fontSize: 25),
+          ),
+        ),
+        GestureDetector(
+            onTap: () {
+              if (value != 9) {
+                increment();
+                widget.onPressed();
+              }
+            },
+            child: Container(
+                width: screenWidth * 0.15,
+                decoration: BoxDecoration(
+                    color: AppColor.customWidgetBG,
+                    borderRadius: const BorderRadius.all(Radius.circular(30))),
+                alignment: Alignment.center,
+                height: 50,
+                child: Icon(
+                  Icons.add,
+                  color: (value != 9)
+                      ? AppColor.headerColor
+                      : AppColor.headerColor.withOpacity(0.5),
+                ))),
+      ],
     );
   }
 }

@@ -101,8 +101,6 @@ class _BookingPageState extends State<BookingPage> {
                 calendarController.view == CalendarView.week) {
               calendarController.view = CalendarView.day;
             }
-            // if (calendarTapDetails.targetElement ==
-            //     CalendarElement.appointment) {}
           },
           onLongPress: (calendarLongPressDetails) {
             if (calendarLongPressDetails.appointments == null) {
