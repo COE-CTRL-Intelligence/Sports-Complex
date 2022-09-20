@@ -71,27 +71,30 @@ class _ScheduleTimingPageState extends State<ScheduleTimingPage> {
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
-    double screenWidth = MediaQuery.of(context).size.width;
+    double sH = MediaQuery.of(context).size.height;
+    double sW = MediaQuery.of(context).size.width;
 
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColor.bgSample1,
         appBar: AppBar(
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(5))),
-          leadingWidth: screenWidth * 0.2,
-          leading: TextButton(
-            onPressed: () {
+          leadingWidth: sW * 0.20,
+          leading: InkWell(
+            onTap: () {
               Navigator.of(context).pop();
             },
-            child: const Text(
-              'Cancel',
-              style: TextStyle(fontSize: 20, color: Color(0xffFF1E00)),
+            child: const Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5),
+                child: Text(
+                  'Cancel',
+                  style: TextStyle(fontSize: 18, color: Colors.red),
+                ),
+              ),
             ),
           ),
           title: Padding(
-            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.12),
+            padding: EdgeInsets.symmetric(horizontal: sW * 0.12),
             child: Text(
               'New Booking',
               style: TextStyle(
@@ -101,14 +104,14 @@ class _ScheduleTimingPageState extends State<ScheduleTimingPage> {
           backgroundColor: AppColor.bgSample1,
           elevation: 0,
         ),
-        body: SingleChildScrollView(
-          child: SizedBox(
-            width: double.infinity,
+        body: Align(
+          alignment: Alignment.bottomCenter,
+          child: SingleChildScrollView(
             child: Column(
               children: [
                 Padding(
                   padding: EdgeInsets.only(
-                      left: 30, right: 30, top: screenHeight * 0.15),
+                      left: sH * 0.02, right: sH * 0.02, top: sH * 0.15),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -133,11 +136,11 @@ class _ScheduleTimingPageState extends State<ScheduleTimingPage> {
                   ),
                 ),
                 SizedBox(
-                  height: screenHeight * 0.306,
+                  height: sH * 0.25,
                 ),
                 // Bottom Place Booking Button
                 SizedBox(
-                  height: screenHeight * 0.09,
+                  height: sH * 0.08,
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {

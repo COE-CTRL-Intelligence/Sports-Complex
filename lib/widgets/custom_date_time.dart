@@ -71,18 +71,21 @@ class CustomEndDateTimeField extends StatelessWidget {
             ),
           ),
         ),
-        Expanded(
-          child: Container(
-              decoration: BoxDecoration(
-                  color: AppColor.customWidgetBG.withOpacity(0.5),
-                  borderRadius: const BorderRadius.all(Radius.circular(16))),
-              alignment: Alignment.center,
-              height: 50,
-              child: Text(DateFormat('d MMM y').format(endDate!),
-                  style: TextStyle(
-                      color: AppColor.headerColor.withOpacity(0.5),
-                      fontSize: 20))),
-        ),
+        Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                color: AppColor.customWidgetBG.withOpacity(0.5),
+                borderRadius: const BorderRadius.all(Radius.circular(16))),
+            alignment: Alignment.center,
+            height: 50,
+            child: Text(DateFormat('d MMM y').format(endDate!),
+                maxLines: 1,
+                softWrap: false,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: AppColor.headerColor.withOpacity(0.5),
+                  fontSize: 20,
+                ))),
         const SizedBox(width: 15),
         Expanded(
           child: Container(
@@ -185,54 +188,56 @@ class DateLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: () async {
-          // If Android
-          if (Platform.isAndroid) {
-            DateTime? newDate = await showDatePicker(
-                initialEntryMode: DatePickerEntryMode.calendarOnly,
-                context: context,
-                initialDate: selectedDate!,
-                firstDate: allowableDate,
-                lastDate: allowableDate.add(const Duration(days: 365)));
-            try {
-              updateDate(newDate, 'DATE');
-            } catch (e) {
-              null;
-            }
-          } else if (Platform.isIOS) {
-            // if IOS
-            showCupertinoModalPopup(
-                context: context,
-                builder: (context) => Container(
-                      color: Colors.white70,
-                      height: MediaQuery.of(context).size.height * 0.25,
-                      child: CupertinoDatePicker(
-                          mode: CupertinoDatePickerMode.date,
-                          initialDateTime: selectedDate,
-                          minimumDate: allowableDate.subtract(Duration(
-                              hours: allowableDate.hour,
-                              minutes: allowableDate.minute,
-                              seconds: allowableDate.second,
-                              milliseconds: allowableDate.millisecond,
-                              microseconds: allowableDate.microsecond)),
-                          maximumDate:
-                              allowableDate.add(const Duration(days: 365)),
-                          onDateTimeChanged: (value) =>
-                              updateDate(value, 'DATE')),
-                    ));
+    return GestureDetector(
+      onTap: () async {
+        // If Android
+        if (Platform.isAndroid) {
+          DateTime? newDate = await showDatePicker(
+              initialEntryMode: DatePickerEntryMode.calendarOnly,
+              context: context,
+              initialDate: selectedDate!,
+              firstDate: allowableDate,
+              lastDate: allowableDate.add(const Duration(days: 365)));
+          try {
+            updateDate(newDate, 'DATE');
+          } catch (e) {
+            null;
           }
-        },
-        child: Container(
-            decoration: BoxDecoration(
-                color: AppColor.customWidgetBG,
-                borderRadius: const BorderRadius.all(Radius.circular(16))),
-            alignment: Alignment.center,
-            height: 50,
-            child: Text(DateFormat('d MMM y').format(selectedDate!),
-                style: TextStyle(color: AppColor.headerColor, fontSize: 20))),
-      ),
+        } else if (Platform.isIOS) {
+          // if IOS
+          showCupertinoModalPopup(
+              context: context,
+              builder: (context) => Container(
+                    color: Colors.white70,
+                    height: MediaQuery.of(context).size.height * 0.25,
+                    child: CupertinoDatePicker(
+                        mode: CupertinoDatePickerMode.date,
+                        initialDateTime: selectedDate,
+                        minimumDate: allowableDate.subtract(Duration(
+                            hours: allowableDate.hour,
+                            minutes: allowableDate.minute,
+                            seconds: allowableDate.second,
+                            milliseconds: allowableDate.millisecond,
+                            microseconds: allowableDate.microsecond)),
+                        maximumDate:
+                            allowableDate.add(const Duration(days: 365)),
+                        onDateTimeChanged: (value) =>
+                            updateDate(value, 'DATE')),
+                  ));
+        }
+      },
+      child: Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+              color: AppColor.customWidgetBG,
+              borderRadius: const BorderRadius.all(Radius.circular(16))),
+          alignment: Alignment.center,
+          height: 50,
+          child: Text(DateFormat('d MMM y').format(selectedDate!),
+              maxLines: 1,
+              softWrap: false,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(color: AppColor.headerColor, fontSize: 20))),
     );
   }
 }

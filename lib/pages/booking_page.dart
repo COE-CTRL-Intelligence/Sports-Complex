@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -17,6 +19,8 @@ class BookingPage extends StatefulWidget {
 class _BookingPageState extends State<BookingPage> {
   // Variables
   DateTime today = DateTime.now();
+  DateTime? minDate;
+  Timer? timer;
   final calendarController = CalendarController();
 
   // Methods
@@ -26,6 +30,32 @@ class _BookingPageState extends State<BookingPage> {
       type: PageTransitionType.bottomToTop,
       child: ScheduleTimingPage(inputTime: inputDate),
     ));
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    refreshHourlySchedule();
+  }
+
+  void refreshHourlySchedule() {
+    minDate =
+        today.add(Duration(seconds: 3600 - today.second - (60 * today.minute)));
+    Duration nextHourDuration = minDate!.difference(today);
+    timer = Timer.periodic(nextHourDuration, (timer) {
+      setState(() {
+        today = DateTime.now();
+        minDate = today
+            .add(Duration(seconds: 3600 - today.second - (60 * today.minute)));
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 
   @override
