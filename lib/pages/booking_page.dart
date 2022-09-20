@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:sports_complex/pages/routes/app_router.gr.dart';
 import 'package:sports_complex/pages/schedule_timing_page.dart';
@@ -22,21 +23,48 @@ class _BookingPageState extends State<BookingPage> {
   DateTime? minDate;
   Timer? timer;
   final calendarController = CalendarController();
+  bool bookHereVisibility = false;
 
   // Methods
   void pushScheduleBooking(DateTime? inputDate) {
+    String? inDateString =
+        DateFormat('d MMM y').format(calendarController.displayDate!);
+    String? todayString = DateFormat('d MMM y').format(today);
+    String? selectedString =
+        DateFormat('d MMM y').format(calendarController.selectedDate!);
+    DateTime pushedDate;
+
+    if (inputDate == null) {
+      if (calendarController.view == CalendarView.day &&
+          inDateString == todayString) {
+        pushedDate = minDate!;
+        setState(() {
+          calendarController.selectedDate = minDate;
+        });
+      } else {
+        pushedDate = calendarController.displayDate!;
+        setState(() {
+          calendarController.selectedDate = calendarController.displayDate;
+        });
+      }
+    } else {
+      if (inDateString == selectedString) {
+        pushedDate = inputDate;
+      } else if (inDateString == todayString) {
+        pushedDate = minDate!;
+        setState(() {
+          calendarController.selectedDate = minDate;
+        });
+      } else {
+        pushedDate = calendarController.displayDate!;
+      }
+    }
+
     Navigator.of(context).push(PageTransition(
       duration: const Duration(milliseconds: 500),
       type: PageTransitionType.bottomToTop,
-      child: ScheduleTimingPage(inputTime: inputDate),
+      child: ScheduleTimingPage(inputTime: pushedDate),
     ));
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    refreshHourlySchedule();
   }
 
   void refreshHourlySchedule() {
@@ -50,6 +78,24 @@ class _BookingPageState extends State<BookingPage> {
             .add(Duration(seconds: 3600 - today.second - (60 * today.minute)));
       });
     });
+  }
+
+  void updateBookHereVisibility() {
+    if (calendarController.view == CalendarView.day) {
+      setState(() {
+        bookHereVisibility = true;
+      });
+    } else {
+      setState(() {
+        bookHereVisibility = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    refreshHourlySchedule();
   }
 
   @override
@@ -66,6 +112,7 @@ class _BookingPageState extends State<BookingPage> {
           AutoRouter.of(context).navigate(const SelectSportRoute());
         } else {
           calendarController.view = CalendarView.week;
+          updateBookHereVisibility();
         }
         return false;
       },
@@ -74,24 +121,27 @@ class _BookingPageState extends State<BookingPage> {
           title: Text(widget.title),
           backgroundColor: const Color.fromARGB(255, 44, 93, 46),
           actions: [
-            Padding(
-              padding: const EdgeInsets.only(top: 10, bottom: 10, right: 6),
-              child: ElevatedButton(
-                  style: ButtonStyle(
-                    fixedSize: MaterialStateProperty.all(const Size(100, 50)),
-                    backgroundColor: MaterialStateProperty.all(Colors.green),
-                    shape: MaterialStateProperty.all(
-                        const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20)))),
-                  ),
-                  onPressed: () {
-                    AutoRouter.of(context).push(const ScheduleBookingRoute());
-                  },
-                  child: const Text(
-                    "BOOK HERE",
-                    style: TextStyle(color: Colors.white, fontSize: 11.5),
-                  )),
+            Visibility(
+              visible: bookHereVisibility,
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: ElevatedButton(
+                    style: ButtonStyle(
+                      fixedSize: MaterialStateProperty.all(const Size(100, 50)),
+                      backgroundColor: MaterialStateProperty.all(Colors.green),
+                      shape: MaterialStateProperty.all(
+                          const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)))),
+                    ),
+                    onPressed: () {
+                      pushScheduleBooking(calendarController.selectedDate);
+                    },
+                    child: const Text(
+                      "BOOK HERE",
+                      style: TextStyle(color: Colors.white, fontSize: 11.5),
+                    )),
+              ),
             ),
           ],
         ),
@@ -119,6 +169,7 @@ class _BookingPageState extends State<BookingPage> {
           view: CalendarView.week,
           dataSource: MeetingDataSource(getAppointments()),
           onTap: (calendarTapDetails) {
+            // from DayView to ScheduleBooking Page/Popup
             if (calendarController.view == CalendarView.day &&
                 calendarTapDetails.targetElement ==
                     CalendarElement.calendarCell &&
@@ -126,14 +177,19 @@ class _BookingPageState extends State<BookingPage> {
                 calendarTapDetails.appointments == null) {
               pushScheduleBooking(calendarTapDetails.date);
             }
+
+            // form WeekView to DayView
             if (calendarTapDetails.targetElement ==
                     CalendarElement.calendarCell &&
                 calendarController.view == CalendarView.week) {
               calendarController.view = CalendarView.day;
+              updateBookHereVisibility();
             }
           },
           onLongPress: (calendarLongPressDetails) {
-            if (calendarLongPressDetails.appointments == null) {
+            if (calendarLongPressDetails.appointments == null &&
+                calendarLongPressDetails.targetElement ==
+                    CalendarElement.calendarCell) {
               pushScheduleBooking(calendarLongPressDetails.date);
             }
           },

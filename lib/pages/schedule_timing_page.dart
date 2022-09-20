@@ -64,7 +64,6 @@ class _ScheduleTimingPageState extends State<ScheduleTimingPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     startsDateTime = widget.inputTime!;
   }
