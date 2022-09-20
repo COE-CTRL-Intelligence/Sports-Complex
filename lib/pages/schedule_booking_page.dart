@@ -1,199 +1,161 @@
 import 'package:flutter/material.dart';
+import 'package:sports_complex/utils/colors.dart';
+import 'package:sports_complex/widgets/custom_date_time.dart';
 
-class ScheduleBookingPage extends StatefulWidget {
-  const ScheduleBookingPage({Key? key}) : super(key: key);
+class ScheduleTimingPage extends StatefulWidget {
+  final DateTime? inputTime;
+  const ScheduleTimingPage({Key? key, required this.inputTime})
+      : super(key: key);
 
   @override
-  State<ScheduleBookingPage> createState() => _ScheduleBookingPageState();
+  State<ScheduleTimingPage> createState() => _ScheduleTimingPageState();
 }
 
-class _ScheduleBookingPageState extends State<ScheduleBookingPage> {
-  var startDateController = TextEditingController();
-  var endDateController = TextEditingController();
-  var startTimeController = TextEditingController();
-  var endTimeController = TextEditingController();
-  var text = "";
+class _ScheduleTimingPageState extends State<ScheduleTimingPage> {
+  // Variables
+  DateTime allowableDate =
+      DateTime.now().add(Duration(minutes: 60 - DateTime.now().minute));
+  DateTime? startsDateTime;
+  DateTime? endsDateTime;
+  DurationController durationController = DurationController();
+
+  // Methods
+  void updateStartsDateTime(DateTime newDateTime, String target) {
+    if (target == 'TIME') {
+      if (newDateTime.minute != 0) {
+        int newHour = newDateTime.hour;
+        if (newDateTime.minute >= 30) {
+          debugPrint('ibi true');
+          newDateTime = DateTime(newDateTime.year, newDateTime.month,
+              newDateTime.day, newHour + 1, 0);
+          debugPrint(newDateTime.toString());
+        } else {
+          debugPrint('ibi lie');
+          newDateTime = DateTime(
+              newDateTime.year, newDateTime.month, newDateTime.day, newHour, 0);
+        }
+      }
+      setState(() {
+        startsDateTime = newDateTime;
+        endsDateTime =
+            startsDateTime!.add(Duration(hours: durationController.value!));
+      });
+    } else if (target == 'DATE') {
+      setState(() {
+        startsDateTime = DateTime(
+          newDateTime.year,
+          newDateTime.month,
+          newDateTime.day,
+          startsDateTime!.hour,
+          startsDateTime!.minute,
+        );
+        endsDateTime =
+            startsDateTime!.add(Duration(hours: durationController.value!));
+      });
+    }
+  }
+
+  void onDurationPressed() {
+    setState(() {
+      endsDateTime =
+          startsDateTime!.add(Duration(hours: durationController.value!));
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    startsDateTime = widget.inputTime!;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xffC2C3A0),
-      appBar: AppBar(
-        title: const Text(
-          "NEW BOOKING",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 1.0,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(top: 20, right: 10),
-            child: InkWell(
-              onTap: () {},
-              child: const Text(
-                "Add",
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 17,
+    double sH = MediaQuery.of(context).size.height;
+    double sW = MediaQuery.of(context).size.width;
+
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: AppColor.bgSample1,
+        appBar: AppBar(
+          leadingWidth: sW * 0.20,
+          leading: InkWell(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: const Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5),
+                child: Text(
+                  'Cancel',
+                  style: TextStyle(fontSize: 18, color: Colors.red),
                 ),
-                textAlign: TextAlign.center,
               ),
             ),
           ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.only(bottom: 50),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(text),
-              const Text(
-                "STARTS",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SizedBox(
-                    height: 40,
-                    width: 150,
-                    child: TextFormField(
-                      readOnly: true,
-                      onTap: () {
-                        showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(DateTime.now().year),
-                          lastDate: DateTime(DateTime.now().year + 2),
-                        ).then((date) => setState(
-                              () {
-                                text = date.toString();
-                              },
-                            ));
-                      },
-                      cursorColor: Colors.black,
-                      textAlign: TextAlign.center,
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.only(top: 10),
-                        hintStyle: TextStyle(
-                            color: Colors.grey.withOpacity(0.6),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 12),
-                        hintText: "Start Date",
-                        filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(13),
-                            borderSide: BorderSide.none),
+          title: Padding(
+            padding: EdgeInsets.symmetric(horizontal: sW * 0.12),
+            child: Text(
+              'New Booking',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold, color: AppColor.headerColor),
+            ),
+          ),
+          backgroundColor: AppColor.bgSample1,
+          elevation: 0,
+        ),
+        body: Align(
+          alignment: Alignment.bottomCenter,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: sH * 0.02, right: sH * 0.02, top: sH * 0.15),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CustomDateTime(
+                          title: 'Starts',
+                          allowableDate: allowableDate,
+                          updateDateTime: updateStartsDateTime,
+                          startDate: startsDateTime!),
+                      const SizedBox(height: 40),
+                      CustomIncrementWidget(
+                        controller: durationController,
+                        onPressed: onDurationPressed,
                       ),
-                      controller: startDateController,
+                      const SizedBox(
+                        height: 40,
+                      ),
+                      CustomEndDateTimeField(
+                        endDate: endsDateTime ??
+                            startsDateTime!.add(const Duration(hours: 1)),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: sH * 0.25,
+                ),
+                // Bottom Place Booking Button
+                SizedBox(
+                  height: sH * 0.08,
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      debugPrint('Hello');
+                    },
+                    child: const Text(
+                      'Place Booking',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
-                  SizedBox(
-                    height: 40,
-                    width: 105,
-                    child: TextFormField(
-                      readOnly: true,
-                      onTap: () {
-                        showTimePicker(
-                            context: context, initialTime: TimeOfDay.now());
-                      },
-                      cursorColor: Colors.black,
-                      textAlign: TextAlign.center,
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.only(top: 10),
-                        hintStyle: TextStyle(
-                            color: Colors.grey.withOpacity(0.6),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 12),
-                        hintText: "Start Time",
-                        filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(13),
-                            borderSide: BorderSide.none),
-                      ),
-                      controller: startTimeController,
-                    ),
-                  ),
-                ],
-              ),
-              const Text(
-                "ENDS",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SizedBox(
-                    height: 40,
-                    width: 150,
-                    child: TextFormField(
-                      onTap: () {
-                        showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(DateTime.now().year),
-                          lastDate: DateTime(DateTime.now().year + 2),
-                        ).then((date) => setState(
-                              () {
-                                text = date.toString();
-                              },
-                            ));
-                      },
-                      readOnly: true,
-                      cursorColor: Colors.black,
-                      textAlign: TextAlign.center,
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.only(top: 10),
-                        hintStyle: TextStyle(
-                            color: Colors.grey.withOpacity(0.6),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 12),
-                        hintText: "End Date",
-                        filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(13),
-                            borderSide: BorderSide.none),
-                      ),
-                      controller: endDateController,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 40,
-                    width: 105,
-                    child: TextFormField(
-                      readOnly: true,
-                      onTap: () {
-                        showTimePicker(
-                            context: context, initialTime: TimeOfDay.now());
-                      },
-                      cursorColor: Colors.black,
-                      textAlign: TextAlign.center,
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.only(top: 10),
-                        hintStyle: TextStyle(
-                            color: Colors.grey.withOpacity(0.6),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 12),
-                        hintText: "End Time",
-                        filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(13),
-                            borderSide: BorderSide.none),
-                      ),
-                      controller: endTimeController,
-                    ),
-                  ),
-                ],
-              ),
-            ],
+                )
+              ],
+            ),
           ),
         ),
       ),

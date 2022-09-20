@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:sports_complex/pages/routes/app_router.gr.dart';
-import 'package:sports_complex/pages/schedule_timing_page.dart';
+import 'package:sports_complex/pages/schedule_booking_page.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class BookingPage extends StatefulWidget {
