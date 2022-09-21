@@ -30,7 +30,7 @@ class CustomDateTime extends StatelessWidget {
             title,
             style: TextStyle(
               fontSize: 25,
-              color: AppColor.headerColor,
+              color: AppColor.blue1,
             ),
           ),
         ),
@@ -67,14 +67,14 @@ class CustomEndDateTimeField extends StatelessWidget {
             'Ends',
             style: TextStyle(
               fontSize: 25,
-              color: AppColor.headerColor,
+              color: AppColor.blue1,
             ),
           ),
         ),
         Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-                color: AppColor.customWidgetBG.withOpacity(0.5),
+                color: AppColor.cream1.withOpacity(0.5),
                 borderRadius: const BorderRadius.all(Radius.circular(16))),
             alignment: Alignment.center,
             height: 50,
@@ -83,21 +83,20 @@ class CustomEndDateTimeField extends StatelessWidget {
                 softWrap: false,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  color: AppColor.headerColor.withOpacity(0.5),
+                  color: AppColor.blue1.withOpacity(0.5),
                   fontSize: 20,
                 ))),
         const SizedBox(width: 15),
         Expanded(
           child: Container(
               decoration: BoxDecoration(
-                  color: AppColor.customWidgetBG.withOpacity(0.5),
+                  color: AppColor.cream1.withOpacity(0.5),
                   borderRadius: const BorderRadius.all(Radius.circular(16))),
               alignment: Alignment.center,
               height: 50,
               child: Text(DateFormat.jm().format(endDate!),
                   style: TextStyle(
-                      color: AppColor.headerColor.withOpacity(0.5),
-                      fontSize: 20))),
+                      color: AppColor.blue1.withOpacity(0.5), fontSize: 20))),
         ),
       ],
     );
@@ -165,12 +164,12 @@ class TimeLabel extends StatelessWidget {
       },
       child: Container(
           decoration: BoxDecoration(
-              color: AppColor.customWidgetBG,
+              color: AppColor.cream1,
               borderRadius: const BorderRadius.all(Radius.circular(16))),
           alignment: Alignment.center,
           height: 50,
           child: Text(DateFormat.jm().format(selectedTime!),
-              style: TextStyle(color: AppColor.headerColor, fontSize: 20))),
+              style: TextStyle(color: AppColor.blue1, fontSize: 20))),
     ));
   }
 }
@@ -229,7 +228,7 @@ class DateLabel extends StatelessWidget {
       child: Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-              color: AppColor.customWidgetBG,
+              color: AppColor.cream1,
               borderRadius: const BorderRadius.all(Radius.circular(16))),
           alignment: Alignment.center,
           height: 50,
@@ -237,7 +236,7 @@ class DateLabel extends StatelessWidget {
               maxLines: 1,
               softWrap: false,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: AppColor.headerColor, fontSize: 20))),
+              style: TextStyle(color: AppColor.blue1, fontSize: 20))),
     );
   }
 }
@@ -304,7 +303,7 @@ class _CustomIncrementWidgetState extends State<CustomIncrementWidget> {
             'Duration',
             style: TextStyle(
               fontSize: 25,
-              color: AppColor.headerColor,
+              color: AppColor.blue1,
             ),
           ),
         ),
@@ -318,15 +317,15 @@ class _CustomIncrementWidgetState extends State<CustomIncrementWidget> {
           child: Container(
             width: screenWidth * 0.15,
             decoration: BoxDecoration(
-                color: AppColor.customWidgetBG,
+                color: AppColor.cream1,
                 borderRadius: const BorderRadius.all(Radius.circular(30))),
             alignment: Alignment.center,
             height: 50,
             child: Icon(
               Icons.remove,
               color: (value != 1)
-                  ? AppColor.headerColor
-                  : AppColor.headerColor.withOpacity(0.5),
+                  ? AppColor.blue1
+                  : AppColor.blue1.withOpacity(0.5),
             ),
           ),
         ),
@@ -334,7 +333,7 @@ class _CustomIncrementWidgetState extends State<CustomIncrementWidget> {
           margin: const EdgeInsets.symmetric(horizontal: 30),
           child: Text(
             value.toString(),
-            style: TextStyle(color: AppColor.headerColor, fontSize: 25),
+            style: TextStyle(color: AppColor.blue1, fontSize: 25),
           ),
         ),
         GestureDetector(
@@ -347,15 +346,15 @@ class _CustomIncrementWidgetState extends State<CustomIncrementWidget> {
             child: Container(
                 width: screenWidth * 0.15,
                 decoration: BoxDecoration(
-                    color: AppColor.customWidgetBG,
+                    color: AppColor.cream1,
                     borderRadius: const BorderRadius.all(Radius.circular(30))),
                 alignment: Alignment.center,
                 height: 50,
                 child: Icon(
                   Icons.add,
                   color: (value != 9)
-                      ? AppColor.headerColor
-                      : AppColor.headerColor.withOpacity(0.5),
+                      ? AppColor.blue1
+                      : AppColor.blue1.withOpacity(0.5),
                 ))),
       ],
     );

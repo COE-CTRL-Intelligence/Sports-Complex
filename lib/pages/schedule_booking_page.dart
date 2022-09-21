@@ -75,7 +75,7 @@ class _ScheduleTimingPageState extends State<ScheduleTimingPage> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AppColor.bgSample1,
+        backgroundColor: AppColor.green1,
         appBar: AppBar(
           leadingWidth: sW * 0.20,
           leading: InkWell(
@@ -96,11 +96,11 @@ class _ScheduleTimingPageState extends State<ScheduleTimingPage> {
             padding: EdgeInsets.symmetric(horizontal: sW * 0.12),
             child: Text(
               'New Booking',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold, color: AppColor.headerColor),
+              style:
+                  TextStyle(fontWeight: FontWeight.bold, color: AppColor.blue1),
             ),
           ),
-          backgroundColor: AppColor.bgSample1,
+          backgroundColor: AppColor.green1,
           elevation: 0,
         ),
         body: Align(
