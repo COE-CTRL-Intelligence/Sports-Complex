@@ -42,17 +42,20 @@ class _GymDashboardPageState extends State<GymDashboardPage> {
   }
 
   // set up the AlertDialog
-  AlertDialog logoutalert = AlertDialog(
-    title: const Text("LOGOUT"),
-    content: const Text("Would you like to log out of your account?"),
-    actions: [
-      TextButton(
-        child: const Text("Cancel"),
-        onPressed: () {},
-      ),
-      TextButton(child: const Text("Logout"), onPressed: () {}),
-    ],
-  );
+  // AlertDialog logoutalert = AlertDialog(
+  //   title: const Text("LOGOUT"),
+  //   content: const Text("Would you like to log out of your account?"),
+  //   actions: [
+  //     TextButton(
+  //       onPressed: Navigator.of(context).pop(),
+  //       child: const Text("Cancel"),
+  //     ),
+  //     TextButton(
+  //       onPressed: logout(),
+  //       child: const Text("Logout")
+  //       ),
+  //   ],
+  // );
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +77,24 @@ class _GymDashboardPageState extends State<GymDashboardPage> {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return logoutalert;
+                          return AlertDialog(
+                            title: const Text("LOGOUT"),
+                            content: const Text(
+                                "Would you like to log out of your account?"),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text("Cancel"),
+                              ),
+                              TextButton(
+                                  onPressed: () {
+                                    logout();
+                                  },
+                                  child: const Text("Logout")),
+                            ],
+                          );
                         },
                       );
                     },
