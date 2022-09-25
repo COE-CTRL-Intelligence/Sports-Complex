@@ -26,7 +26,7 @@ class _BookingPageState extends State<BookingPage> {
   bool bookHereVisibility = false;
 
   // Methods
-  void pushScheduleBooking(DateTime? inputDate) {
+  void pushScheduleBooking({DateTime? inputDate, bool? longPressed = false}) {
     String? inDateString =
         DateFormat('d MMM y').format(calendarController.displayDate!);
     String? todayString = DateFormat('d MMM y').format(today);
@@ -48,7 +48,7 @@ class _BookingPageState extends State<BookingPage> {
         });
       }
     } else {
-      if (inDateString == selectedString) {
+      if (inDateString == selectedString || longPressed == true) {
         pushedDate = inputDate;
       } else if (inDateString == todayString) {
         pushedDate = minDate!;
@@ -140,7 +140,8 @@ class _BookingPageState extends State<BookingPage> {
                                   BorderRadius.all(Radius.circular(20)))),
                     ),
                     onPressed: () {
-                      pushScheduleBooking(calendarController.selectedDate);
+                      pushScheduleBooking(
+                          inputDate: calendarController.selectedDate);
                     },
                     child: const Text(
                       "BOOK HERE",
@@ -180,7 +181,7 @@ class _BookingPageState extends State<BookingPage> {
                     CalendarElement.calendarCell &&
                 calendarTapDetails.date != null &&
                 calendarTapDetails.appointments == null) {
-              pushScheduleBooking(calendarTapDetails.date);
+              pushScheduleBooking(inputDate: calendarTapDetails.date);
             }
 
             // form WeekView to DayView
@@ -195,7 +196,8 @@ class _BookingPageState extends State<BookingPage> {
             if (calendarLongPressDetails.appointments == null &&
                 calendarLongPressDetails.targetElement ==
                     CalendarElement.calendarCell) {
-              pushScheduleBooking(calendarLongPressDetails.date);
+              pushScheduleBooking(
+                  inputDate: calendarLongPressDetails.date, longPressed: true);
             }
           },
         ),
