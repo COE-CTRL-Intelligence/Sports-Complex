@@ -67,25 +67,30 @@ class _SelectSportPageState extends State<SelectSportPage> {
             const PageTitle(title: 'BOOK A FACILITY'),
             SizedBox(height: (platforms != null) ? sH * 0.08 : sH * 0.4),
             (platforms != null)
-                ? Column(children: [
-                    PlatformTile(
-                      image: const AssetImage('assets/images/pitch.jpg'),
-                      platformName: platforms![2]["name"].toString(),
-                      costPerHour: platforms![2]["costPerHour"].toString(),
-                    ),
-                    SizedBox(height: space),
-                    PlatformTile(
-                      image: const AssetImage('assets/images/bball_court.jpg'),
-                      platformName: platforms![1]["name"].toString(),
-                      costPerHour: platforms![1]["costPerHour"].toString(),
-                    ),
-                    SizedBox(height: space),
-                    PlatformTile(
-                      image: const AssetImage('assets/images/tennis_court.jpg'),
-                      platformName: platforms![0]["name"].toString(),
-                      costPerHour: platforms![0]["costPerHour"].toString(),
-                    ),
-                  ])
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: Column(children: [
+                      PlatformTile(
+                        image: const AssetImage('assets/images/pitch.jpg'),
+                        platformName: platforms![2]["name"].toString(),
+                        costPerHour: platforms![2]["costPerHour"].toString(),
+                      ),
+                      SizedBox(height: space),
+                      PlatformTile(
+                        image:
+                            const AssetImage('assets/images/bball_court.jpg'),
+                        platformName: platforms![1]["name"].toString(),
+                        costPerHour: platforms![1]["costPerHour"].toString(),
+                      ),
+                      SizedBox(height: space),
+                      PlatformTile(
+                        image:
+                            const AssetImage('assets/images/tennis_court.jpg'),
+                        platformName: platforms![0]["name"].toString(),
+                        costPerHour: platforms![0]["costPerHour"].toString(),
+                      ),
+                    ]),
+                  )
                 : const CircularProgressIndicator(),
           ],
         )),
