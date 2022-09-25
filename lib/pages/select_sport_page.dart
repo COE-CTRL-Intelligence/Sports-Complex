@@ -52,6 +52,7 @@ class _SelectSportPageState extends State<SelectSportPage> {
   @override
   Widget build(BuildContext context) {
     double sH = MediaQuery.of(context).size.height;
+    double sW = MediaQuery.of(context).size.width;
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 76, 126, 78),
@@ -68,7 +69,7 @@ class _SelectSportPageState extends State<SelectSportPage> {
             SizedBox(height: (platforms != null) ? sH * 0.08 : sH * 0.4),
             (platforms != null)
                 ? Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    padding: EdgeInsets.symmetric(horizontal: sW * 0.08),
                     child: Column(children: [
                       PlatformTile(
                         image: const AssetImage('assets/images/pitch.jpg'),
