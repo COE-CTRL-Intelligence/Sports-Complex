@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,7 +28,7 @@ class _GymLoginPageState extends State<GymLoginPage> {
   // http login method
   Future<void> login(String email, String password) async {
     try {
-      var response = await http.post(Uri.parse('$baseURL/api/v1/auth/login'),
+      var response = await http.post(Uri.parse('$baseURL/auth/login'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },

@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:sports_complex/utils/constants.dart';
+import 'package:sports_complex/utils/snackbar_msg.dart';
 import 'package:sports_complex/widgets/page_title.dart';
 import 'package:sports_complex/widgets/platform_tile.dart';
 import 'package:sports_complex/widgets/side_bar.dart';
+import 'package:http/http.dart' as http;
 
 class SelectSportPage extends StatefulWidget {
   const SelectSportPage({Key? key}) : super(key: key);
@@ -11,7 +16,38 @@ class SelectSportPage extends StatefulWidget {
 }
 
 class _SelectSportPageState extends State<SelectSportPage> {
+  // Variables
   final double space = 30;
+  List<dynamic>? platforms;
+
+  // Methods
+  void getPlatforms() async {
+    try {
+      var response = await http.get(Uri.parse('$baseURL/platforms'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8'
+          });
+
+      var jsonData = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        setState(() {
+          platforms = jsonData['platforms'];
+        });
+      } else {
+        if (!mounted) return;
+        snackBarMessage(jsonData.toString(), context);
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getPlatforms();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,28 +59,33 @@ class _SelectSportPageState extends State<SelectSportPage> {
         backgroundColor: Colors.transparent,
       ),
       body: Center(
-        child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+          child: Column(
+        children: [
           const PageTitle(title: 'BOOK A FACILITY'),
           SizedBox(height: space),
-          const PlatformTile(
-            image: AssetImage('assets/images/pitch.jpg'),
-            platformName: 'Astro-Turf Pitch',
-            costPerHour: '200.00',
-          ),
-          SizedBox(height: space),
-          const PlatformTile(
-            image: AssetImage('assets/images/bball_court.jpg'),
-            platformName: 'Basketball Court',
-            costPerHour: '200.00',
-          ),
-          SizedBox(height: space),
-          const PlatformTile(
-            image: AssetImage('assets/images/tennis_court.jpg'),
-            platformName: 'Lawn Tennis Court',
-            costPerHour: '200.00',
-          ),
-        ]),
-      ),
+          (platforms != null)
+              ? Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+                  PlatformTile(
+                    image: const AssetImage('assets/images/pitch.jpg'),
+                    platformName: platforms![2]["name"].toString(),
+                    costPerHour: platforms![2]["costPerHour"].toString(),
+                  ),
+                  SizedBox(height: space),
+                  PlatformTile(
+                    image: const AssetImage('assets/images/bball_court.jpg'),
+                    platformName: platforms![1]["name"].toString(),
+                    costPerHour: platforms![1]["costPerHour"].toString(),
+                  ),
+                  SizedBox(height: space),
+                  PlatformTile(
+                    image: const AssetImage('assets/images/tennis_court.jpg'),
+                    platformName: platforms![0]["name"].toString(),
+                    costPerHour: platforms![0]["costPerHour"].toString(),
+                  ),
+                ])
+              : const CircularProgressIndicator(),
+        ],
+      )),
     );
   }
 }

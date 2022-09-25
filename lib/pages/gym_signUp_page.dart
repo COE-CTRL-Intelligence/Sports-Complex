@@ -75,8 +75,8 @@ class _GymSignUpPageState extends State<GymSignUpPage> {
   // http getUserData method
   void getUserData(String token) async {
     try {
-      var response = await http
-          .get(Uri.parse('$baseURL/api/v1/users'), headers: <String, String>{
+      var response =
+          await http.get(Uri.parse('$baseURL/users'), headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         HttpHeaders.authorizationHeader: 'Bearer $token',
       });
