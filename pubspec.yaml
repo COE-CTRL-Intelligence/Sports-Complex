@@ -34,6 +34,8 @@ dependencies:
   flutter_hooks: ^0.18.5+1
   hooks_riverpod: ^1.0.4
   http: ^0.13.5
+  intl: ^0.17.0
+  page_transition: ^2.0.9
   shared_preferences: ^2.0.15
   syncfusion_flutter_calendar: ^20.2.44
 

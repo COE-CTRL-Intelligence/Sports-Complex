@@ -41,6 +41,22 @@ class _GymDashboardPageState extends State<GymDashboardPage> {
     AutoRouter.of(context).navigate(const HomeRoute());
   }
 
+  // set up the AlertDialog
+  // AlertDialog logoutalert = AlertDialog(
+  //   title: const Text("LOGOUT"),
+  //   content: const Text("Would you like to log out of your account?"),
+  //   actions: [
+  //     TextButton(
+  //       onPressed: Navigator.of(context).pop(),
+  //       child: const Text("Cancel"),
+  //     ),
+  //     TextButton(
+  //       onPressed: logout(),
+  //       child: const Text("Logout")
+  //       ),
+  //   ],
+  // );
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -57,7 +73,31 @@ class _GymDashboardPageState extends State<GymDashboardPage> {
                   padding: const EdgeInsets.only(right: 20),
                   child: IconButton(
                     icon: const Icon(Icons.logout),
-                    onPressed: () => logout(),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text("LOGOUT"),
+                            content: const Text(
+                                "Would you like to log out of your account?"),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text("Cancel"),
+                              ),
+                              TextButton(
+                                  onPressed: () {
+                                    logout();
+                                  },
+                                  child: const Text("Logout")),
+                            ],
+                          );
+                        },
+                      );
+                    },
                   ))
             ],
           ),

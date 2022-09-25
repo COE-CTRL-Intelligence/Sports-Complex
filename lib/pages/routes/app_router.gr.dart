@@ -17,12 +17,12 @@ import '../about_page.dart' as _i7;
 import '../booking_page.dart' as _i3;
 import '../check_booking_page.dart' as _i4;
 import '../contact_us_page.dart' as _i8;
-import '../gym_dashboard_page.dart' as _i11;
+import '../gym_dashboard_page.dart' as _i10;
 import '../gym_login_page.dart' as _i5;
 import '../gym_signup_page.dart' as _i6;
 import '../home_page.dart' as _i2;
-import '../schedule_booking_page.dart' as _i9;
-import '../select_sport_page.dart' as _i10;
+import '../schedule_booking_page.dart' as _i11;
+import '../select_sport_page.dart' as _i9;
 import '../splash_page.dart' as _i1;
 
 class AppRouter extends _i12.RootStackRouter {
@@ -39,13 +39,15 @@ class AppRouter extends _i12.RootStackRouter {
       return _i12.CustomPage<dynamic>(
           routeData: routeData,
           child: const _i2.HomePage(),
-          durationInMilliseconds: 1500,
+          durationInMilliseconds: 1200,
           opaque: true,
           barrierDismissible: false);
     },
     BookingRoute.name: (routeData) {
+      final args = routeData.argsAs<BookingRouteArgs>();
       return _i12.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i3.BookingPage());
+          routeData: routeData,
+          child: _i3.BookingPage(key: args.key, title: args.title));
     },
     CheckBookingRoute.name: (routeData) {
       return _i12.MaterialPageX<dynamic>(
@@ -67,17 +69,20 @@ class AppRouter extends _i12.RootStackRouter {
       return _i12.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i8.ContactUsPage());
     },
-    ScheduleBookingRoute.name: (routeData) {
-      return _i12.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i9.ScheduleBookingPage());
-    },
     SelectSportRoute.name: (routeData) {
       return _i12.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i10.SelectSportPage());
+          routeData: routeData, child: const _i9.SelectSportPage());
     },
     GymDashboardRoute.name: (routeData) {
       return _i12.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i11.GymDashboardPage());
+          routeData: routeData, child: const _i10.GymDashboardPage());
+    },
+    ScheduleTimingRoute.name: (routeData) {
+      final args = routeData.argsAs<ScheduleTimingRouteArgs>();
+      return _i12.MaterialPageX<dynamic>(
+          routeData: routeData,
+          child: _i11.ScheduleTimingPage(
+              key: args.key, inputTime: args.inputTime));
     }
   };
 
@@ -91,9 +96,9 @@ class AppRouter extends _i12.RootStackRouter {
         _i12.RouteConfig(GymSignUpRoute.name, path: '/gym_signup'),
         _i12.RouteConfig(AboutRoute.name, path: '/About'),
         _i12.RouteConfig(ContactUsRoute.name, path: '/Contact'),
-        _i12.RouteConfig(ScheduleBookingRoute.name, path: '/schedule_booking'),
         _i12.RouteConfig(SelectSportRoute.name, path: '/select_sport_page'),
-        _i12.RouteConfig(GymDashboardRoute.name, path: '/gym_dashboard')
+        _i12.RouteConfig(GymDashboardRoute.name, path: '/gym_dashboard'),
+        _i12.RouteConfig(ScheduleTimingRoute.name, path: '/schedule_timing')
       ];
 }
 
@@ -115,10 +120,25 @@ class HomeRoute extends _i12.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i3.BookingPage]
-class BookingRoute extends _i12.PageRouteInfo<void> {
-  const BookingRoute() : super(BookingRoute.name, path: '/booking');
+class BookingRoute extends _i12.PageRouteInfo<BookingRouteArgs> {
+  BookingRoute({_i13.Key? key, required String title})
+      : super(BookingRoute.name,
+            path: '/booking', args: BookingRouteArgs(key: key, title: title));
 
   static const String name = 'BookingRoute';
+}
+
+class BookingRouteArgs {
+  const BookingRouteArgs({this.key, required this.title});
+
+  final _i13.Key? key;
+
+  final String title;
+
+  @override
+  String toString() {
+    return 'BookingRouteArgs{key: $key, title: $title}';
+  }
 }
 
 /// generated route for
@@ -163,16 +183,7 @@ class ContactUsRoute extends _i12.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i9.ScheduleBookingPage]
-class ScheduleBookingRoute extends _i12.PageRouteInfo<void> {
-  const ScheduleBookingRoute()
-      : super(ScheduleBookingRoute.name, path: '/schedule_booking');
-
-  static const String name = 'ScheduleBookingRoute';
-}
-
-/// generated route for
-/// [_i10.SelectSportPage]
+/// [_i9.SelectSportPage]
 class SelectSportRoute extends _i12.PageRouteInfo<void> {
   const SelectSportRoute()
       : super(SelectSportRoute.name, path: '/select_sport_page');
@@ -181,10 +192,34 @@ class SelectSportRoute extends _i12.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i11.GymDashboardPage]
+/// [_i10.GymDashboardPage]
 class GymDashboardRoute extends _i12.PageRouteInfo<void> {
   const GymDashboardRoute()
       : super(GymDashboardRoute.name, path: '/gym_dashboard');
 
   static const String name = 'GymDashboardRoute';
+}
+
+/// generated route for
+/// [_i11.ScheduleTimingPage]
+class ScheduleTimingRoute extends _i12.PageRouteInfo<ScheduleTimingRouteArgs> {
+  ScheduleTimingRoute({_i13.Key? key, required DateTime? inputTime})
+      : super(ScheduleTimingRoute.name,
+            path: '/schedule_timing',
+            args: ScheduleTimingRouteArgs(key: key, inputTime: inputTime));
+
+  static const String name = 'ScheduleTimingRoute';
+}
+
+class ScheduleTimingRouteArgs {
+  const ScheduleTimingRouteArgs({this.key, required this.inputTime});
+
+  final _i13.Key? key;
+
+  final DateTime? inputTime;
+
+  @override
+  String toString() {
+    return 'ScheduleTimingRouteArgs{key: $key, inputTime: $inputTime}';
+  }
 }

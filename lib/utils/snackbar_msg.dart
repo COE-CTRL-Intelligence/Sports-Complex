@@ -8,9 +8,13 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason> snackBarMessage(
       backgroundColor: Colors.black,
       content: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         msg != null
-            ? Text(
-                msg,
-                style: const TextStyle(color: Colors.white),
+            ? Flexible(
+                child: Text(
+                  msg.startsWith('Failed host lookup')
+                      ? 'No Internet Connection'
+                      : msg,
+                  style: const TextStyle(color: Colors.white),
+                ),
               )
             : const Text('Something went wrong, please try again later'),
       ])));

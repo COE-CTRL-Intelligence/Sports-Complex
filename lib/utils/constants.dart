@@ -1,1 +1,1 @@
-const baseURL = 'https://sportify-app-api.herokuapp.com';
+const baseURL = 'https://sportify-app-api.herokuapp.com/api/v1';
