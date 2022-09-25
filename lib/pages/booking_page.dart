@@ -60,6 +60,11 @@ class _BookingPageState extends State<BookingPage> {
       }
     }
 
+    if (pushedDate.minute > 0) {
+      pushedDate = pushedDate.subtract(
+          Duration(minutes: pushedDate.minute + (60 * pushedDate.hour)));
+    }
+
     Navigator.of(context).push(PageTransition(
       duration: const Duration(milliseconds: 500),
       type: PageTransitionType.bottomToTop,
@@ -157,8 +162,8 @@ class _BookingPageState extends State<BookingPage> {
             borderRadius: const BorderRadius.all(Radius.circular(4)),
             shape: BoxShape.rectangle,
           ),
-          showDatePickerButton: true,
-          allowedViews: const [CalendarView.day, CalendarView.week],
+          showDatePickerButton: calendarController.view == CalendarView.day,
+          // allowedViews: const [CalendarView.day, CalendarView.week],
           headerStyle: const CalendarHeaderStyle(
             textAlign: TextAlign.center,
             textStyle: TextStyle(
