@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sports_complex/widgets/page_title.dart';
 import 'package:sports_complex/widgets/platform_tile.dart';
 import 'package:sports_complex/widgets/side_bar.dart';
 
@@ -23,19 +24,7 @@ class _SelectSportPageState extends State<SelectSportPage> {
       ),
       body: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-          Container(
-            height: 35,
-            width: 150,
-            decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(16)),
-            child: const Center(
-              child: Text('BOOK A FACILITY',
-                  style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black)),
-            ),
-          ),
+          const PageTitle(title: 'BOOK A FACILITY'),
           SizedBox(height: space),
           const PlatformTile(
             image: AssetImage('assets/images/pitch.jpg'),

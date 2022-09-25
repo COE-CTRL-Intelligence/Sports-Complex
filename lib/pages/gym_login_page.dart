@@ -8,6 +8,7 @@ import 'package:sports_complex/pages/routes/app_router.gr.dart';
 import 'package:sports_complex/utils/constants.dart';
 import 'package:sports_complex/utils/snackbar_msg.dart';
 import 'package:sports_complex/widgets/custom_input_field.dart';
+import 'package:sports_complex/widgets/page_title.dart';
 import '../widgets/side_bar.dart';
 import 'package:http/http.dart' as http;
 
@@ -131,18 +132,7 @@ class _GymLoginPageState extends State<GymLoginPage> {
               child: Column(
                 children: [
                   // Head
-                  Container(
-                    height: 35,
-                    width: 150,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16)),
-                    child: const Center(
-                      child: Text('LOG-IN',
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold)),
-                    ),
-                  ),
+                  const PageTitle(title: 'LOG-IN'),
                   SizedBox(height: screenHeight * 0.1),
 
                   // Body
