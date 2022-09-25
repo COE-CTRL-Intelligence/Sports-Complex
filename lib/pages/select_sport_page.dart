@@ -51,6 +51,8 @@ class _SelectSportPageState extends State<SelectSportPage> {
 
   @override
   Widget build(BuildContext context) {
+    double sH = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 76, 126, 78),
       endDrawer: const Sidebar(),
@@ -58,34 +60,36 @@ class _SelectSportPageState extends State<SelectSportPage> {
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),
-      body: Center(
-          child: Column(
-        children: [
-          const PageTitle(title: 'BOOK A FACILITY'),
-          SizedBox(height: space),
-          (platforms != null)
-              ? Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-                  PlatformTile(
-                    image: const AssetImage('assets/images/pitch.jpg'),
-                    platformName: platforms![2]["name"].toString(),
-                    costPerHour: platforms![2]["costPerHour"].toString(),
-                  ),
-                  SizedBox(height: space),
-                  PlatformTile(
-                    image: const AssetImage('assets/images/bball_court.jpg'),
-                    platformName: platforms![1]["name"].toString(),
-                    costPerHour: platforms![1]["costPerHour"].toString(),
-                  ),
-                  SizedBox(height: space),
-                  PlatformTile(
-                    image: const AssetImage('assets/images/tennis_court.jpg'),
-                    platformName: platforms![0]["name"].toString(),
-                    costPerHour: platforms![0]["costPerHour"].toString(),
-                  ),
-                ])
-              : const CircularProgressIndicator(),
-        ],
-      )),
+      body: SingleChildScrollView(
+        child: Center(
+            child: Column(
+          children: [
+            const PageTitle(title: 'BOOK A FACILITY'),
+            SizedBox(height: (platforms != null) ? sH * 0.08 : sH * 0.4),
+            (platforms != null)
+                ? Column(children: [
+                    PlatformTile(
+                      image: const AssetImage('assets/images/pitch.jpg'),
+                      platformName: platforms![2]["name"].toString(),
+                      costPerHour: platforms![2]["costPerHour"].toString(),
+                    ),
+                    SizedBox(height: space),
+                    PlatformTile(
+                      image: const AssetImage('assets/images/bball_court.jpg'),
+                      platformName: platforms![1]["name"].toString(),
+                      costPerHour: platforms![1]["costPerHour"].toString(),
+                    ),
+                    SizedBox(height: space),
+                    PlatformTile(
+                      image: const AssetImage('assets/images/tennis_court.jpg'),
+                      platformName: platforms![0]["name"].toString(),
+                      costPerHour: platforms![0]["costPerHour"].toString(),
+                    ),
+                  ])
+                : const CircularProgressIndicator(),
+          ],
+        )),
+      ),
     );
   }
 }
