@@ -25,12 +25,10 @@ class _ScheduleTimingPageState extends State<ScheduleTimingPage> {
       if (newDateTime.minute != 0) {
         int newHour = newDateTime.hour;
         if (newDateTime.minute >= 30) {
-          debugPrint('ibi true');
           newDateTime = DateTime(newDateTime.year, newDateTime.month,
               newDateTime.day, newHour + 1, 0);
           debugPrint(newDateTime.toString());
         } else {
-          debugPrint('ibi lie');
           newDateTime = DateTime(
               newDateTime.year, newDateTime.month, newDateTime.day, newHour, 0);
         }
