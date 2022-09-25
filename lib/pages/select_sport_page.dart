@@ -1,6 +1,5 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:sports_complex/pages/routes/app_router.gr.dart';
+import 'package:sports_complex/widgets/platform_tile.dart';
 import 'package:sports_complex/widgets/side_bar.dart';
 
 class SelectSportPage extends StatefulWidget {
@@ -38,106 +37,22 @@ class _SelectSportPageState extends State<SelectSportPage> {
             ),
           ),
           SizedBox(height: space),
-          ElevatedButton(
-            style: ButtonStyle(
-              padding: MaterialStateProperty.all(
-                  const EdgeInsets.only(left: 0, right: 0)),
-              backgroundColor: MaterialStateProperty.all(Colors.deepPurple),
-              elevation: MaterialStateProperty.all(0),
-            ),
-            onPressed: () {
-              AutoRouter.of(context)
-                  .push(BookingRoute(title: 'Astro-Turf Pitch'));
-            },
-            child: Column(
-              children: [
-                Image.asset(
-                  'assets/images/pitch.jpg',
-                  fit: BoxFit.fill,
-                  width: 300,
-                  height: 120,
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                const SizedBox(
-                  height: 20,
-                  child: Text(
-                    'Astro-Turf Pitch GHc 200.00/hour',
-                    style: TextStyle(fontWeight: FontWeight.normal),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ],
-            ),
+          const PlatformTile(
+            image: AssetImage('assets/images/pitch.jpg'),
+            platformName: 'Astro-Turf Pitch',
+            costPerHour: '200.00',
           ),
           SizedBox(height: space),
-          ElevatedButton(
-            style: ButtonStyle(
-              padding: MaterialStateProperty.all(
-                  const EdgeInsets.only(left: 0, right: 0)),
-              backgroundColor: MaterialStateProperty.all(Colors.deepPurple),
-              elevation: MaterialStateProperty.all(0),
-            ),
-            onPressed: () {
-              AutoRouter.of(context)
-                  .push(BookingRoute(title: 'Basketball Court'));
-            },
-            child: Column(
-              children: [
-                Image.asset(
-                  'assets/images/bball_court.jpg',
-                  fit: BoxFit.fill,
-                  width: 300,
-                  height: 120,
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                const SizedBox(
-                  height: 20,
-                  child: Text(
-                    'Basketball Court GHc 200.00/hour',
-                    style: TextStyle(fontWeight: FontWeight.normal),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ],
-            ),
+          const PlatformTile(
+            image: AssetImage('assets/images/bball_court.jpg'),
+            platformName: 'Basketball Court',
+            costPerHour: '200.00',
           ),
           SizedBox(height: space),
-          ElevatedButton(
-            style: ButtonStyle(
-              padding: MaterialStateProperty.all(
-                  const EdgeInsets.only(left: 0, right: 0)),
-              backgroundColor: MaterialStateProperty.all(Colors.deepPurple),
-              elevation: MaterialStateProperty.all(0),
-            ),
-            onPressed: () {
-              AutoRouter.of(context)
-                  .push(BookingRoute(title: 'Lawn Tennis Court'));
-            },
-            child: Column(
-              children: [
-                Image.asset(
-                  'assets/images/tennis_court.jpg',
-                  fit: BoxFit.fill,
-                  width: 300,
-                  height: 120,
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                const SizedBox(
-                  height: 20,
-                  child: Text(
-                    'Lawn Tennis Court GHc 200.00/hour',
-                    style: TextStyle(fontWeight: FontWeight.normal),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ],
-            ),
+          const PlatformTile(
+            image: AssetImage('assets/images/tennis_court.jpg'),
+            platformName: 'Lawn Tennis Court',
+            costPerHour: '200.00',
           ),
         ]),
       ),
