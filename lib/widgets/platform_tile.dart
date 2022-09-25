@@ -30,7 +30,7 @@ class PlatformTile extends StatelessWidget {
           Image(
             image: image,
             fit: BoxFit.fill,
-            width: 300,
+            width: double.maxFinite,
             height: 120,
           ),
           const SizedBox(
