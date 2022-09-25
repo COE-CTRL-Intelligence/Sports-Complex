@@ -16,8 +16,8 @@ import 'package:sports_complex/pages/splash_page.dart';
     //All other pages go here in this format
 
     MaterialRoute(page: SplashPage, initial: true),
-    // CustomRoute(page: HomePage, path: "/home", durationInMilliseconds: 1500),
-    MaterialRoute(page: HomePage, path: "/home"),
+    CustomRoute(page: HomePage, path: "/home", durationInMilliseconds: 1200),
+    // MaterialRoute(page: HomePage, path: "/home"),
     MaterialRoute(page: BookingPage, path: "/booking"),
     MaterialRoute(page: CheckBookingPage, path: "/check_booking"),
     MaterialRoute(page: GymLoginPage, path: "/gym_login"),

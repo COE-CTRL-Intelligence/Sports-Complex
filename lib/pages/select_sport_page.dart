@@ -30,7 +30,7 @@ class _SelectSportPageState extends State<SelectSportPage> {
 
       var jsonData = jsonDecode(response.body);
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 && mounted) {
         setState(() {
           platforms = jsonData['platforms'];
         });
