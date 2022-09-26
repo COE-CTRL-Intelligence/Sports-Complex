@@ -30,10 +30,10 @@
 
 //   @override
 //   Widget build(BuildContext context) {
-//     return WillPopScope(
-//       onWillPop: () async {
-//         AutoRouter.of(context).navigate(const HomeRoute());
-//         return false;
+// return WillPopScope(
+//   onWillPop: () async {
+//     AutoRouter.of(context).navigate(const HomeRoute());
+//     return false;
 //       },
 //       child: SafeArea(
 //         child: Scaffold(
@@ -144,97 +144,103 @@ class _GymDashboardPageState extends State<GymDashboardPage>
   @override
   Widget build(BuildContext context) {
     TabController tabController = TabController(length: 2, vsync: this);
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 229, 230, 228),
-      endDrawer: const Sidebar(),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 1.0,
-        title: buildProfileImage(),
-        titleSpacing: 0,
-      ),
-      body: Align(
-        alignment: Alignment.topCenter,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(height: 20),
-              const Text("Discover"),
-              const SizedBox(
-                height: 20,
-              ),
-              TabBar(
-                  controller: tabController,
-                  isScrollable: true,
-                  labelPadding: const EdgeInsets.only(left: 50, right: 100),
-                  labelColor: Colors.black,
-                  unselectedLabelColor: Colors.grey,
-                  tabs: const [
-                    Tab(text: "Profile"),
-                    Tab(
-                      text: "MyPlan",
-                    )
-                  ]),
-              const SizedBox(height: 30),
-              SizedBox(
-                width: 400,
-                height: 150,
-                child: TabBarView(controller: tabController, children: [
-                  Container(
-                    padding: const EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 239, 239, 237),
-                        borderRadius: BorderRadius.circular(18)),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Hello ${userData["name"]},',
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 23),
-                        ),
-                        const SizedBox(height: 20),
-                        // Text('Your Email: ${userData["email"]}'),
-                        const Text('Good Morning.')
-                      ],
-                    ),
-                  ),
-                  // SizedBox(height: 10),
-                  Container(
-                    padding: const EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 239, 239, 237),
-                        borderRadius: BorderRadius.circular(18)),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text('Monthly Bundle',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: (FontWeight.bold))),
-                        SizedBox(height: 4),
-                        Text(
-                          "Expires: 26/09/22",
-                        ),
-                        SizedBox(height: 4),
-                        Text("Paid with: Momo")
-                      ],
-                    ),
-                  ),
-                ]),
-              ),
-              Container(
-                  padding: const EdgeInsets.only(left: 20),
-                  child: const Text('this page'))
-            ],
+    return WillPopScope(
+        onWillPop: () async {
+          AutoRouter.of(context).navigate(const HomeRoute());
+          return false;
+        },
+        child: Scaffold(
+          backgroundColor: const Color.fromARGB(255, 229, 230, 228),
+          endDrawer: const Sidebar(),
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 1.0,
+            title: buildProfileImage(),
+            titleSpacing: 0,
           ),
-        ),
-      ),
-    );
+          body: Align(
+            alignment: Alignment.topCenter,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(height: 20),
+                  const Text("Discover"),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TabBar(
+                      controller: tabController,
+                      isScrollable: true,
+                      labelPadding: const EdgeInsets.only(left: 50, right: 100),
+                      labelColor: Colors.black,
+                      unselectedLabelColor: Colors.grey,
+                      tabs: const [
+                        Tab(text: "Profile"),
+                        Tab(
+                          text: "MyPlan",
+                        )
+                      ]),
+                  const SizedBox(height: 30),
+                  SizedBox(
+                    width: 400,
+                    height: 150,
+                    child: TabBarView(controller: tabController, children: [
+                      Container(
+                        padding: const EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 239, 239, 237),
+                            borderRadius: BorderRadius.circular(18)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Hello ${userData["name"]},',
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 23),
+                            ),
+                            const SizedBox(height: 20),
+                            // Text('Your Email: ${userData["email"]}'),
+                            const Text('Good Morning.')
+                          ],
+                        ),
+                      ),
+                      // SizedBox(height: 10),
+                      Container(
+                        padding: const EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 239, 239, 237),
+                            borderRadius: BorderRadius.circular(18)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text('Monthly Bundle',
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: (FontWeight.bold))),
+                            SizedBox(height: 4),
+                            Text(
+                              "Expires: 26/09/22",
+                            ),
+                            SizedBox(height: 4),
+                            Text("Paid with: Momo")
+                          ],
+                        ),
+                      ),
+                    ]),
+                  ),
+                  Container(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: const Text('this page'))
+                ],
+              ),
+            ),
+          ),
+        ));
   }
-}
 
-Widget buildProfileImage() => const CircleAvatar(
-      radius: 24,
-      backgroundColor: Color.fromARGB(255, 224, 219, 219),
-      child: Icon(Icons.person, color: Colors.black),
-    );
+  Widget buildProfileImage() => const CircleAvatar(
+        radius: 24,
+        backgroundColor: Color.fromARGB(255, 224, 219, 219),
+        child: Icon(Icons.person, color: Colors.black),
+      );
+}
