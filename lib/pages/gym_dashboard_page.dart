@@ -102,9 +102,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:sports_complex/pages/routes/app_router.gr.dart';
-import '../widgets/side_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'package:sports_complex/widgets/gym_side_bar';
 
 class GymDashboardPage extends StatefulWidget {
   const GymDashboardPage({Key? key}) : super(key: key);
@@ -141,6 +141,17 @@ class _GymDashboardPageState extends State<GymDashboardPage>
     AutoRouter.of(context).navigate(const HomeRoute());
   }
 
+  String greeting() {
+    var hour = DateTime.now().hour;
+    if (hour < 12) {
+      return 'Good Morning';
+    }
+    if (hour < 17) {
+      return 'Good Afternoon';
+    }
+    return 'Good Evening';
+  }
+
   @override
   Widget build(BuildContext context) {
     TabController tabController = TabController(length: 2, vsync: this);
@@ -151,11 +162,11 @@ class _GymDashboardPageState extends State<GymDashboardPage>
         },
         child: Scaffold(
           backgroundColor: const Color.fromARGB(255, 229, 230, 228),
-          endDrawer: const Sidebar(),
+          endDrawer: const GymSideBar(),
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 1.0,
-            title: buildProfileImage(),
+            title: const Text("GYM DASHBOARD"),
             titleSpacing: 0,
           ),
           body: Align(
@@ -163,8 +174,6 @@ class _GymDashboardPageState extends State<GymDashboardPage>
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  const SizedBox(height: 20),
-                  const Text("Discover"),
                   const SizedBox(
                     height: 20,
                   ),
@@ -200,7 +209,11 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                             ),
                             const SizedBox(height: 20),
                             // Text('Your Email: ${userData["email"]}'),
-                            const Text('Good Morning.')
+                            Text(
+                              greeting(),
+                              style: const TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w500),
+                            )
                           ],
                         ),
                       ),
