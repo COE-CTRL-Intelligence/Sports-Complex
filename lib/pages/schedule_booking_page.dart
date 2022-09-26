@@ -33,7 +33,6 @@ class _ScheduleTimingPageState extends State<ScheduleTimingPage> {
         if (newDateTime.minute >= 30) {
           newDateTime = DateTime(newDateTime.year, newDateTime.month,
               newDateTime.day, newHour + 1, 0);
-          debugPrint(newDateTime.toString());
         } else {
           newDateTime = DateTime(
               newDateTime.year, newDateTime.month, newDateTime.day, newHour, 0);
@@ -94,7 +93,6 @@ class _ScheduleTimingPageState extends State<ScheduleTimingPage> {
     startsDateTime = widget.inputTime!;
     durationController.value = 1;
     refreshDateValidity();
-    debugPrint(widget.bookedDates!.length.toString());
   }
 
   @override
@@ -182,7 +180,7 @@ class _ScheduleTimingPageState extends State<ScheduleTimingPage> {
                     onPressed: isDateValid != true
                         ? null
                         : (() {
-                            debugPrint('Hello');
+                            debugPrint('Place Book');
                           }),
                     child: const Text(
                       'Place Booking',

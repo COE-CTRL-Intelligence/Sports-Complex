@@ -34,7 +34,7 @@ class _GymSignUpPageState extends State<GymSignUpPage> {
   Future<void> register(
       String name, String email, String password, String gender) async {
     try {
-      var response = await http.post(Uri.parse('$baseURL/api/v1/auth/register'),
+      var response = await http.post(Uri.parse('$baseURL/auth/register'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8'
           },

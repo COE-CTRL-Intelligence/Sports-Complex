@@ -119,7 +119,7 @@ class _BookingPageState extends State<BookingPage> {
           bookings = jsonDecode(jsonData)
               .map<Booking>((data) => Booking.fromJson(data))
               .toList();
-          appointments = getAppointments(bookings!);
+          appointments = getAppointments(bookings!, today);
         });
       } else {
         debugPrint('Something went wrong');
@@ -220,7 +220,6 @@ class _BookingPageState extends State<BookingPage> {
                 view: CalendarView.week,
                 dataSource: MeetingDataSource(appointments!),
                 onTap: (calendarTapDetails) {
-                  debugPrint(calendarTapDetails.targetElement.toString());
                   // from DayView to ScheduleBooking Page/Popup
                   if (calendarController.view == CalendarView.day &&
                       calendarTapDetails.targetElement ==
@@ -254,11 +253,25 @@ class _BookingPageState extends State<BookingPage> {
   }
 }
 
-List<Appointment> getAppointments(List<Booking> bookings) {
+List<Appointment> getAppointments(List<Booking> bookings, DateTime minDate) {
   List<Appointment> meetings = <Appointment>[];
+
   for (Booking booking in bookings) {
+    if (booking.startTime.isBefore(minDate)) {
+      booking.startTime = DateTime(
+          booking.startTime.year,
+          booking.startTime.month,
+          booking.startTime.day,
+          minDate.hour,
+          minDate.minute,
+          0,
+          0,
+          0);
+    }
+
     meetings.add(Appointment(
         startTime: booking.startTime,
+        // startTime: booking.startTime,
         endTime: booking.endTime,
         color: AppColor.green1,
         subject: 'T'));

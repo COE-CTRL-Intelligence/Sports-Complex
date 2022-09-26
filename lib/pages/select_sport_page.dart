@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sports_complex/utils/constants.dart';
 import 'package:sports_complex/utils/snackbar_msg.dart';
 import 'package:sports_complex/widgets/page_title.dart';
@@ -34,6 +35,9 @@ class _SelectSportPageState extends State<SelectSportPage> {
         setState(() {
           platforms = jsonData['platforms'];
         });
+        String jsonResString = jsonEncode(jsonData).toString();
+        SharedPreferences pref = await SharedPreferences.getInstance();
+        pref.setString('platformPref', jsonResString);
       } else {
         if (!mounted) return;
         snackBarMessage(jsonData.toString(), context);
@@ -43,10 +47,22 @@ class _SelectSportPageState extends State<SelectSportPage> {
     }
   }
 
+  void dataLoaded() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    String? storedPlatforms = pref.getString('platformPref');
+    if (storedPlatforms != null) {
+      setState(() {
+        platforms = jsonDecode(storedPlatforms)["platforms"];
+      });
+    } else {
+      getPlatforms();
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    getPlatforms();
+    dataLoaded();
   }
 
   @override
