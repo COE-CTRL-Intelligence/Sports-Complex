@@ -66,13 +66,14 @@ class _SelectSportPageState extends State<SelectSportPage> {
             child: Column(
           children: [
             const PageTitle(title: 'BOOK A FACILITY'),
-            SizedBox(height: (platforms != null) ? sH * 0.08 : sH * 0.4),
+            SizedBox(height: (platforms != null) ? sH * 0.08 : sH * 0.35),
             (platforms != null)
                 ? Padding(
                     padding: EdgeInsets.symmetric(horizontal: sW * 0.08),
                     child: Column(children: [
                       PlatformTile(
                         image: const AssetImage('assets/images/pitch.jpg'),
+                        platformID: platforms![2]["_id"].toString(),
                         platformName: platforms![2]["name"].toString(),
                         costPerHour: platforms![2]["costPerHour"].toString(),
                       ),
@@ -81,12 +82,14 @@ class _SelectSportPageState extends State<SelectSportPage> {
                         image:
                             const AssetImage('assets/images/bball_court.jpg'),
                         platformName: platforms![1]["name"].toString(),
+                        platformID: platforms![1]["_id"].toString(),
                         costPerHour: platforms![1]["costPerHour"].toString(),
                       ),
                       SizedBox(height: space),
                       PlatformTile(
                         image:
                             const AssetImage('assets/images/tennis_court.jpg'),
+                        platformID: platforms![0]["_id"].toString(),
                         platformName: platforms![0]["name"].toString(),
                         costPerHour: platforms![0]["costPerHour"].toString(),
                       ),

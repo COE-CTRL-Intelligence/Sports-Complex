@@ -1,17 +1,23 @@
 import 'dart:async';
-
+import 'dart:convert';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:sports_complex/models/booking.dart';
 import 'package:sports_complex/pages/routes/app_router.gr.dart';
 import 'package:sports_complex/pages/schedule_booking_page.dart';
+import 'package:sports_complex/utils/colors.dart';
+import 'package:sports_complex/utils/constants.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:http/http.dart' as http;
 
 class BookingPage extends StatefulWidget {
   final String title;
+  final String id;
 
-  const BookingPage({Key? key, required this.title}) : super(key: key);
+  const BookingPage({Key? key, required this.title, required this.id})
+      : super(key: key);
 
   @override
   State<BookingPage> createState() => _BookingPageState();
@@ -24,6 +30,8 @@ class _BookingPageState extends State<BookingPage> {
   Timer? timer;
   final calendarController = CalendarController();
   bool bookHereVisibility = false;
+  List<Appointment>? appointments;
+  List<Booking>? bookings;
 
   // Methods
   void pushScheduleBooking({DateTime? inputDate, bool? longPressed = false}) {
@@ -68,7 +76,8 @@ class _BookingPageState extends State<BookingPage> {
     Navigator.of(context).push(PageTransition(
       duration: const Duration(milliseconds: 500),
       type: PageTransitionType.bottomToTop,
-      child: ScheduleTimingPage(inputTime: pushedDate),
+      child:
+          ScheduleTimingPage(inputTime: pushedDate, bookedDates: appointments),
     ));
   }
 
@@ -97,9 +106,33 @@ class _BookingPageState extends State<BookingPage> {
     }
   }
 
+  void getBookings() async {
+    try {
+      var response = await http.get(Uri.parse('$baseURL/bookings/${widget.id}'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8'
+          });
+
+      if (response.statusCode == 200 && mounted) {
+        var jsonData = response.body;
+        setState(() {
+          bookings = jsonDecode(jsonData)
+              .map<Booking>((data) => Booking.fromJson(data))
+              .toList();
+          appointments = getAppointments(bookings!);
+        });
+      } else {
+        debugPrint('Something went wrong');
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    getBookings();
     refreshHourlySchedule();
   }
 
@@ -151,88 +184,85 @@ class _BookingPageState extends State<BookingPage> {
             ),
           ],
         ),
-        body: SfCalendar(
-          firstDayOfWeek:
-              DateTime.now().weekday == 1 ? 7 : DateTime.now().weekday - 1,
-          controller: calendarController,
-          minDate: today.add(Duration(minutes: 60 - today.minute)),
-          maxDate: DateTime.now().add(const Duration(days: 365)),
-          selectionDecoration: BoxDecoration(
-            color: Colors.transparent,
-            border: Border.all(color: Colors.green, width: 2),
-            borderRadius: const BorderRadius.all(Radius.circular(4)),
-            shape: BoxShape.rectangle,
-          ),
-          showDatePickerButton: calendarController.view == CalendarView.day,
-          // allowedViews: const [CalendarView.day, CalendarView.week],
-          headerStyle: const CalendarHeaderStyle(
-            textAlign: TextAlign.center,
-            textStyle: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
-          ),
-          view: CalendarView.week,
-          dataSource: MeetingDataSource(getAppointments()),
-          onTap: (calendarTapDetails) {
-            // from DayView to ScheduleBooking Page/Popup
-            if (calendarController.view == CalendarView.day &&
-                calendarTapDetails.targetElement ==
-                    CalendarElement.calendarCell &&
-                calendarTapDetails.date != null &&
-                calendarTapDetails.appointments == null) {
-              pushScheduleBooking(inputDate: calendarTapDetails.date);
-            }
+        body: bookings != null
+            ? SfCalendar(
+                appointmentBuilder: (context, calendarAppointmentDetails) {
+                  return Container(
+                    color: AppColor.green1,
+                    child: Center(
+                      child: Text(calendarAppointmentDetails
+                          .appointments.first.subject),
+                    ),
+                  );
+                },
+                firstDayOfWeek: DateTime.now().weekday == 1
+                    ? 7
+                    : DateTime.now().weekday - 1,
+                controller: calendarController,
+                minDate: today.add(Duration(minutes: 60 - today.minute)),
+                maxDate: DateTime.now().add(const Duration(days: 365)),
+                selectionDecoration: BoxDecoration(
+                  color: Colors.transparent,
+                  border: Border.all(color: Colors.green, width: 2),
+                  borderRadius: const BorderRadius.all(Radius.circular(4)),
+                  shape: BoxShape.rectangle,
+                ),
+                showDatePickerButton:
+                    calendarController.view == CalendarView.day,
+                // allowedViews: const [CalendarView.day, CalendarView.week],
+                headerStyle: const CalendarHeaderStyle(
+                  textAlign: TextAlign.center,
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+                view: CalendarView.week,
+                dataSource: MeetingDataSource(appointments!),
+                onTap: (calendarTapDetails) {
+                  debugPrint(calendarTapDetails.targetElement.toString());
+                  // from DayView to ScheduleBooking Page/Popup
+                  if (calendarController.view == CalendarView.day &&
+                      calendarTapDetails.targetElement ==
+                          CalendarElement.calendarCell &&
+                      calendarTapDetails.date != null &&
+                      calendarTapDetails.appointments == null) {
+                    pushScheduleBooking(inputDate: calendarTapDetails.date);
+                  }
 
-            // form WeekView to DayView
-            if (calendarTapDetails.targetElement ==
-                    CalendarElement.calendarCell &&
-                calendarController.view == CalendarView.week) {
-              calendarController.view = CalendarView.day;
-              updateBookHereVisibility();
-            }
-          },
-          onLongPress: (calendarLongPressDetails) {
-            if (calendarLongPressDetails.appointments == null &&
-                calendarLongPressDetails.targetElement ==
-                    CalendarElement.calendarCell) {
-              pushScheduleBooking(
-                  inputDate: calendarLongPressDetails.date, longPressed: true);
-            }
-          },
-        ),
+                  // form WeekView to DayView
+                  if (calendarTapDetails.targetElement ==
+                          CalendarElement.calendarCell &&
+                      calendarController.view == CalendarView.week) {
+                    calendarController.view = CalendarView.day;
+                    updateBookHereVisibility();
+                  }
+                },
+                onLongPress: (calendarLongPressDetails) {
+                  if (calendarLongPressDetails.appointments == null &&
+                      calendarLongPressDetails.targetElement ==
+                          CalendarElement.calendarCell) {
+                    pushScheduleBooking(
+                        inputDate: calendarLongPressDetails.date,
+                        longPressed: true);
+                  }
+                },
+              )
+            : const Center(child: CircularProgressIndicator()),
       ),
     );
   }
 }
 
-List<Appointment> getAppointments() {
+List<Appointment> getAppointments(List<Booking> bookings) {
   List<Appointment> meetings = <Appointment>[];
-  final DateTime today = DateTime.now();
-  final DateTime startTime = DateTime(today.year, today.month, 9, 0, 0);
-  final DateTime endTime = startTime.add(const Duration(hours: 2));
-
-  meetings.add(Appointment(
-    startTime: startTime,
-    endTime: endTime,
-    subject: 'Booked',
-    color: Colors.redAccent,
-  ));
-
-  meetings.add(Appointment(
-    startTime: startTime.add(const Duration(hours: 2)),
-    endTime: startTime.add(const Duration(hours: 4)),
-    subject: "Booked",
-    color: Colors.redAccent,
-  ));
-
-  meetings.add(Appointment(
-    startTime: today.add(const Duration(days: 3)),
-    endTime: today.add(const Duration(days: 3, hours: 1)),
-    subject: "Booked",
-    color: Colors.redAccent,
-    notes: "hi",
-  ));
+  for (Booking booking in bookings) {
+    meetings.add(Appointment(
+        startTime: booking.startTime,
+        endTime: booking.endTime,
+        color: AppColor.green1,
+        subject: 'T'));
+  }
 
   return meetings;
 }

@@ -15,7 +15,6 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    debugPrint('We made it');
     _navigateToHomePage();
   }
 

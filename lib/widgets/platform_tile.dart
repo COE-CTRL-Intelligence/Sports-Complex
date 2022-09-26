@@ -8,7 +8,10 @@ class PlatformTile extends StatelessWidget {
     required this.platformName,
     required this.costPerHour,
     required this.image,
+    required this.platformID,
   }) : super(key: key);
+
+  final String platformID;
   final String platformName;
   final String costPerHour;
   final ImageProvider image;
@@ -23,7 +26,8 @@ class PlatformTile extends StatelessWidget {
         elevation: MaterialStateProperty.all(0),
       ),
       onPressed: () {
-        AutoRouter.of(context).push(BookingRoute(title: platformName));
+        AutoRouter.of(context)
+            .push(BookingRoute(title: platformName, id: platformID));
       },
       child: Column(
         children: [

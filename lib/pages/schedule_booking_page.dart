@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:sports_complex/utils/colors.dart';
+import 'package:sports_complex/utils/custom_methods.dart';
 import 'package:sports_complex/widgets/custom_date_time.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class ScheduleTimingPage extends StatefulWidget {
-  final DateTime? inputTime;
-  const ScheduleTimingPage({Key? key, required this.inputTime})
+  const ScheduleTimingPage(
+      {Key? key, required this.inputTime, this.bookedDates})
       : super(key: key);
+
+  final DateTime? inputTime;
+  final List<Appointment>? bookedDates;
 
   @override
   State<ScheduleTimingPage> createState() => _ScheduleTimingPageState();
@@ -18,6 +23,7 @@ class _ScheduleTimingPageState extends State<ScheduleTimingPage> {
   DateTime? startsDateTime;
   DateTime? endsDateTime;
   DurationController durationController = DurationController();
+  bool? isDateValid;
 
   // Methods
   void updateStartsDateTime(DateTime newDateTime, String target) {
@@ -37,6 +43,7 @@ class _ScheduleTimingPageState extends State<ScheduleTimingPage> {
         startsDateTime = newDateTime;
         endsDateTime =
             startsDateTime!.add(Duration(hours: durationController.value!));
+        refreshDateValidity();
       });
     } else if (target == 'DATE') {
       setState(() {
@@ -49,6 +56,7 @@ class _ScheduleTimingPageState extends State<ScheduleTimingPage> {
         );
         endsDateTime =
             startsDateTime!.add(Duration(hours: durationController.value!));
+        refreshDateValidity();
       });
     }
   }
@@ -57,13 +65,36 @@ class _ScheduleTimingPageState extends State<ScheduleTimingPage> {
     setState(() {
       endsDateTime =
           startsDateTime!.add(Duration(hours: durationController.value!));
+      refreshDateValidity();
     });
+  }
+
+  void refreshDateValidity() {
+    Appointment currentAppointment = Appointment(
+        startTime: startsDateTime!,
+        endTime:
+            startsDateTime!.add(Duration(hours: durationController.value!)));
+    for (Appointment appointment in widget.bookedDates!) {
+      if (isPeriodAvailable(currentAppointment, appointment)) {
+        setState(() {
+          isDateValid = true;
+        });
+      } else {
+        setState(() {
+          isDateValid = false;
+        });
+        break;
+      }
+    }
   }
 
   @override
   void initState() {
     super.initState();
     startsDateTime = widget.inputTime!;
+    durationController.value = 1;
+    refreshDateValidity();
+    debugPrint(widget.bookedDates!.length.toString());
   }
 
   @override
@@ -108,10 +139,17 @@ class _ScheduleTimingPageState extends State<ScheduleTimingPage> {
               children: [
                 Padding(
                   padding: EdgeInsets.only(
-                      left: sH * 0.02, right: sH * 0.02, top: sH * 0.15),
+                    left: sH * 0.02,
+                    right: sH * 0.02,
+                  ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      isDateValid != true
+                          ? const Text('Date not available!',
+                              style: TextStyle(color: Colors.red))
+                          : const SizedBox(),
+                      SizedBox(height: sH * 0.12),
                       CustomDateTime(
                           title: 'Starts',
                           allowableDate: allowableDate,
@@ -127,7 +165,8 @@ class _ScheduleTimingPageState extends State<ScheduleTimingPage> {
                       ),
                       CustomEndDateTimeField(
                         endDate: endsDateTime ??
-                            startsDateTime!.add(const Duration(hours: 1)),
+                            startsDateTime!.add(
+                                Duration(hours: durationController.value!)),
                       )
                     ],
                   ),
@@ -140,9 +179,11 @@ class _ScheduleTimingPageState extends State<ScheduleTimingPage> {
                   height: sH * 0.08,
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {
-                      debugPrint('Hello');
-                    },
+                    onPressed: isDateValid != true
+                        ? null
+                        : (() {
+                            debugPrint('Hello');
+                          }),
                     child: const Text(
                       'Place Booking',
                       style: TextStyle(
