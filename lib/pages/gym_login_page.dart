@@ -65,7 +65,6 @@ class _GymLoginPageState extends State<GymLoginPage> {
     SharedPreferences pref = await SharedPreferences.getInstance();
     String? token = pref.getString('jsonResString');
     if (token != null) {
-      toggleButtonLoad();
       if (!mounted) return;
       AutoRouter.of(context).push(const GymDashboardRoute());
     }

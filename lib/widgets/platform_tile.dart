@@ -43,7 +43,7 @@ class PlatformTile extends StatelessWidget {
           SizedBox(
             height: 20,
             child: Text(
-              '$platformName GHc $costPerHour/hour',
+              '$platformName GH¢ $costPerHour/hour',
               style: const TextStyle(fontWeight: FontWeight.normal),
               textAlign: TextAlign.center,
             ),

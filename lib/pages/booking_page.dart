@@ -77,7 +77,7 @@ class _BookingPageState extends State<BookingPage> {
       duration: const Duration(milliseconds: 500),
       type: PageTransitionType.bottomToTop,
       child:
-          ScheduleTimingPage(inputTime: pushedDate, bookedDates: appointments),
+          ScheduleBookingPage(inputTime: pushedDate, bookedDates: appointments),
     ));
   }
 
@@ -188,7 +188,7 @@ class _BookingPageState extends State<BookingPage> {
             ? SfCalendar(
                 appointmentBuilder: (context, calendarAppointmentDetails) {
                   return Container(
-                    color: AppColor.green1,
+                    color: AppColor.pink1,
                     child: Center(
                       child: Text(calendarAppointmentDetails
                           .appointments.first.subject),
@@ -257,6 +257,11 @@ List<Appointment> getAppointments(List<Booking> bookings, DateTime minDate) {
   List<Appointment> meetings = <Appointment>[];
 
   for (Booking booking in bookings) {
+    if (booking.startTime.isBefore(minDate) &&
+        booking.endTime.isBefore(minDate)) {
+      continue;
+    }
+
     if (booking.startTime.isBefore(minDate)) {
       booking.startTime = DateTime(
           booking.startTime.year,
@@ -271,10 +276,9 @@ List<Appointment> getAppointments(List<Booking> bookings, DateTime minDate) {
 
     meetings.add(Appointment(
         startTime: booking.startTime,
-        // startTime: booking.startTime,
         endTime: booking.endTime,
-        color: AppColor.green1,
-        subject: 'T'));
+        // color: AppColor.pink1,
+        subject: ''));
   }
 
   return meetings;

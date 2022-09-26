@@ -7,6 +7,7 @@ import 'package:sports_complex/pages/gym_dashboard_page.dart';
 import 'package:sports_complex/pages/gym_login_page.dart';
 import 'package:sports_complex/pages/gym_signup_page.dart';
 import 'package:sports_complex/pages/home_page.dart';
+import 'package:sports_complex/pages/payment_page.dart';
 import 'package:sports_complex/pages/schedule_booking_page.dart';
 import 'package:sports_complex/pages/select_sport_page.dart';
 import 'package:sports_complex/pages/splash_page.dart';
@@ -26,7 +27,8 @@ import 'package:sports_complex/pages/splash_page.dart';
     MaterialRoute(page: ContactUsPage, path: "/Contact"),
     MaterialRoute(page: SelectSportPage, path: "/select_sport_page"),
     MaterialRoute(page: GymDashboardPage, path: "/gym_dashboard"),
-    MaterialRoute(page: ScheduleTimingPage, path: "/schedule_timing"),
+    MaterialRoute(page: ScheduleBookingPage, path: "/schedule_booking"),
+    MaterialRoute(page: PaymentPage, path: "/payment"),
   ],
   replaceInRouteName: "Page,Route",
 )

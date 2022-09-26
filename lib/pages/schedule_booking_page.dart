@@ -1,11 +1,13 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:sports_complex/pages/routes/app_router.gr.dart';
 import 'package:sports_complex/utils/colors.dart';
 import 'package:sports_complex/utils/custom_methods.dart';
 import 'package:sports_complex/widgets/custom_date_time.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-class ScheduleTimingPage extends StatefulWidget {
-  const ScheduleTimingPage(
+class ScheduleBookingPage extends StatefulWidget {
+  const ScheduleBookingPage(
       {Key? key, required this.inputTime, this.bookedDates})
       : super(key: key);
 
@@ -13,10 +15,10 @@ class ScheduleTimingPage extends StatefulWidget {
   final List<Appointment>? bookedDates;
 
   @override
-  State<ScheduleTimingPage> createState() => _ScheduleTimingPageState();
+  State<ScheduleBookingPage> createState() => _ScheduleBookingPageState();
 }
 
-class _ScheduleTimingPageState extends State<ScheduleTimingPage> {
+class _ScheduleBookingPageState extends State<ScheduleBookingPage> {
   // Variables
   DateTime allowableDate =
       DateTime.now().add(Duration(minutes: 60 - DateTime.now().minute));
@@ -180,7 +182,7 @@ class _ScheduleTimingPageState extends State<ScheduleTimingPage> {
                     onPressed: isDateValid != true
                         ? null
                         : (() {
-                            debugPrint('Place Book');
+                            AutoRouter.of(context).push(const PaymentRoute());
                           }),
                     child: const Text(
                       'Place Booking',
