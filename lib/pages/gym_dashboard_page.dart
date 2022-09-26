@@ -162,7 +162,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
         },
         child: Scaffold(
           backgroundColor: const Color.fromARGB(255, 229, 230, 228),
-          endDrawer: const GymSideBar(),
+          // endDrawer: const GymSideBar(),
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 1.0,
