@@ -136,7 +136,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
 
   void logout() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.clear();
+    pref.remove('jsonResString');
     if (!mounted) return;
     AutoRouter.of(context).navigate(const HomeRoute());
   }

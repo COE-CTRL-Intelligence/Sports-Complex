@@ -75,17 +75,24 @@ class _ScheduleBookingPageState extends State<ScheduleBookingPage> {
         startTime: startsDateTime!,
         endTime:
             startsDateTime!.add(Duration(hours: durationController.value!)));
-    for (Appointment appointment in widget.bookedDates!) {
-      if (isPeriodAvailable(currentAppointment, appointment)) {
-        setState(() {
-          isDateValid = true;
-        });
-      } else {
-        setState(() {
-          isDateValid = false;
-        });
-        break;
+
+    if (widget.bookedDates!.isNotEmpty) {
+      for (Appointment appointment in widget.bookedDates!) {
+        if (isPeriodAvailable(currentAppointment, appointment)) {
+          setState(() {
+            isDateValid = true;
+          });
+        } else {
+          setState(() {
+            isDateValid = false;
+          });
+          break;
+        }
       }
+    } else {
+      setState(() {
+        isDateValid = true;
+      });
     }
   }
 

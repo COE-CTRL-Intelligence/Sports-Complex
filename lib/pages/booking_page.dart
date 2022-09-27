@@ -121,11 +121,10 @@ class _BookingPageState extends State<BookingPage> {
               .toList();
           debugPrint(bookingList.toString());
           setState(() {
-            // bookings = jsonDecode(jsonData)
-            //     .map<Booking>((data) => Booking.fromJson(data))
-            //     .toList();
             bookings = bookingList;
-            appointments = getAppointments(bookings!, today);
+            if (bookings != null) {
+              appointments = getAppointments(bookings!, today);
+            }
           });
         }
       } else {
@@ -263,29 +262,28 @@ class _BookingPageState extends State<BookingPage> {
 List<Appointment> getAppointments(List<Booking> bookings, DateTime minDate) {
   List<Appointment> meetings = <Appointment>[];
 
-  for (Booking booking in bookings) {
-    if (booking.startTime.isBefore(minDate) &&
-        booking.endTime.isBefore(minDate)) {
-      continue;
-    }
+  if (bookings.isNotEmpty) {
+    for (Booking booking in bookings) {
+      if (booking.startTime.isBefore(minDate) &&
+          booking.endTime.isBefore(minDate)) {
+        continue;
+      }
 
-    if (booking.startTime.isBefore(minDate)) {
-      booking.startTime = DateTime(
-          booking.startTime.year,
-          booking.startTime.month,
-          booking.startTime.day,
-          minDate.hour,
-          minDate.minute,
-          0,
-          0,
-          0);
-    }
+      if (booking.startTime.isBefore(minDate)) {
+        booking.startTime = DateTime(
+            booking.startTime.year,
+            booking.startTime.month,
+            booking.startTime.day,
+            minDate.hour,
+            minDate.minute,
+            0,
+            0,
+            0);
+      }
 
-    meetings.add(Appointment(
-        startTime: booking.startTime,
-        endTime: booking.endTime,
-        // color: AppColor.pink1,
-        subject: ''));
+      meetings.add(Appointment(
+          startTime: booking.startTime, endTime: booking.endTime, subject: ''));
+    }
   }
 
   return meetings;

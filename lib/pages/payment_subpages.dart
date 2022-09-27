@@ -138,49 +138,7 @@ class PaymentPage2 extends StatelessWidget {
                 fontWeight: FontWeight.w400,
               ),
             ),
-            smallSpace,
-            const Text(
-              'Total',
-              style: TextStyle(fontSize: 18),
-            ),
             largeSpace,
-            Row(
-              children: [
-                const Text('GH¢179',
-                    style: TextStyle(
-                      fontSize: 45,
-                      fontWeight: FontWeight.bold,
-                    )),
-                const SizedBox(width: 5),
-                Column(
-                  children: const [
-                    SizedBox(height: 12),
-                    Text(
-                      '/h',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-            mediumSpace,
-            ConstrainedBox(
-              constraints: const BoxConstraints.tightFor(
-                  width: double.maxFinite, height: 50),
-              child: ElevatedButton(
-                onPressed: () {},
-                child: const Text('Purchase'),
-              ),
-            ),
-            largeSpace,
-            const Text('Purchase details:', style: TextStyle(fontSize: 18)),
-            const SizedBox(height: 20),
-            const PurchaseTile(text: 'Astro Turf Pitch'),
-            const PurchaseTile(text: '3 hours'),
             // const PurchaseTile(text: '3 hours'),
           ],
         ),
