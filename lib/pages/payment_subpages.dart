@@ -78,8 +78,9 @@ class PaymentPage1 extends StatelessWidget {
                         width: sW * 0.35, height: sH * 0.07),
                     child: ElevatedButton(
                       style: const ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(Colors.red),
-                      ),
+                          // backgroundColor: MaterialStatePropertyAll(Colors.red),
+                          // backgroundColor: MaterialStateProperty.all(Colors.red);
+                          ),
                       onPressed: () {
                         AutoRouter.of(context).pop();
                       },
