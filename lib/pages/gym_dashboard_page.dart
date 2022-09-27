@@ -39,38 +39,38 @@
 //         child: Scaffold(
 //           appBar: AppBar(
 //             title: const Text('Gym Dashboard'),
-//             actions: [
-//               Padding(
-//                   padding: const EdgeInsets.only(right: 20),
-//                   child: IconButton(
-//                     icon: const Icon(Icons.logout),
+// actions: [
+//   Padding(
+//       padding: const EdgeInsets.only(right: 20),
+//       child: IconButton(
+//         icon: const Icon(Icons.logout),
+//         onPressed: () {
+//           showDialog(
+//             context: context,
+//             builder: (BuildContext context) {
+//               return AlertDialog(
+//                 title: const Text("LOGOUT"),
+//                 content: const Text(
+//                     "Would you like to log out of your account?"),
+//                 actions: [
+//                   TextButton(
 //                     onPressed: () {
-//                       showDialog(
-//                         context: context,
-//                         builder: (BuildContext context) {
-//                           return AlertDialog(
-//                             title: const Text("LOGOUT"),
-//                             content: const Text(
-//                                 "Would you like to log out of your account?"),
-//                             actions: [
-//                               TextButton(
-//                                 onPressed: () {
-//                                   Navigator.of(context).pop();
-//                                 },
-//                                 child: const Text("Cancel"),
-//                               ),
-//                               TextButton(
-//                                   onPressed: () {
-//                                     logout();
-//                                   },
-//                                   child: const Text("Logout")),
-//                             ],
-//                           );
-//                         },
-//                       );
+//                       Navigator.of(context).pop();
 //                     },
-//                   ))
-//             ],
+//                     child: const Text("Cancel"),
+//                   ),
+//                   TextButton(
+//                       onPressed: () {
+//                         logout();
+//                       },
+//                       child: const Text("Logout")),
+//                 ],
+//               );
+//             },
+//           );
+//         },
+//       ))
+// ],
 //           ),
 //           body: Center(
 //             child: Column(
@@ -104,7 +104,7 @@ import 'package:flutter/material.dart';
 import 'package:sports_complex/pages/routes/app_router.gr.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import 'package:sports_complex/widgets/gym_side_bar';
+import '../widgets/gym_side_bar.dart';
 
 class GymDashboardPage extends StatefulWidget {
   const GymDashboardPage({Key? key}) : super(key: key);
@@ -162,7 +162,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
         },
         child: Scaffold(
           backgroundColor: const Color.fromARGB(255, 229, 230, 228),
-          // endDrawer: const GymSideBar(),
+          endDrawer: const GymSideBar(),
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 1.0,
@@ -250,10 +250,4 @@ class _GymDashboardPageState extends State<GymDashboardPage>
           ),
         ));
   }
-
-  Widget buildProfileImage() => const CircleAvatar(
-        radius: 24,
-        backgroundColor: Color.fromARGB(255, 224, 219, 219),
-        child: Icon(Icons.person, color: Colors.black),
-      );
 }
