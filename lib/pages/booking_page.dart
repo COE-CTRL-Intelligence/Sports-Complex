@@ -115,12 +115,19 @@ class _BookingPageState extends State<BookingPage> {
 
       if (response.statusCode == 200 && mounted) {
         var jsonData = response.body;
-        setState(() {
-          bookings = jsonDecode(jsonData)
+        if (jsonData.isNotEmpty) {
+          var bookingList = jsonDecode(jsonData)
               .map<Booking>((data) => Booking.fromJson(data))
               .toList();
-          appointments = getAppointments(bookings!, today);
-        });
+          debugPrint(bookingList.toString());
+          setState(() {
+            // bookings = jsonDecode(jsonData)
+            //     .map<Booking>((data) => Booking.fromJson(data))
+            //     .toList();
+            bookings = bookingList;
+            appointments = getAppointments(bookings!, today);
+          });
+        }
       } else {
         debugPrint('Something went wrong');
       }

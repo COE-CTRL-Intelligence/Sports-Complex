@@ -78,9 +78,8 @@ class PaymentPage1 extends StatelessWidget {
                         width: sW * 0.35, height: sH * 0.07),
                     child: ElevatedButton(
                       style: const ButtonStyle(
-                          // backgroundColor: MaterialStatePropertyAll(Colors.red),
-                          // backgroundColor: MaterialStateProperty.all(Colors.red);
-                          ),
+                        backgroundColor: MaterialStatePropertyAll(Colors.red),
+                      ),
                       onPressed: () {
                         AutoRouter.of(context).pop();
                       },
@@ -117,6 +116,7 @@ class PaymentPage2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double sH = MediaQuery.of(context).size.height;
+    double sW = MediaQuery.of(context).size.width;
     Widget smallSpace = SizedBox(height: sH * 0.01);
     Widget mediumSpace = SizedBox(height: sH * 0.02);
     Widget largeSpace = SizedBox(height: sH * 0.04);
@@ -132,7 +132,7 @@ class PaymentPage2 extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Payment',
+              'Enter Momo Number',
               style: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.w400,

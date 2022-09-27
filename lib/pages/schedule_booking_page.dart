@@ -129,7 +129,7 @@ class _ScheduleBookingPageState extends State<ScheduleBookingPage> {
             child: Text(
               'New Booking',
               style:
-                  TextStyle(fontWeight: FontWeight.w700, color: AppColor.blue1),
+                  TextStyle(fontWeight: FontWeight.w500, color: AppColor.blue1),
             ),
           ),
           backgroundColor: Colors.transparent,
