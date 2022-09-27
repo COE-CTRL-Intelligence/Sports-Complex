@@ -16,11 +16,9 @@ class AppColor {
   static Color white2 = const Color.fromARGB(255, 229, 230, 228);
   static Color black1 = Colors.black;
   static Color grey1 = Colors.grey;
+  static Color grey2 = const Color.fromARGB(166, 253, 253, 253);
   static Color white3 = const Color.fromARGB(255, 239, 239, 237);
   static Color white4 = const Color.fromARGB(255, 224, 219, 219);
-  static Color blue2= Colors.blue;
+  static Color blue2 = Colors.blue;
   static Color red = Colors.red;
-
-
-
 }

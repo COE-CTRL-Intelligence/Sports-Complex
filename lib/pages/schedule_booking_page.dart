@@ -104,7 +104,7 @@ class _ScheduleBookingPageState extends State<ScheduleBookingPage> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AppColor.green1,
+        backgroundColor: AppColor.cream1,
         appBar: AppBar(
           leadingWidth: sW * 0.20,
           leading: InkWell(
@@ -116,7 +116,10 @@ class _ScheduleBookingPageState extends State<ScheduleBookingPage> {
                 padding: EdgeInsets.symmetric(horizontal: 5),
                 child: Text(
                   'Cancel',
-                  style: TextStyle(fontSize: 18, color: Colors.red),
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.red,
+                      fontWeight: FontWeight.w500),
                 ),
               ),
             ),
@@ -126,10 +129,10 @@ class _ScheduleBookingPageState extends State<ScheduleBookingPage> {
             child: Text(
               'New Booking',
               style:
-                  TextStyle(fontWeight: FontWeight.bold, color: AppColor.blue1),
+                  TextStyle(fontWeight: FontWeight.w700, color: AppColor.blue1),
             ),
           ),
-          backgroundColor: AppColor.green1,
+          backgroundColor: Colors.transparent,
           elevation: 0,
         ),
         body: Align(
@@ -151,7 +154,7 @@ class _ScheduleBookingPageState extends State<ScheduleBookingPage> {
                           : const SizedBox(),
                       SizedBox(height: sH * 0.12),
                       CustomDateTime(
-                          title: 'Starts',
+                          title: 'STARTS',
                           allowableDate: allowableDate,
                           updateDateTime: updateStartsDateTime,
                           startDate: startsDateTime!),
@@ -176,9 +179,12 @@ class _ScheduleBookingPageState extends State<ScheduleBookingPage> {
                 ),
                 // Bottom Place Booking Button
                 SizedBox(
-                  height: sH * 0.08,
-                  width: double.infinity,
+                  height: sH * 0.07,
+                  width: sW * 0.7,
                   child: ElevatedButton(
+                    style: ButtonStyle(
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15)))),
                     onPressed: isDateValid != true
                         ? null
                         : (() {
@@ -192,6 +198,9 @@ class _ScheduleBookingPageState extends State<ScheduleBookingPage> {
                       ),
                     ),
                   ),
+                ),
+                const SizedBox(
+                  height: 10,
                 )
               ],
             ),

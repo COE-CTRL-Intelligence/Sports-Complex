@@ -29,7 +29,8 @@ class CustomDateTime extends StatelessWidget {
           child: Text(
             title,
             style: TextStyle(
-              fontSize: 25,
+              fontSize: 19,
+              fontWeight: FontWeight.bold,
               color: AppColor.blue1,
             ),
           ),
@@ -64,9 +65,10 @@ class CustomEndDateTimeField extends StatelessWidget {
         SizedBox(
           width: screenWidth * 0.2,
           child: Text(
-            'Ends',
+            'ENDS',
             style: TextStyle(
-              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              fontSize: 19,
               color: AppColor.blue1,
             ),
           ),
@@ -74,7 +76,7 @@ class CustomEndDateTimeField extends StatelessWidget {
         Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-                color: AppColor.cream1.withOpacity(0.5),
+                color: Colors.white.withOpacity(0.8),
                 borderRadius: const BorderRadius.all(Radius.circular(16))),
             alignment: Alignment.center,
             height: 50,
@@ -90,7 +92,7 @@ class CustomEndDateTimeField extends StatelessWidget {
         Expanded(
           child: Container(
               decoration: BoxDecoration(
-                  color: AppColor.cream1.withOpacity(0.5),
+                  color: Colors.white.withOpacity(0.8),
                   borderRadius: const BorderRadius.all(Radius.circular(16))),
               alignment: Alignment.center,
               height: 50,
@@ -163,9 +165,9 @@ class TimeLabel extends StatelessWidget {
         }
       },
       child: Container(
-          decoration: BoxDecoration(
-              color: AppColor.cream1,
-              borderRadius: const BorderRadius.all(Radius.circular(16))),
+          decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(16))),
           alignment: Alignment.center,
           height: 50,
           child: Text(DateFormat.jm().format(selectedTime!),
@@ -227,9 +229,9 @@ class DateLabel extends StatelessWidget {
       },
       child: Container(
           padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              color: AppColor.cream1,
-              borderRadius: const BorderRadius.all(Radius.circular(16))),
+          decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(16))),
           alignment: Alignment.center,
           height: 50,
           child: Text(DateFormat('d MMM y').format(selectedDate!),
@@ -300,9 +302,10 @@ class _CustomIncrementWidgetState extends State<CustomIncrementWidget> {
         SizedBox(
           width: screenWidth * 0.3,
           child: Text(
-            'Duration',
+            'DURATION',
             style: TextStyle(
-              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              fontSize: 19,
               color: AppColor.blue1,
             ),
           ),
@@ -316,9 +319,9 @@ class _CustomIncrementWidgetState extends State<CustomIncrementWidget> {
           },
           child: Container(
             width: screenWidth * 0.15,
-            decoration: BoxDecoration(
-                color: AppColor.cream1,
-                borderRadius: const BorderRadius.all(Radius.circular(30))),
+            decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(30))),
             alignment: Alignment.center,
             height: 50,
             child: Icon(
@@ -345,9 +348,9 @@ class _CustomIncrementWidgetState extends State<CustomIncrementWidget> {
             },
             child: Container(
                 width: screenWidth * 0.15,
-                decoration: BoxDecoration(
-                    color: AppColor.cream1,
-                    borderRadius: const BorderRadius.all(Radius.circular(30))),
+                decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(30))),
                 alignment: Alignment.center,
                 height: 50,
                 child: Icon(
