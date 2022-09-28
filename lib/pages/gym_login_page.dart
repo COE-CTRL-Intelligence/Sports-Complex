@@ -60,16 +60,6 @@ class _GymLoginPageState extends State<GymLoginPage> {
     });
   }
 
-  // Check if user already logged in
-  void isLogged() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    String? token = pref.getString('jsonResString');
-    if (token != null) {
-      if (!mounted) return;
-      AutoRouter.of(context).push(const GymDashboardRoute());
-    }
-  }
-
   // http getUserData method
   void getUserData(String token) async {
     try {
@@ -84,7 +74,7 @@ class _GymLoginPageState extends State<GymLoginPage> {
       if (response.statusCode == 200) {
         String jsonResString = jsonEncode(userData).toString();
         SharedPreferences pref = await SharedPreferences.getInstance();
-        pref.setString('jsonResString', jsonResString);
+        pref.setString('gymPassPref', jsonResString);
         if (!mounted) return;
         AutoRouter.of(context).replace(const GymDashboardRoute());
       }
@@ -92,12 +82,6 @@ class _GymLoginPageState extends State<GymLoginPage> {
       toggleButtonLoad();
       snackBarMessage(e.toString(), context);
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    isLogged();
   }
 
   @override

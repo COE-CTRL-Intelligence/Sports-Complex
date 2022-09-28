@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:sports_complex/widgets/payment_tile.dart';
@@ -73,6 +75,7 @@ class _PaymentPage1State extends State<PaymentPage1> {
           const Text('Purchase details:', style: TextStyle(fontSize: 18)),
           const SizedBox(height: 20),
           SizedBox(
+            width: double.maxFinite,
             height: sH * 0.15,
             child: ListView.builder(
               itemCount: widget.details.length,
@@ -137,7 +140,10 @@ class _PaymentPage2State extends State<PaymentPage2> {
               widget.callback(value);
             },
             maxLength: 10,
-            keyboardType: TextInputType.number,
+            keyboardType: Platform.isIOS
+                ? const TextInputType.numberWithOptions(
+                    signed: true, decimal: true)
+                : TextInputType.number,
             cursorColor: Colors.black,
             decoration: InputDecoration(
               isDense: true,

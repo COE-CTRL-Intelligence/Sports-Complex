@@ -225,7 +225,12 @@ class _ScheduleBookingPageState extends State<ScheduleBookingPage> {
                   // Bottom Place Booking Button
                   Visibility(
                     visible: isVisible,
-                    replacement: const CircularProgressIndicator(),
+                    replacement: Column(
+                      children: const [
+                        CircularProgressIndicator(),
+                        SizedBox(height: 17)
+                      ],
+                    ),
                     child: SizedBox(
                       height: sH * 0.07,
                       width: sW * 0.8,
@@ -240,7 +245,6 @@ class _ScheduleBookingPageState extends State<ScheduleBookingPage> {
                                 setState(() {
                                   isVisible = false;
                                 });
-                                debugPrint(endsDateTime.toString());
                                 setPlatformPayload();
                               }),
                         child: const Text(

@@ -20,11 +20,9 @@ class PaymentPage extends StatefulWidget {
 
 class _PaymentPageState extends State<PaymentPage> {
   final CarouselController carouselController = CarouselController();
-  List<int> imgList = [0, 1, 2];
   int _current = 0;
   String? phoneNumber;
   bool progressClicked = false;
-  Timer? timer;
 
   // Methods
   void setPhoneNumber(String number) {
@@ -52,7 +50,6 @@ class _PaymentPageState extends State<PaymentPage> {
           }));
 
       var jsonData = jsonDecode(response.body);
-      debugPrint(jsonData.toString());
       if (response.statusCode == 201) {
         showMyDialog('Payment Successful!', carouselController.nextPage);
       } else {
@@ -61,14 +58,6 @@ class _PaymentPageState extends State<PaymentPage> {
     } catch (e) {
       debugPrint(e.toString());
     }
-  }
-
-  void delayProgressButton() {
-    timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
-      setState(() {
-        progressClicked = false;
-      });
-    });
   }
 
   Future<void> showMyDialog(String dataString, Function? function) async {
@@ -104,7 +93,7 @@ class _PaymentPageState extends State<PaymentPage> {
       builder: (ctx) {
         return const Center(
           child: CircularProgressIndicator(
-            strokeWidth: 2,
+            strokeWidth: 4,
           ),
         );
       },
@@ -133,13 +122,13 @@ class _PaymentPageState extends State<PaymentPage> {
           alignment: Alignment.bottomCenter,
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+              padding: const EdgeInsets.only(
+                  top: 20, left: 30, right: 30, bottom: 0),
               child: Column(
                 children: [
-                  // SizedBox(height: sH * 0.1),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: imgList.asMap().entries.map((entry) {
+                    children: [0, 1, 2].asMap().entries.map((entry) {
                       return Container(
                         width: 12.0,
                         height: 12.0,
@@ -147,12 +136,8 @@ class _PaymentPageState extends State<PaymentPage> {
                             vertical: 8.0, horizontal: 4.0),
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color:
-                                (Theme.of(context).brightness == Brightness.dark
-                                        ? Colors.white
-                                        : Colors.black)
-                                    .withOpacity(
-                                        _current == entry.key ? 0.9 : 0.4)),
+                            color: (Colors.green).withOpacity(
+                                _current >= entry.key ? 0.9 : 0.4)),
                       );
                     }).toList(),
                   ),
@@ -186,7 +171,7 @@ class _PaymentPageState extends State<PaymentPage> {
                       );
                     },
                   ),
-                  SizedBox(height: sH * 0.1),
+                  SizedBox(height: sH * 0.05),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -194,9 +179,9 @@ class _PaymentPageState extends State<PaymentPage> {
                         constraints: BoxConstraints.tightFor(
                             width: sW * 0.35, height: sH * 0.07),
                         child: ElevatedButton(
-                          style: const ButtonStyle(
+                          style: ButtonStyle(
                             backgroundColor:
-                                MaterialStatePropertyAll(Colors.red),
+                                MaterialStateProperty.all(Colors.red),
                           ),
                           onPressed: () {
                             AutoRouter.of(context)
@@ -215,16 +200,17 @@ class _PaymentPageState extends State<PaymentPage> {
                               setState(() {
                                 progressClicked = false;
                               });
-                              delayProgressButton();
                             } else {
                               null;
                             }
                           },
-                          child: const Text('Proceed'),
+                          child: Text(['Confirm', 'Proceed', 'Finish'][_current]
+                              .toString()),
                         ),
                       ),
                     ],
-                  )
+                  ),
+                  const SizedBox(height: 20)
                 ],
               ),
             ),

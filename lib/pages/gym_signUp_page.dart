@@ -86,7 +86,7 @@ class _GymSignUpPageState extends State<GymSignUpPage> {
       if (response.statusCode == 200) {
         String jsonResString = jsonEncode(userData).toString();
         SharedPreferences pref = await SharedPreferences.getInstance();
-        pref.setString('jsonResString', jsonResString);
+        pref.setString('gymPassPref', jsonResString);
         if (!mounted) return;
         AutoRouter.of(context).replace(const GymDashboardRoute());
       }
