@@ -119,7 +119,6 @@ class _BookingPageState extends State<BookingPage> {
           var bookingList = jsonDecode(jsonData)
               .map<Booking>((data) => Booking.fromJson(data))
               .toList();
-          debugPrint(bookingList.toString());
           setState(() {
             bookings = bookingList;
             if (bookings != null) {

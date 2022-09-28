@@ -90,8 +90,11 @@ class AppRouter extends _i13.RootStackRouter {
               bookedDates: args.bookedDates));
     },
     PaymentRoute.name: (routeData) {
+      final args = routeData.argsAs<PaymentRouteArgs>();
       return _i13.MaterialPageX<dynamic>(
-          routeData: routeData, child: _i12.PaymentPage());
+          routeData: routeData,
+          child: _i12.PaymentPage(
+              key: args.key, payload: args.payload, details: args.details));
     }
   };
 
@@ -247,8 +250,31 @@ class ScheduleBookingRouteArgs {
 
 /// generated route for
 /// [_i12.PaymentPage]
-class PaymentRoute extends _i13.PageRouteInfo<void> {
-  const PaymentRoute() : super(PaymentRoute.name, path: '/payment');
+class PaymentRoute extends _i13.PageRouteInfo<PaymentRouteArgs> {
+  PaymentRoute(
+      {_i14.Key? key,
+      required Map<String, dynamic> payload,
+      required List<String> details})
+      : super(PaymentRoute.name,
+            path: '/payment',
+            args:
+                PaymentRouteArgs(key: key, payload: payload, details: details));
 
   static const String name = 'PaymentRoute';
+}
+
+class PaymentRouteArgs {
+  const PaymentRouteArgs(
+      {this.key, required this.payload, required this.details});
+
+  final _i14.Key? key;
+
+  final Map<String, dynamic> payload;
+
+  final List<String> details;
+
+  @override
+  String toString() {
+    return 'PaymentRouteArgs{key: $key, payload: $payload, details: $details}';
+  }
 }
