@@ -25,7 +25,7 @@ class CheckBookingPage extends StatelessWidget {
               child: const Icon(Icons.arrow_back_ios_new)),
         ),
       body: SingleChildScrollView(
-        child: Center(
+        child: Center( 
             child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40),
           child: Column(

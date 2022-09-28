@@ -11,6 +11,8 @@ import 'package:sports_complex/widgets/page_title.dart';
 import '../widgets/side_bar.dart';
 import 'package:http/http.dart' as http;
 
+import '../widgets/sportify_logo.dart';
+
 class GymLoginPage extends StatefulWidget {
   const GymLoginPage({Key? key}) : super(key: key);
 
@@ -130,8 +132,14 @@ class _GymLoginPageState extends State<GymLoginPage> {
               child: Column(
                 children: [
                   // Head
-                  const PageTitle(title: 'LOG-IN'),
-                  SizedBox(height: screenHeight * 0.1),
+                  //const PageTitle(title: 'LOG-IN'),
+                 // SizedBox(height: screenHeight * 0.1),
+                 const Hero(
+                      tag: 'sportify_logo',
+                      child: Center(
+                        child: SportifyLogo(logoSize: 45),
+                      ),
+                 )  ,
 
                   // Body
                   Column(
