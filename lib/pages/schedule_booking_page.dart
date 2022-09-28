@@ -140,6 +140,7 @@ class _ScheduleBookingPageState extends State<ScheduleBookingPage> {
   void initState() {
     super.initState();
     startsDateTime = widget.inputTime!;
+    endsDateTime = widget.inputTime!.add(const Duration(hours: 1));
     durationController.value = 1;
     refreshDateValidity();
   }
@@ -239,10 +240,11 @@ class _ScheduleBookingPageState extends State<ScheduleBookingPage> {
                                 setState(() {
                                   isVisible = false;
                                 });
+                                debugPrint(endsDateTime.toString());
                                 setPlatformPayload();
                               }),
                         child: const Text(
-                          'Place Booking',
+                          'Book',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,

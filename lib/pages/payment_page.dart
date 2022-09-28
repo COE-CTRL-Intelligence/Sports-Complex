@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:auto_route/auto_route.dart';
@@ -7,7 +8,6 @@ import 'package:sports_complex/pages/payment_subpages.dart';
 import 'package:sports_complex/utils/colors.dart';
 import 'package:http/http.dart' as http;
 import 'package:sports_complex/utils/constants.dart';
-import 'package:sports_complex/utils/snackbar_msg.dart';
 
 class PaymentPage extends StatefulWidget {
   const PaymentPage({super.key, required this.payload, required this.details});
@@ -23,6 +23,8 @@ class _PaymentPageState extends State<PaymentPage> {
   List<int> imgList = [0, 1, 2];
   int _current = 0;
   String? phoneNumber;
+  bool progressClicked = false;
+  Timer? timer;
 
   // Methods
   void setPhoneNumber(String number) {
@@ -32,7 +34,10 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   void placeBooking() async {
-    debugPrint(phoneNumber);
+    showCircularProgressLoading();
+    // debugPrint(phoneNumber);
+    // debugPrint(widget.payload["startTime"].toString());
+    // debugPrint(widget.payload["endTime"].toString());
     try {
       var response = await http.post(Uri.parse('$baseURL/bookings'),
           headers: <String, String>{
@@ -49,14 +54,66 @@ class _PaymentPageState extends State<PaymentPage> {
       var jsonData = jsonDecode(response.body);
       debugPrint(jsonData.toString());
       if (response.statusCode == 201) {
-        debugPrint('Created');
+        showMyDialog('Payment Successful!', carouselController.nextPage);
       } else {
-        if (!mounted) return;
-        snackBarMessage('Payment Failed', context);
+        showMyDialog('Payment Failed', null);
       }
     } catch (e) {
       debugPrint(e.toString());
     }
+  }
+
+  void delayProgressButton() {
+    timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
+      setState(() {
+        progressClicked = false;
+      });
+    });
+  }
+
+  Future<void> showMyDialog(String dataString, Function? function) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Message'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[Text(dataString)],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+                function != null ? function() : null;
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showCircularProgressLoading() {
+    showDialog(
+      barrierDismissible: false,
+      builder: (ctx) {
+        return const Center(
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+          ),
+        );
+      },
+      context: context,
+    );
+  }
+
+  void closePayment() {
+    AutoRouter.of(context).popUntilRouteWithName('BookingRoute');
   }
 
   @override
@@ -64,7 +121,7 @@ class _PaymentPageState extends State<PaymentPage> {
     List<Function> functionList = [
       carouselController.nextPage,
       placeBooking,
-      Navigator.of(context).pop
+      closePayment,
     ];
     double sH = MediaQuery.of(context).size.height;
     double sW = MediaQuery.of(context).size.width;
@@ -121,7 +178,9 @@ class _PaymentPageState extends State<PaymentPage> {
                             payload: widget.payload,
                             details: widget.details,
                           ),
-                          PaymentPage2(callback: setPhoneNumber),
+                          PaymentPage2(
+                            callback: setPhoneNumber,
+                          ),
                           const PaymentPage3()
                         ],
                       );
@@ -140,7 +199,8 @@ class _PaymentPageState extends State<PaymentPage> {
                                 MaterialStatePropertyAll(Colors.red),
                           ),
                           onPressed: () {
-                            AutoRouter.of(context).pop();
+                            AutoRouter.of(context)
+                                .popUntilRouteWithName('BookingRoute');
                           },
                           child: const Text('Cancel'),
                         ),
@@ -150,13 +210,21 @@ class _PaymentPageState extends State<PaymentPage> {
                             width: sW * 0.35, height: sH * 0.07),
                         child: ElevatedButton(
                           onPressed: () {
-                            functionList[_current]();
+                            if (progressClicked == false) {
+                              functionList[_current]();
+                              setState(() {
+                                progressClicked = false;
+                              });
+                              delayProgressButton();
+                            } else {
+                              null;
+                            }
                           },
                           child: const Text('Proceed'),
                         ),
                       ),
                     ],
-                  ),
+                  )
                 ],
               ),
             ),

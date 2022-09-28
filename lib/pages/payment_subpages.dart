@@ -130,16 +130,17 @@ class _PaymentPage2State extends State<PaymentPage2> {
               fontWeight: FontWeight.w400,
             ),
           ),
-          mediumSpace,
+          largeSpace,
           TextField(
             controller: controller,
-            onSubmitted: (value) {
+            onChanged: (value) {
               widget.callback(value);
             },
             maxLength: 10,
             keyboardType: TextInputType.number,
             cursorColor: Colors.black,
             decoration: InputDecoration(
+              isDense: true,
               prefixIcon: const Icon(Icons.phone),
               filled: true,
               fillColor: Colors.white,
