@@ -172,6 +172,7 @@ class _GymLoginPageState extends State<GymLoginPage> {
                                     toggleButtonLoad();
                                     login(emailController.text,
                                         passwordController.text);
+                                    toggleButtonLoad();
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(

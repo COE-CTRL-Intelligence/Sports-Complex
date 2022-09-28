@@ -1,10 +1,16 @@
+import 'dart:convert';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sports_complex/pages/routes/app_router.gr.dart';
 import 'package:sports_complex/utils/colors.dart';
+import 'package:sports_complex/utils/constants.dart';
 import 'package:sports_complex/utils/custom_methods.dart';
+import 'package:sports_complex/utils/snackbar_msg.dart';
 import 'package:sports_complex/widgets/custom_date_time.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:http/http.dart' as http;
 
 class ScheduleBookingPage extends StatefulWidget {
   const ScheduleBookingPage(
@@ -26,6 +32,8 @@ class _ScheduleBookingPageState extends State<ScheduleBookingPage> {
   DateTime? endsDateTime;
   DurationController durationController = DurationController();
   bool? isDateValid;
+  Map<String, dynamic>? platformPayload;
+  bool isVisible = true;
 
   // Methods
   void updateStartsDateTime(DateTime newDateTime, String target) {
@@ -96,6 +104,38 @@ class _ScheduleBookingPageState extends State<ScheduleBookingPage> {
     }
   }
 
+  //
+  void setPlatformPayload() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    String? platformIDPref = pref.getString('platformIDPref');
+    if (platformIDPref != null) {
+      var response = await http.get(
+          Uri.parse('$baseURL/platforms/$platformIDPref'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8'
+          });
+
+      var platformData = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        if (!mounted) return;
+        platformData["startTime"] = startsDateTime;
+        platformData["endTime"] = endsDateTime;
+        platformData["duration"] = durationController.value;
+        AutoRouter.of(context)
+            .push(PaymentRoute(payload: platformData, details: [
+          platformData["name"],
+          "${platformData["duration"].toString()} hours",
+        ]));
+      } else {
+        if (!mounted) return;
+        setState(() {
+          isVisible = true;
+        });
+        snackBarMessage(platformData.toString(), context);
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -145,14 +185,12 @@ class _ScheduleBookingPageState extends State<ScheduleBookingPage> {
         body: Align(
           alignment: Alignment.bottomCenter,
           child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: sH * 0.02,
-                    right: sH * 0.02,
-                  ),
-                  child: Column(
+            child: Padding(
+              padding:
+                  EdgeInsets.symmetric(horizontal: sW * 0.04, vertical: 20),
+              child: Column(
+                children: [
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       isDateValid != true
@@ -180,36 +218,41 @@ class _ScheduleBookingPageState extends State<ScheduleBookingPage> {
                       )
                     ],
                   ),
-                ),
-                SizedBox(
-                  height: sH * 0.25,
-                ),
-                // Bottom Place Booking Button
-                SizedBox(
-                  height: sH * 0.07,
-                  width: sW * 0.7,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15)))),
-                    onPressed: isDateValid != true
-                        ? null
-                        : (() {
-                            AutoRouter.of(context).push(const PaymentRoute());
-                          }),
-                    child: const Text(
-                      'Place Booking',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                  SizedBox(
+                    height: sH * 0.25,
+                  ),
+                  // Bottom Place Booking Button
+                  Visibility(
+                    visible: isVisible,
+                    replacement: const CircularProgressIndicator(),
+                    child: SizedBox(
+                      height: sH * 0.07,
+                      width: sW * 0.8,
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                            shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15)))),
+                        onPressed: isDateValid != true
+                            ? null
+                            : (() {
+                                setState(() {
+                                  isVisible = false;
+                                });
+                                setPlatformPayload();
+                              }),
+                        child: const Text(
+                          'Place Booking',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ),
         ),
