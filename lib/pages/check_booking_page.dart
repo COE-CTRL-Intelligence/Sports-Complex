@@ -1,4 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:sports_complex/pages/routes/app_router.gr.dart';
 import 'package:sports_complex/widgets/page_title.dart';
 import 'package:sports_complex/widgets/side_bar.dart';
 import '../widgets/custom_input_field.dart';
@@ -14,9 +16,14 @@ class CheckBookingPage extends StatelessWidget {
       backgroundColor: const Color(0xffC2C3A0),
       endDrawer: const Sidebar(),
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-      ),
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          leading: GestureDetector(
+              onTap: () {
+                AutoRouter.of(context).push(const HomeRoute());
+              },
+              child: const Icon(Icons.arrow_back_ios_new)),
+        ),
       body: SingleChildScrollView(
         child: Center(
             child: Padding(
