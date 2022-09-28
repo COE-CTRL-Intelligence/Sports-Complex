@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:sports_complex/pages/routes/app_router.gr.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sports_complex/utils/colors.dart';
 import 'dart:convert';
 import '../widgets/gym_side_bar.dart';
 
@@ -18,9 +19,6 @@ class _GymDashboardPageState extends State<GymDashboardPage>
     with TickerProviderStateMixin {
   final weightController = TextEditingController();
   final heightController = TextEditingController();
-  double height = 0;
-  double weight = 0;
-  double heightSqaure = 0;
 
   @override
   void initState() {
@@ -62,7 +60,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
     if (height == null || weight == null || height == 0 || weight == 0) {
       result = 0.0;
     } else if (height >= 0 || weight >= 0) {
-      result = height / weight;
+      result = weight / (height * height);
     } else {
       result = 0.0;
     }
@@ -134,9 +132,11 @@ class _GymDashboardPageState extends State<GymDashboardPage>
   }
 
   Column profileTab() {
+    double sH = MediaQuery.of(context).size.height;
+    double sW = MediaQuery.of(context).size.width;
     return Column(children: [
       Container(
-        height: 150,
+        height: sH * 0.22,
         width: double.maxFinite,
         padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
@@ -158,9 +158,9 @@ class _GymDashboardPageState extends State<GymDashboardPage>
           ],
         ),
       ),
-      const SizedBox(height: 20),
+      SizedBox(height: sH * 0.05),
       Container(
-        height: 350,
+        height: sH * 0.4,
         width: double.maxFinite,
         padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
@@ -170,13 +170,40 @@ class _GymDashboardPageState extends State<GymDashboardPage>
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+              "Calculate Your BMI",
+              style:
+                  TextStyle(fontWeight: FontWeight.bold, fontSize: sH * 0.025),
+            ),
             TextFormField(
               controller: heightController,
-              style: const TextStyle(color: Colors.black),
+              style: TextStyle(color: Colors.black, height: sH * 0.0005),
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: const BorderSide(style: BorderStyle.solid)),
+                  hintText: "Enter Height",
+                  hintStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: sH * 0.02,
+                      color: AppColor.grey1)),
+              cursorHeight: sH * 0.030,
+              cursorColor: Colors.black,
             ),
             TextFormField(
               controller: weightController,
-              style: const TextStyle(color: Colors.black),
+              style: TextStyle(color: Colors.black, height: sH * 0.0005),
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: const BorderSide(style: BorderStyle.solid)),
+                  hintText: "Enter Weight",
+                  hintStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: sH * 0.02,
+                      color: AppColor.grey1)),
+              cursorHeight: sH * 0.030,
+              cursorColor: Colors.black,
             ),
             Text(calcBMI(double.tryParse(heightController.text),
                     double.tryParse(weightController.text))
@@ -184,28 +211,79 @@ class _GymDashboardPageState extends State<GymDashboardPage>
           ],
         ),
       ),
+      SizedBox(height: sH * 0.05),
+      ElevatedButton(
+          onPressed: () => calcBMI(double.tryParse(heightController.text),
+                  double.tryParse(weightController.text))
+              .toString(),
+          child: Text(
+            "Calculate BMI",
+            style: TextStyle(fontSize: sH * 0.025),
+          )),
     ]);
   }
 
-  Container planTab() {
-    return Container(
-      padding: const EdgeInsets.all(15),
-      decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 239, 239, 237),
-          borderRadius: BorderRadius.circular(18)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text('Monthly Bundle',
-              style: TextStyle(fontSize: 18, fontWeight: (FontWeight.bold))),
-          SizedBox(height: 4),
-          Text(
-            "Expires: 26/09/22",
+  Column planTab() {
+    double sH = MediaQuery.of(context).size.height;
+    double sW = MediaQuery.of(context).size.width;
+    return Column(
+      children: [
+        Container(
+          height: sH * 0.22,
+          width: double.maxFinite,
+          padding: const EdgeInsets.all(15),
+          decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 239, 239, 237),
+              borderRadius: BorderRadius.circular(18)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const [
+              Text('Monthly Bundle',
+                  style:
+                      TextStyle(fontSize: 18, fontWeight: (FontWeight.bold))),
+              SizedBox(height: 4),
+              Text(
+                "Expires: 26/09/22",
+              ),
+              SizedBox(height: 4),
+              Text("Paid with: Momo")
+            ],
           ),
-          SizedBox(height: 4),
-          Text("Paid with: Momo")
-        ],
-      ),
+        ),
+        SizedBox(height: sH * 0.05),
+        Text(
+          "Build Your Plan",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: sH * 0.04),
+        ),
+        SizedBox(height: sH * 0.03),
+        Text("Subscribe",
+            style:
+                TextStyle(fontWeight: FontWeight.bold, fontSize: sH * 0.025)),
+        SizedBox(height: sH * 0.05),
+        ElevatedButton(
+            onPressed: () {},
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.green),
+                elevation: MaterialStateProperty.all(0),
+                shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15)))),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: sH * 0.007,
+                ),
+                SizedBox(
+                  height: sH * 0.1,
+                  width: double.infinity,
+                  child: const Text(
+                    "Auto-renews Monthly, cancel anytime",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+              ],
+            )),
+      ],
     );
   }
 }
