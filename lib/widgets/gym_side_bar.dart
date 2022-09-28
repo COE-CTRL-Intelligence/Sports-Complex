@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sports_complex/pages/gym_dashboard_page.dart';
 import '../pages/routes/app_router.gr.dart';
 
 class GymSideBar extends StatefulWidget {
@@ -31,15 +28,15 @@ class _GymSideBarState extends State<GymSideBar> {
                 )
               ],
             ),
-            const SizedBox(height: 59),
-            ListTile(
-              leading: const Icon(Icons.home_filled),
-              title: const Text('Home'),
-              onTap: () => {},
-            ),
+            // const SizedBox(height: 59),
+            // ListTile(
+            //   leading: const Icon(Icons.home_filled),
+            //   title: const Text('Home'),
+            //   onTap: () => {},
+            // ),
             const SizedBox(height: 15),
             ListTile(
-              leading: const Icon(Icons.fitness_center),
+              leading: const Icon(Icons.logout),
               title: const Text('Logout'),
               onTap: () {
                 showDialog(
