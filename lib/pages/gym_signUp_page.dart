@@ -141,6 +141,7 @@ class _GymSignUpPageState extends State<GymSignUpPage> {
                   // Body
                   Column(
                     children: [
+                      SizedBox(height: screenHeight*0.09),
                       CustomInputField(
                           fieldController: nameController,
                           fieldName: 'Name',
