@@ -4,10 +4,13 @@ import 'dart:convert';
 import 'package:auto_route/auto_route.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:sports_complex/models/booking.dart';
 import 'package:sports_complex/pages/payment_subpages.dart';
+import 'package:sports_complex/pages/routes/app_router.gr.dart';
 import 'package:sports_complex/utils/colors.dart';
 import 'package:http/http.dart' as http;
 import 'package:sports_complex/utils/constants.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class PaymentPage extends StatefulWidget {
   const PaymentPage({super.key, required this.payload, required this.details});
@@ -23,6 +26,7 @@ class _PaymentPageState extends State<PaymentPage> {
   int _current = 0;
   String? phoneNumber;
   bool progressClicked = false;
+  Map<String, dynamic>? bookRes;
 
   // Methods
   void setPhoneNumber(String number) {
@@ -33,9 +37,6 @@ class _PaymentPageState extends State<PaymentPage> {
 
   void placeBooking() async {
     showCircularProgressLoading();
-    // debugPrint(phoneNumber);
-    // debugPrint(widget.payload["startTime"].toString());
-    // debugPrint(widget.payload["endTime"].toString());
     try {
       var response = await http.post(Uri.parse('$baseURL/bookings'),
           headers: <String, String>{
@@ -52,8 +53,12 @@ class _PaymentPageState extends State<PaymentPage> {
       var jsonData = jsonDecode(response.body);
       if (response.statusCode == 201) {
         showMyDialog('Payment Successful!', carouselController.nextPage);
+        setState(() {
+          bookRes = jsonData;
+        });
       } else {
         showMyDialog('Payment Failed', null);
+        debugPrint(jsonData.toString());
       }
     } catch (e) {
       debugPrint(e.toString());
@@ -102,7 +107,16 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   void closePayment() {
-    AutoRouter.of(context).popUntilRouteWithName('BookingRoute');
+    Booking newAppointment = Booking(
+      platformId: widget.payload["_id"],
+      startTime: widget.payload["startTime"],
+      endTime: widget.payload["endTime"],
+    );
+
+    AutoRouter.of(context).push(BookingRoute(
+        title: widget.payload["name"],
+        id: widget.payload["_id"],
+        appointment: newAppointment));
   }
 
   @override
@@ -165,7 +179,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         PaymentPage2(
                           callback: setPhoneNumber,
                         ),
-                        const PaymentPage3()
+                        PaymentPage3(payload: bookRes)
                       ],
                     );
                   },

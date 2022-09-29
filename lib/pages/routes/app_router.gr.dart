@@ -13,8 +13,9 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i13;
 import 'package:flutter/material.dart' as _i14;
-import 'package:syncfusion_flutter_calendar/calendar.dart' as _i15;
+import 'package:syncfusion_flutter_calendar/calendar.dart' as _i16;
 
+import '../../models/booking.dart' as _i15;
 import '../about_page.dart' as _i7;
 import '../booking_page.dart' as _i3;
 import '../check_booking_page.dart' as _i4;
@@ -57,6 +58,7 @@ class AppRouter extends _i13.RootStackRouter {
           key: args.key,
           title: args.title,
           id: args.id,
+          appointment: args.appointment,
         ),
       );
     },
@@ -210,6 +212,7 @@ class BookingRoute extends _i13.PageRouteInfo<BookingRouteArgs> {
     _i14.Key? key,
     required String title,
     required String id,
+    _i15.Booking? appointment,
   }) : super(
           BookingRoute.name,
           path: '/booking',
@@ -217,6 +220,7 @@ class BookingRoute extends _i13.PageRouteInfo<BookingRouteArgs> {
             key: key,
             title: title,
             id: id,
+            appointment: appointment,
           ),
         );
 
@@ -228,6 +232,7 @@ class BookingRouteArgs {
     this.key,
     required this.title,
     required this.id,
+    this.appointment,
   });
 
   final _i14.Key? key;
@@ -236,9 +241,11 @@ class BookingRouteArgs {
 
   final String id;
 
+  final _i15.Booking? appointment;
+
   @override
   String toString() {
-    return 'BookingRouteArgs{key: $key, title: $title, id: $id}';
+    return 'BookingRouteArgs{key: $key, title: $title, id: $id, appointment: $appointment}';
   }
 }
 
@@ -333,7 +340,7 @@ class ScheduleBookingRoute
   ScheduleBookingRoute({
     _i14.Key? key,
     required DateTime? inputTime,
-    List<_i15.Appointment>? bookedDates,
+    List<_i16.Appointment>? bookedDates,
   }) : super(
           ScheduleBookingRoute.name,
           path: '/schedule_booking',
@@ -358,7 +365,7 @@ class ScheduleBookingRouteArgs {
 
   final DateTime? inputTime;
 
-  final List<_i15.Appointment>? bookedDates;
+  final List<_i16.Appointment>? bookedDates;
 
   @override
   String toString() {

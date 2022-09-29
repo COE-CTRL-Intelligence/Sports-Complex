@@ -15,8 +15,10 @@ import 'package:http/http.dart' as http;
 class BookingPage extends StatefulWidget {
   final String title;
   final String id;
+  final Booking? appointment;
 
-  const BookingPage({Key? key, required this.title, required this.id})
+  const BookingPage(
+      {Key? key, required this.title, required this.id, this.appointment})
       : super(key: key);
 
   @override
@@ -121,6 +123,7 @@ class _BookingPageState extends State<BookingPage> {
               .toList();
           setState(() {
             bookings = bookingList;
+
             if (bookings != null) {
               appointments = getAppointments(bookings!, today);
             }
@@ -132,6 +135,46 @@ class _BookingPageState extends State<BookingPage> {
     } catch (e) {
       debugPrint(e.toString());
     }
+  }
+
+  List<Appointment> getAppointments(List<Booking> bookings, DateTime minDate) {
+    List<Appointment> meetings = <Appointment>[];
+
+    if (bookings.isNotEmpty) {
+      for (Booking booking in bookings) {
+        if (booking.startTime.isBefore(minDate) &&
+            booking.endTime.isBefore(minDate)) {
+          continue;
+        }
+
+        if (booking.startTime.isBefore(minDate)) {
+          booking.startTime = DateTime(
+              booking.startTime.year,
+              booking.startTime.month,
+              booking.startTime.day,
+              minDate.hour,
+              minDate.minute,
+              0,
+              0,
+              0);
+        }
+
+        meetings.add(Appointment(
+            startTime: booking.startTime,
+            endTime: booking.endTime,
+            color: (bookings.last == booking && widget.appointment != null)
+                ? Colors.blue
+                : AppColor.pink1,
+            subject: (bookings.last == booking && widget.appointment != null)
+                ? 'Reserved'
+                : ''));
+      }
+    }
+    if (widget.appointment != null) {
+      calendarController.displayDate = widget.appointment!.startTime;
+    }
+
+    return meetings;
   }
 
   @override
@@ -191,15 +234,6 @@ class _BookingPageState extends State<BookingPage> {
         ),
         body: bookings != null
             ? SfCalendar(
-                appointmentBuilder: (context, calendarAppointmentDetails) {
-                  return Container(
-                    color: AppColor.pink1,
-                    child: Center(
-                      child: Text(calendarAppointmentDetails
-                          .appointments.first.subject),
-                    ),
-                  );
-                },
                 firstDayOfWeek: DateTime.now().weekday == 1
                     ? 7
                     : DateTime.now().weekday - 1,
@@ -214,7 +248,6 @@ class _BookingPageState extends State<BookingPage> {
                 ),
                 showDatePickerButton:
                     calendarController.view == CalendarView.day,
-                // allowedViews: const [CalendarView.day, CalendarView.week],
                 headerStyle: const CalendarHeaderStyle(
                   textAlign: TextAlign.center,
                   textStyle: TextStyle(
@@ -256,36 +289,6 @@ class _BookingPageState extends State<BookingPage> {
       ),
     );
   }
-}
-
-List<Appointment> getAppointments(List<Booking> bookings, DateTime minDate) {
-  List<Appointment> meetings = <Appointment>[];
-
-  if (bookings.isNotEmpty) {
-    for (Booking booking in bookings) {
-      if (booking.startTime.isBefore(minDate) &&
-          booking.endTime.isBefore(minDate)) {
-        continue;
-      }
-
-      if (booking.startTime.isBefore(minDate)) {
-        booking.startTime = DateTime(
-            booking.startTime.year,
-            booking.startTime.month,
-            booking.startTime.day,
-            minDate.hour,
-            minDate.minute,
-            0,
-            0,
-            0);
-      }
-
-      meetings.add(Appointment(
-          startTime: booking.startTime, endTime: booking.endTime, subject: ''));
-    }
-  }
-
-  return meetings;
 }
 
 class MeetingDataSource extends CalendarDataSource {

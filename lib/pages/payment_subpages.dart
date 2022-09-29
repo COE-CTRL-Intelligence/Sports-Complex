@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:sports_complex/utils/snackbar_msg.dart';
 import 'package:sports_complex/widgets/payment_tile.dart';
 
 // FIRST PAYMENT PAGE
@@ -164,7 +166,8 @@ class _PaymentPage2State extends State<PaymentPage2> {
 // THIRD PAYMENT PAGE
 
 class PaymentPage3 extends StatelessWidget {
-  const PaymentPage3({Key? key}) : super(key: key);
+  const PaymentPage3({Key? key, required this.payload}) : super(key: key);
+  final Map<String, dynamic>? payload;
 
   @override
   Widget build(BuildContext context) {
@@ -186,7 +189,43 @@ class PaymentPage3 extends StatelessWidget {
             ),
           ),
           mediumSpace,
-          const Text('Here\'s your receipt')
+          const Text(
+            'Here\'s your receipt',
+            style: TextStyle(fontSize: 18),
+          ),
+          SizedBox(height: sH * 0.13),
+          const Text('Tap to copy to clipboard',
+              style: TextStyle(color: Colors.grey, fontSize: 13)),
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(payload!["bookingID"].toString().substring(0, 2),
+                  style: const TextStyle(fontSize: 30, color: Colors.grey)),
+              const SizedBox(width: 5),
+              GestureDetector(
+                onTap: ([bool mounted = true]) async {
+                  await Clipboard.setData(ClipboardData(
+                      text: payload!["bookingID"].toString().substring(2)));
+                  if (!mounted) return;
+                  snackBarMessage('Copied to clipboard', context);
+                },
+                child: Container(
+                    height: 60,
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16)),
+                    child: Center(
+                        child: Text(
+                            payload!["bookingID"].toString().substring(2),
+                            style: const TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black)))),
+              ),
+            ],
+          )
         ],
       ),
     );
