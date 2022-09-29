@@ -1,7 +1,5 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
-import 'package:sports_complex/pages/routes/app_router.gr.dart';
+import 'package:sports_complex/widgets/background_image_widget.dart';
 
 class ContactUsPage extends StatelessWidget {
  ContactUsPage({Key? key}) : super(key: key);
@@ -13,55 +11,87 @@ class ContactUsPage extends StatelessWidget {
   final GlobalKey<FormState> formkey = GlobalKey<FormState> ();
 
   @override
-  Widget build(BuildContext context)=> Scaffold(
+ Widget build(BuildContext context){ 
+   
+   return BackgroundImageWidget(
+    image: const AssetImage('assets/images/bg.jpg'),
+    child: Scaffold(   
     appBar: AppBar( elevation: 5, toolbarHeight: 50, 
-      title: const Text('SPORTIFY'),
-       backgroundColor: const Color(0xCA81BB4E),
+      title: const Text('SPORTIFY', ),
+       backgroundColor:const Color(0xFF99CD32),
      ),
-    backgroundColor: const Color(0xC7FFFFFF),
+    backgroundColor: Colors.transparent,
 
-      body: Align(
-        alignment:const Alignment(300,100),
+      body:Padding(
+        padding: const EdgeInsets.symmetric(vertical: 70, horizontal: 330),
          child: Row( 
-         crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
+         
+          children: [ 
           Column(
             children: [
-              Container(
+              Container( 
                alignment: Alignment.centerRight,
-               padding:const EdgeInsets.symmetric(vertical: 300.0, horizontal: 100.0,),
+               padding:const EdgeInsets.symmetric(vertical: 150.0, horizontal: 100.0,),
+               height: 400,
                width: 40,
-               decoration:const BoxDecoration(color: Color(0xCA81BB4E),), 
+               decoration:const BoxDecoration(color: Color(0xFF99CD32),
+               borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)
+               ) ,)
+               , 
               ),
             ],
                
            ),
            
+
+           Container( 
+               alignment: Alignment.centerRight,
+               padding:const EdgeInsets.symmetric(vertical: 150.0, horizontal: 300.0,),
+               height: 3,
+               width: 8,
+               decoration:const BoxDecoration(color: Colors.transparent,
+               borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20), bottomLeft: Radius.circular(20)
+               ) ,)
+               , 
+              ),
            Column(
             children: [
-              Container(
+              Container( 
+               decoration:const BoxDecoration(color: Color(0xD9D9D9D9),
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(20)
+               )),
                 child:const SizedBox(
-                width: 400 ,
-               child: Text('\n\n\nGet In Touch', 
-               style: TextStyle(fontStyle: FontStyle.normal, fontSize: 35, color: Color(0xFF8252C6),
+               width: 587,
+               child: Text('\n   ...Need Help?\n   Get in touch\n', 
+               style: TextStyle(fontStyle: FontStyle.normal, fontSize: 35, color: Colors.black, fontWeight: FontWeight.bold
               ),),),
 
               ),
 
            Container( 
-           height: 120, 
-           child:const Text('     Have any ideas or suggestions? Or would you like to report a problem? \n     Here is how to reach us...\n     _________________________________________________________________',
-           style: TextStyle(fontStyle: FontStyle.normal, fontSize: 18,),),
+           decoration:const BoxDecoration(color: Color(0xD9D9D9D9),
+           borderRadius: BorderRadius.only(
+            bottomRight: Radius.circular(20)
+           )),
+           height: 233,
+           width: 587, 
+           child:const Text('     Do you have any ideas or suggestions?Or would you like to report a \n     problem? \n     Here is how to reach us.\n\n     _________________________________________________________________\n\n',
+           style: TextStyle(fontStyle: FontStyle.italic, fontSize: 18,),),
            ),
 
 
-           Column(children: [
+           Column(
+            children: [
+             
             ElevatedButton( child:const Text('Contact us'), 
             onPressed: (){ 
               showDialog(
                context: context, 
                builder: (context) => AlertDialog(
-                title:const Text('How can we help?\nLet us know in the form below.', 
+                title:const Text('How can we help?\nLet us know in the form below.\n\n\nNote: All fields are required', 
                 style: TextStyle(fontSize: 15 ),),
                 content:(Form(key: formkey,
                 child: Column(
@@ -69,7 +99,7 @@ class ContactUsPage extends StatelessWidget {
                    Container(
                     height: 3,
                     width: 240,
-                    decoration:const BoxDecoration(color: Color(0xCA81BB4E),),
+                    decoration:const BoxDecoration(color: Color(0xFF99CD32),),
                    ),
                    
                    TextFormField(
@@ -106,7 +136,7 @@ class ContactUsPage extends StatelessWidget {
                   TextButton(onPressed:() {
                     showDialog(context: context, 
                     builder: ((context) => AlertDialog(
-                    content:const Text('Are you you would like to submit?'),
+                    content:const Text('Are you\'d like to submit?'),
                     actions: [
                       TextButton(onPressed:() => Navigator.pop(context), child:const Text('Yes') ), 
                       TextButton(onPressed:() => Navigator.pop(context), child:const Text('No') )
@@ -115,6 +145,7 @@ class ContactUsPage extends StatelessWidget {
                   child:const Text('Submit')
                   ),
                  ],), );},
+                 
               ),
 
            ],),
@@ -126,7 +157,7 @@ class ContactUsPage extends StatelessWidget {
   
          
             ),
-            ),);
+            ),) );}
 
             
             
