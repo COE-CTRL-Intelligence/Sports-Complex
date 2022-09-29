@@ -129,6 +129,7 @@ class _GymLoginPageState extends State<GymLoginPage> {
                   // Body
                   Column(
                     children: [
+                      SizedBox(height: screenHeight*0.15,),
                       CustomInputField(
                           fieldName: 'Email',
                           fieldController: emailController,
