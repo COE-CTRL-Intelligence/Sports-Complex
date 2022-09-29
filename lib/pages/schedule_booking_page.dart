@@ -79,6 +79,18 @@ class _ScheduleBookingPageState extends State<ScheduleBookingPage> {
   }
 
   void refreshDateValidity() {
+    allowableDate = DateTime(
+      allowableDate.year,
+      allowableDate.month,
+      allowableDate.day,
+      allowableDate.hour,
+      allowableDate.minute,
+      0,
+      0,
+    );
+    setState(() {
+      allowableDate = allowableDate;
+    });
     Appointment currentAppointment = Appointment(
         startTime: startsDateTime!,
         endTime:

@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sports_complex/pages/routes/app_router.gr.dart';
 import 'package:sports_complex/utils/constants.dart';
 import 'package:sports_complex/utils/snackbar_msg.dart';
 import 'package:sports_complex/widgets/page_title.dart';
@@ -74,9 +76,14 @@ class _SelectSportPageState extends State<SelectSportPage> {
       backgroundColor: const Color.fromARGB(255, 76, 126, 78),
       endDrawer: const Sidebar(),
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-      ),
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          leading: GestureDetector(
+              onTap: () {
+                AutoRouter.of(context).push(const HomeRoute());
+              },
+              child: const Icon(Icons.arrow_back_ios_new)),
+        ),
       body: SingleChildScrollView(
         child: Center(
             child: Column(

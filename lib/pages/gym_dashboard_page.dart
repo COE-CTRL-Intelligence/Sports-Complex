@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:sports_complex/pages/routes/app_router.gr.dart';
@@ -15,6 +17,7 @@ class GymDashboardPage extends StatefulWidget {
 }
 
 Map<String, dynamic> userData = {};
+int tabIndex = 0;
 
 class _GymDashboardPageState extends State<GymDashboardPage>
     with TickerProviderStateMixin {
@@ -49,12 +52,12 @@ class _GymDashboardPageState extends State<GymDashboardPage>
   String greeting() {
     var hour = DateTime.now().hour;
     if (hour < 12) {
-      return 'Good Morning';
+      return 'Good Morning.';
     }
     if (hour < 17) {
-      return 'Good Afternoon';
+      return 'Good Afternoon.';
     }
-    return 'Good Evening';
+    return 'Good Evening.';
   }
 
   double calcBMI(double? height, double? weight) {
@@ -62,12 +65,15 @@ class _GymDashboardPageState extends State<GymDashboardPage>
     if (height == null || weight == null || height == 0 || weight == 0) {
       result = 0.0;
     } else if (height >= 0 || weight >= 0) {
-      result = weight / (height * height);
+      result = weight / (pow(height, 2));
     } else {
       result = 0.0;
     }
     setState(() {
       result = result;
+    });
+    setState(() {
+      tabIndex = 1;
     });
     return result;
   }
@@ -76,8 +82,9 @@ class _GymDashboardPageState extends State<GymDashboardPage>
   Widget build(BuildContext context) {
     double sH = MediaQuery.of(context).size.height;
     double sW = MediaQuery.of(context).size.width;
+    
 
-    TabController tabController = TabController(length: 2, vsync: this);
+    TabController tabController = TabController(length: 2, vsync: this, initialIndex: tabIndex );
     return WillPopScope(
         onWillPop: () async {
           AutoRouter.of(context).navigate(const HomeRoute());
@@ -93,145 +100,55 @@ class _GymDashboardPageState extends State<GymDashboardPage>
             titleSpacing: 0,
           ),
           body: Align(
-            alignment: Alignment.topCenter,
+            alignment: Alignment.bottomCenter,
             child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TabBar(
-                      controller: tabController,
-                      isScrollable: true,
-                      labelPadding: const EdgeInsets.only(left: 50, right: 100),
-                      labelColor: Colors.black,
-                      unselectedLabelColor: Colors.grey,
-                      tabs: const [
-                        Tab(text: "Profile"),
-                        Tab(
-                          text: "MyPlan",
-                        )
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 15, top: 10),
+                child: Column(
+                  children: [
+                    TabBar(
+                        controller: tabController,
+                        isScrollable: false,
+                        labelPadding:
+                            const EdgeInsets.only(left: 50, right: 100),
+                        labelColor: Colors.black,
+                        unselectedLabelColor: Colors.black,
+                        tabs: const [
+                          Tab(text: "MyPlan"),
+                          Tab(
+                            text: "Profile",
+                          )
+                        ]),
+                    SizedBox(height: sH * 0.03),
+                    SizedBox(
+                      // margin: EdgeInsets.only(right: sW * 0.1),
+                      // padding: const EdgeInsets.symmetric(horizontal: 15),
+                      width: double.maxFinite,
+                      height: sH * 0.8,
+                      child: TabBarView(controller: tabController, children: [
+                        planTab(),
+                        // SizedBox(height: 10),
+                        profileTab(),
                       ]),
-                  const SizedBox(height: 30),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    width: double.maxFinite,
-                    height: double.maxFinite,
-                    child: TabBarView(controller: tabController, children: [
-                      profileTab(),
-                      // SizedBox(height: 10),
-                      planTab(),
-                    ]),
-                  ),
-                  Container(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: const Text('this page'))
-                ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         ));
   }
 
-  Column profileTab() {
+//PROFILE TAB
+  Container profileTab() {
     double sH = MediaQuery.of(context).size.height;
     double sW = MediaQuery.of(context).size.width;
-    return Column(children: [
-      Container(
-        height: sH * 0.22,
-        width: double.maxFinite,
-        padding: const EdgeInsets.all(15),
-        decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 239, 239, 237),
-            borderRadius: BorderRadius.circular(18)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Hello ${userData["name"]},',
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
-            ),
-            const SizedBox(height: 20),
-            // Text('Your Email: ${userData["email"]}'),
-            Text(
-              greeting(),
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-            )
-          ],
-        ),
-      ),
-      SizedBox(height: sH * 0.05),
-      Container(
-        height: sH * 0.4,
-        width: double.maxFinite,
-        padding: const EdgeInsets.all(15),
-        decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 239, 239, 237),
-            borderRadius: BorderRadius.circular(18)),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Calculate Your BMI",
-              style:
-                  TextStyle(fontWeight: FontWeight.bold, fontSize: sH * 0.025),
-            ),
-            TextFormField(
-              controller: heightController,
-              style: TextStyle(color: Colors.black, height: sH * 0.0005),
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
-                      borderSide: const BorderSide(style: BorderStyle.solid)),
-                  hintText: "Enter Height",
-                  hintStyle: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: sH * 0.02,
-                      color: AppColor.grey1)),
-              cursorHeight: sH * 0.030,
-              cursorColor: Colors.black,
-            ),
-            TextFormField(
-              controller: weightController,
-              style: TextStyle(color: Colors.black, height: sH * 0.0005),
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
-                      borderSide: const BorderSide(style: BorderStyle.solid)),
-                  hintText: "Enter Weight",
-                  hintStyle: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: sH * 0.02,
-                      color: AppColor.grey1)),
-              cursorHeight: sH * 0.030,
-              cursorColor: Colors.black,
-            ),
-            Text(calcBMI(double.tryParse(heightController.text),
-                    double.tryParse(weightController.text))
-                .toString()),
-          ],
-        ),
-      ),
-      SizedBox(height: sH * 0.05),
-      ElevatedButton(
-          onPressed: () => calcBMI(double.tryParse(heightController.text),
-                  double.tryParse(weightController.text))
-              .toString(),
-          child: Text(
-            "Calculate BMI",
-            style: TextStyle(fontSize: sH * 0.025),
-          )),
-    ]);
-  }
 
-  Column planTab() {
-    double sH = MediaQuery.of(context).size.height;
-    double sW = MediaQuery.of(context).size.width;
-    return Column(
-      children: [
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(children: [
         Container(
-          height: sH * 0.22,
+          height: sH * 0.12,
           width: double.maxFinite,
           padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
@@ -252,40 +169,316 @@ class _GymDashboardPageState extends State<GymDashboardPage>
             ],
           ),
         ),
-        SizedBox(height: sH * 0.05),
-        Text(
-          "Build Your Plan",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: sH * 0.04),
+        SizedBox(height: sH * 0.03),
+        Container(
+          height: sH * 0.3,
+          width: double.maxFinite,
+          padding: const EdgeInsets.all(15),
+          decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 239, 239, 237),
+              borderRadius: BorderRadius.circular(18)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Calculate Your BMI",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, fontSize: sH * 0.025),
+              ),
+              TextFormField(
+                controller: heightController,
+                style: TextStyle(color: Colors.black, height: sH * 0.0005),
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: const BorderSide(style: BorderStyle.solid)),
+                    hintText: "Enter Height",
+                    hintStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: sH * 0.02,
+                        color: AppColor.grey1)),
+                cursorHeight: sH * 0.030,
+                cursorColor: Colors.black,
+              ),
+              TextFormField(
+                controller: weightController,
+                style: TextStyle(color: Colors.black, height: sH * 0.0005),
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(7),
+                        borderSide: const BorderSide(style: BorderStyle.solid)),
+                    hintText: "Enter Weight",
+                    hintStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: sH * 0.02,
+                        color: AppColor.grey1)),
+                cursorHeight: sH * 0.030,
+                cursorColor: Colors.black,
+              ),
+              Text(
+                  calcBMI(double.tryParse(heightController.text),
+                          double.tryParse(weightController.text))
+                      .toStringAsFixed(2),
+                  ),
+            ],
+          ),
         ),
         SizedBox(height: sH * 0.03),
-        Text("Subscribe",
-            style:
-                TextStyle(fontWeight: FontWeight.bold, fontSize: sH * 0.025)),
-        SizedBox(height: sH * 0.05),
         ElevatedButton(
-            onPressed: () {},
-            style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.green),
-                elevation: MaterialStateProperty.all(0),
-                shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15)))),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: sH * 0.007,
-                ),
-                SizedBox(
-                  height: sH * 0.1,
-                  width: double.infinity,
-                  child: const Text(
-                    "Auto-renews Monthly, cancel anytime",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.black),
-                  ),
-                ),
-              ],
+            onPressed: () {
+              calcBMI(double.tryParse(heightController.text),
+                    double.tryParse(weightController.text))
+                .toStringAsFixed(2);
+            },
+            child: Text(
+              "Calculate BMI",
+              style: TextStyle(fontSize: sH * 0.025),
             )),
-      ],
+      ]),
+    );
+  }
+
+//PLAN TAB
+  Container planTab() {
+    double sH = MediaQuery.of(context).size.height;
+    double sW = MediaQuery.of(context).size.width;
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        children: [
+          Container(
+            height: sH * 0.12,
+            width: double.maxFinite,
+            padding: const EdgeInsets.all(15),
+            decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 239, 239, 237),
+                borderRadius: BorderRadius.circular(18)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Hello ${userData["name"]},',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 23,
+                      color: AppColor.green2),
+                ),
+                const SizedBox(height: 20),
+                // Text('Your Email: ${userData["email"]}'),
+                Text(
+                  greeting(),
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500),
+                )
+              ],
+            ),
+          ),
+          SizedBox(height: sH * 0.03),
+          Text(
+            "Build Your Plan",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: sH * 0.03),
+          ),
+          SizedBox(height: sH * 0.02),
+          // Text("Subscribe",
+          //     style:
+          // TextStyle(fontWeight: FontWeight.bold, fontSize: sH * 0.025)),
+
+          ElevatedButton(
+              onPressed: () {},
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.green),
+                  elevation: MaterialStateProperty.all(10),
+                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)))),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: sH * 0.007,
+                  ),
+                  Container(
+                    height: sH * 0.11,
+                    width: double.infinity,
+                    padding: EdgeInsets.only(top: sH * 0.02),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: const [
+                        Text(
+                          "Monthly",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 16),
+                        ),
+                        Text(
+                          "GH₵120.00",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 14),
+                        ),
+                        SizedBox(
+                          height: 0.1,
+                        ),
+                        Text(
+                          "Auto-renews , cancel anytime",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.black),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              )),
+          SizedBox(
+            height: sH * 0.015,
+          ),
+          ElevatedButton(
+              onPressed: () {},
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.green),
+                  elevation: MaterialStateProperty.all(10),
+                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)))),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: sH * 0.007,
+                  ),
+                  Container(
+                    height: sH * 0.11,
+                    width: double.infinity,
+                    padding: EdgeInsets.only(top: sH * 0.02),
+                    // decoration: boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.5),spreadRadius:5,blurRadius:7,offset:Offset(0,3))],
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: const [
+                        Text(
+                          "3-Months",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 16),
+                        ),
+                        Text(
+                          "GH₵360.00",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 14),
+                        ),
+                        Text(
+                          "Auto-renews Monthly, cancel anytime",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.black),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              )),
+          SizedBox(
+            height: sH * 0.015,
+          ),
+          ElevatedButton(
+              onPressed: () {},
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.green),
+                  elevation: MaterialStateProperty.all(10),
+                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)))),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: sH * 0.007,
+                  ),
+                  Container(
+                    height: sH * 0.11,
+                    width: double.infinity,
+                    padding: EdgeInsets.only(top: sH * 0.02),
+                    // decoration: boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.5),spreadRadius:5,blurRadius:7,offset:Offset(0,3))],
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: const [
+                        Text(
+                          "6-Months",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 16),
+                        ),
+                        Text(
+                          "GH₵720.00",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.black),
+                        ),
+                        Text(
+                          "Auto-renews Monthly, cancel anytime",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.black),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              )),
+          SizedBox(height: sH * 0.015),
+          ElevatedButton(
+              onPressed: () {},
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.green),
+                  elevation: MaterialStateProperty.all(10),
+                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)))),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: sH * 0.007,
+                  ),
+                  Container(
+                    height: sH * 0.11,
+                    width: double.infinity,
+                    padding: EdgeInsets.only(top: sH * 0.02),
+                    // decoration: boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.5),spreadRadius:5,blurRadius:7,offset:Offset(0,3))],
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: const [
+                        Text(
+                          "Yearly",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 16),
+                        ),
+                        Text(
+                          "GH₵1,440.00",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.black),
+                        ),
+                        Text(
+                          "Auto-renews Monthly, cancel anytime",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.black),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              )),
+        ],
+      ),
     );
   }
 }

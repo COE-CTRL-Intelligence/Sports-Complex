@@ -136,7 +136,10 @@ class TimeLabel extends StatelessWidget {
               time!.hour,
               time.minute,
             );
-            updateTime(newDate, 'TIME');
+            if (allowableDate.isBefore(newDate) ||
+                allowableDate.isAtSameMomentAs(newDate)) {
+              updateTime(newDate, 'TIME');
+            }
           } catch (e) {
             null;
           }
@@ -146,22 +149,25 @@ class TimeLabel extends StatelessWidget {
           showCupertinoModalPopup(
               context: context,
               builder: (context) => Container(
-                    color: Colors.white70,
-                    height: MediaQuery.of(context).size.height * 0.25,
-                    child: CupertinoDatePicker(
-                        mode: CupertinoDatePickerMode.time,
-                        initialDateTime: selectedTime,
-                        minimumDate: allowableDate.subtract(Duration(
-                            hours: allowableDate.hour,
-                            minutes: allowableDate.minute,
-                            seconds: allowableDate.second,
-                            milliseconds: allowableDate.millisecond,
-                            microseconds: allowableDate.microsecond)),
-                        maximumDate:
-                            allowableDate.add(const Duration(days: 365)),
-                        onDateTimeChanged: (value) =>
-                            updateTime(value, 'TIME')),
-                  ));
+                  color: Colors.white70,
+                  height: MediaQuery.of(context).size.height * 0.25,
+                  child: CupertinoDatePicker(
+                    mode: CupertinoDatePickerMode.time,
+                    initialDateTime: selectedTime,
+                    minimumDate: allowableDate.subtract(Duration(
+                        hours: allowableDate.hour,
+                        minutes: allowableDate.minute,
+                        seconds: allowableDate.second,
+                        milliseconds: allowableDate.millisecond,
+                        microseconds: allowableDate.microsecond)),
+                    maximumDate: allowableDate.add(const Duration(days: 365)),
+                    onDateTimeChanged: (value) {
+                      if (allowableDate.isBefore(value) ||
+                          allowableDate.isAtSameMomentAs(value)) {
+                        updateTime(value, 'TIME');
+                      }
+                    },
+                  )));
         }
       },
       child: Container(

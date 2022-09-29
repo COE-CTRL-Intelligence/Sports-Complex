@@ -13,6 +13,8 @@ import 'package:sports_complex/widgets/side_bar.dart';
 import 'package:sports_complex/utils/constants.dart';
 import 'package:http/http.dart' as http;
 
+import '../widgets/sportify_logo.dart';
+
 class GymSignUpPage extends StatefulWidget {
   const GymSignUpPage({Key? key}) : super(key: key);
 
@@ -126,12 +128,20 @@ class _GymSignUpPageState extends State<GymSignUpPage> {
                   child: Column(
                 children: [
                   // Head
-                  const PageTitle(title: 'SIGN-UP'),
-                  SizedBox(height: screenHeight * 0.1),
+                 // const PageTitle(title: 'SIGN-UP'),
+                  //SizedBox(height: screenHeight * 0.1),
+
+                  const Hero(
+                      tag: 'sportify_logo',
+                      child: Center(
+                        child: SportifyLogo(logoSize: 45),
+                      ),
+                  ), 
 
                   // Body
                   Column(
                     children: [
+                      SizedBox(height: screenHeight*0.09),
                       CustomInputField(
                           fieldController: nameController,
                           fieldName: 'Name',
