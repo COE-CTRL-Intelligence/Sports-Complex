@@ -26,9 +26,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
 
   @override
   void initState() {
-    // to do: implement initState
     super.initState();
-    debugPrint("hello me");
     getUserData();
   }
 
@@ -82,9 +80,9 @@ class _GymDashboardPageState extends State<GymDashboardPage>
   Widget build(BuildContext context) {
     double sH = MediaQuery.of(context).size.height;
     double sW = MediaQuery.of(context).size.width;
-    
 
-    TabController tabController = TabController(length: 2, vsync: this, initialIndex: tabIndex );
+    TabController tabController =
+        TabController(length: 2, vsync: this, initialIndex: tabIndex);
     return WillPopScope(
         onWillPop: () async {
           AutoRouter.of(context).navigate(const HomeRoute());
@@ -217,10 +215,10 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                 cursorColor: Colors.black,
               ),
               Text(
-                  calcBMI(double.tryParse(heightController.text),
-                          double.tryParse(weightController.text))
-                      .toStringAsFixed(2),
-                  ),
+                calcBMI(double.tryParse(heightController.text),
+                        double.tryParse(weightController.text))
+                    .toStringAsFixed(2),
+              ),
             ],
           ),
         ),
@@ -228,8 +226,8 @@ class _GymDashboardPageState extends State<GymDashboardPage>
         ElevatedButton(
             onPressed: () {
               calcBMI(double.tryParse(heightController.text),
-                    double.tryParse(weightController.text))
-                .toStringAsFixed(2);
+                      double.tryParse(weightController.text))
+                  .toStringAsFixed(2);
             },
             child: Text(
               "Calculate BMI",

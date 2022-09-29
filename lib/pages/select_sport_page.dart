@@ -72,10 +72,15 @@ class _SelectSportPageState extends State<SelectSportPage> {
     double sH = MediaQuery.of(context).size.height;
     double sW = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 76, 126, 78),
-      endDrawer: const Sidebar(),
-      appBar: AppBar(
+    return WillPopScope(
+      onWillPop: () async {
+        AutoRouter.of(context).navigate(const HomeRoute());
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: const Color.fromARGB(255, 76, 126, 78),
+        endDrawer: const Sidebar(),
+        appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0.0,
           leading: GestureDetector(
@@ -84,43 +89,44 @@ class _SelectSportPageState extends State<SelectSportPage> {
               },
               child: const Icon(Icons.arrow_back_ios_new)),
         ),
-      body: SingleChildScrollView(
-        child: Center(
-            child: Column(
-          children: [
-            const PageTitle(title: 'BOOK A FACILITY'),
-            SizedBox(height: (platforms != null) ? sH * 0.08 : sH * 0.35),
-            (platforms != null)
-                ? Padding(
-                    padding: EdgeInsets.symmetric(horizontal: sW * 0.08),
-                    child: Column(children: [
-                      PlatformTile(
-                        image: const AssetImage('assets/images/pitch.jpg'),
-                        platformID: platforms![2]["_id"].toString(),
-                        platformName: platforms![2]["name"].toString(),
-                        costPerHour: platforms![2]["costPerHour"].toString(),
-                      ),
-                      SizedBox(height: space),
-                      PlatformTile(
-                        image:
-                            const AssetImage('assets/images/bball_court.jpg'),
-                        platformName: platforms![1]["name"].toString(),
-                        platformID: platforms![1]["_id"].toString(),
-                        costPerHour: platforms![1]["costPerHour"].toString(),
-                      ),
-                      SizedBox(height: space),
-                      PlatformTile(
-                        image:
-                            const AssetImage('assets/images/tennis_court.jpg'),
-                        platformID: platforms![0]["_id"].toString(),
-                        platformName: platforms![0]["name"].toString(),
-                        costPerHour: platforms![0]["costPerHour"].toString(),
-                      ),
-                    ]),
-                  )
-                : const CircularProgressIndicator(),
-          ],
-        )),
+        body: SingleChildScrollView(
+          child: Center(
+              child: Column(
+            children: [
+              const PageTitle(title: 'BOOK A FACILITY'),
+              SizedBox(height: (platforms != null) ? sH * 0.08 : sH * 0.35),
+              (platforms != null)
+                  ? Padding(
+                      padding: EdgeInsets.symmetric(horizontal: sW * 0.08),
+                      child: Column(children: [
+                        PlatformTile(
+                          image: const AssetImage('assets/images/pitch.jpg'),
+                          platformID: platforms![2]["_id"].toString(),
+                          platformName: platforms![2]["name"].toString(),
+                          costPerHour: platforms![2]["costPerHour"].toString(),
+                        ),
+                        SizedBox(height: space),
+                        PlatformTile(
+                          image:
+                              const AssetImage('assets/images/bball_court.jpg'),
+                          platformName: platforms![1]["name"].toString(),
+                          platformID: platforms![1]["_id"].toString(),
+                          costPerHour: platforms![1]["costPerHour"].toString(),
+                        ),
+                        SizedBox(height: space),
+                        PlatformTile(
+                          image: const AssetImage(
+                              'assets/images/tennis_court.jpg'),
+                          platformID: platforms![0]["_id"].toString(),
+                          platformName: platforms![0]["name"].toString(),
+                          costPerHour: platforms![0]["costPerHour"].toString(),
+                        ),
+                      ]),
+                    )
+                  : const CircularProgressIndicator(),
+            ],
+          )),
+        ),
       ),
     );
   }
