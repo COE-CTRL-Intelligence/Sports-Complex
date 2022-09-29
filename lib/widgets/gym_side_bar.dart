@@ -4,7 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../pages/routes/app_router.gr.dart';
 
 class GymSideBar extends StatefulWidget {
-  const GymSideBar({super.key});
+  const GymSideBar({super.key, required this.logout});
+  final Function logout;
 
   @override
   State<GymSideBar> createState() => _GymSideBarState();
@@ -55,9 +56,7 @@ class _GymSideBarState extends State<GymSideBar> {
                           ),
                           TextButton(
                               onPressed: () {
-                                Navigator.of(context).pop();
-                                Navigator.of(context).pop();
-                                logout();
+                                widget.logout();
                               },
                               child: const Text("Logout")),
                         ],
@@ -69,12 +68,5 @@ class _GymSideBarState extends State<GymSideBar> {
         ),
       ),
     );
-  }
-
-  void logout() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.clear();
-    if (!mounted) return;
-    AutoRouter.of(context).navigate(const HomeRoute());
   }
 }

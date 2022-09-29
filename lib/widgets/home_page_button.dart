@@ -24,7 +24,6 @@ class HomePageButton extends StatelessWidget {
           ),
         ),
         onPressed: () {
-          debugPrint('Home Button pressed');
           onPressed!();
         },
         child: Padding(

@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sports_complex/pages/routes/app_router.gr.dart';
+import 'package:sports_complex/utils/constants.dart';
 import 'package:sports_complex/widgets/background_image_widget.dart';
 import 'package:sports_complex/widgets/home_page_button.dart';
 import 'package:sports_complex/widgets/sportify_logo.dart';
@@ -30,7 +31,7 @@ class _HomePageState extends State<HomePage> {
   // Check if user already logged in
   void isUserLogged() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    String? token = pref.getString('gymPassPref');
+    String? token = pref.getString(gymUserPref);
     if (token != null) {
       if (!mounted) return;
       AutoRouter.of(context).push(const GymDashboardRoute());
