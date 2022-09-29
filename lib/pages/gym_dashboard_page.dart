@@ -17,6 +17,7 @@ class GymDashboardPage extends StatefulWidget {
 }
 
 Map<String, dynamic> userData = {};
+int tabIndex = 0;
 
 class _GymDashboardPageState extends State<GymDashboardPage>
     with TickerProviderStateMixin {
@@ -71,6 +72,9 @@ class _GymDashboardPageState extends State<GymDashboardPage>
     setState(() {
       result = result;
     });
+    setState(() {
+      tabIndex = 1;
+    });
     return result;
   }
 
@@ -78,8 +82,9 @@ class _GymDashboardPageState extends State<GymDashboardPage>
   Widget build(BuildContext context) {
     double sH = MediaQuery.of(context).size.height;
     double sW = MediaQuery.of(context).size.width;
+    
 
-    TabController tabController = TabController(length: 2, vsync: this);
+    TabController tabController = TabController(length: 2, vsync: this, initialIndex: tabIndex );
     return WillPopScope(
         onWillPop: () async {
           AutoRouter.of(context).navigate(const HomeRoute());
@@ -134,6 +139,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
         ));
   }
 
+//PROFILE TAB
   Container profileTab() {
     double sH = MediaQuery.of(context).size.height;
     double sW = MediaQuery.of(context).size.width;
@@ -214,15 +220,17 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                   calcBMI(double.tryParse(heightController.text),
                           double.tryParse(weightController.text))
                       .toStringAsFixed(2),
-                  semanticsLabel: "is BMI"),
+                  ),
             ],
           ),
         ),
         SizedBox(height: sH * 0.03),
         ElevatedButton(
-            onPressed: () => calcBMI(double.tryParse(heightController.text),
+            onPressed: () {
+              calcBMI(double.tryParse(heightController.text),
                     double.tryParse(weightController.text))
-                .toStringAsFixed(2),
+                .toStringAsFixed(2);
+            },
             child: Text(
               "Calculate BMI",
               style: TextStyle(fontSize: sH * 0.025),
@@ -231,6 +239,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
     );
   }
 
+//PLAN TAB
   Container planTab() {
     double sH = MediaQuery.of(context).size.height;
     double sW = MediaQuery.of(context).size.width;
