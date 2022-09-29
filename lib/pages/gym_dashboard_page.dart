@@ -139,34 +139,6 @@ class _GymDashboardPageState extends State<GymDashboardPage>
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(children: [
-        // Container(
-        //   height: sH * 0.12,
-        //   width: double.maxFinite,
-        //   padding: const EdgeInsets.all(15),
-        //   decoration: BoxDecoration(
-        //       color: const Color.fromARGB(255, 239, 239, 237),
-        //       borderRadius: BorderRadius.circular(18)),
-        //   child: Column(
-        //     crossAxisAlignment: CrossAxisAlignment.start,
-        //     children: [
-        //       Text(
-        //         'Hello ${userData["name"]},',
-        //         style: TextStyle(
-        //             fontWeight: FontWeight.bold,
-        //             fontSize: 23,
-        //             color: AppColor.green2),
-        //       ),
-        //       const SizedBox(height: 20),
-        //       // Text('Your Email: ${userData["email"]}'),
-        //       Text(
-        //         greeting(),
-        //         style:
-        //             const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-        //       )
-        //     ],
-        //   ),
-        // ),
-        SizedBox(height: sH * 0.03),
         Container(
           height: sH * 0.12,
           width: double.maxFinite,
