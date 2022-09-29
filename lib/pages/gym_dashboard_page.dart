@@ -72,6 +72,9 @@ class _GymDashboardPageState extends State<GymDashboardPage>
     setState(() {
       result = result;
     });
+    setState(() {
+      tabIndex = 1;
+    });
     return result;
   }
 
@@ -136,6 +139,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
         ));
   }
 
+//PROFILE TAB
   Container profileTab() {
     double sH = MediaQuery.of(context).size.height;
     double sW = MediaQuery.of(context).size.width;
@@ -226,9 +230,6 @@ class _GymDashboardPageState extends State<GymDashboardPage>
               calcBMI(double.tryParse(heightController.text),
                     double.tryParse(weightController.text))
                 .toStringAsFixed(2);
-              setState(() {
-                tabIndex = 1;
-              });
             },
             child: Text(
               "Calculate BMI",
@@ -238,6 +239,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
     );
   }
 
+//PLAN TAB
   Container planTab() {
     double sH = MediaQuery.of(context).size.height;
     double sW = MediaQuery.of(context).size.width;
