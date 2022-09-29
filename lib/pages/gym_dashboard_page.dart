@@ -72,9 +72,6 @@ class _GymDashboardPageState extends State<GymDashboardPage>
     setState(() {
       result = result;
     });
-    setState(() {
-      tabIndex = 1;
-    });
     return result;
   }
 
@@ -82,9 +79,9 @@ class _GymDashboardPageState extends State<GymDashboardPage>
   Widget build(BuildContext context) {
     double sH = MediaQuery.of(context).size.height;
     double sW = MediaQuery.of(context).size.width;
-    
 
-    TabController tabController = TabController(length: 2, vsync: this, initialIndex: tabIndex );
+    TabController tabController =
+        TabController(length: 2, vsync: this, initialIndex: tabIndex);
     return WillPopScope(
         onWillPop: () async {
           AutoRouter.of(context).navigate(const HomeRoute());
@@ -148,8 +145,8 @@ class _GymDashboardPageState extends State<GymDashboardPage>
       margin: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(children: [
         Container(
-          height: sH * 0.12,
-          width: double.maxFinite,
+          height: sH * 0.15,
+          width: sW * double.maxFinite,
           padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
               color: const Color.fromARGB(255, 239, 239, 237),
@@ -217,10 +214,10 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                 cursorColor: Colors.black,
               ),
               Text(
-                  calcBMI(double.tryParse(heightController.text),
-                          double.tryParse(weightController.text))
-                      .toStringAsFixed(2),
-                  ),
+                calcBMI(double.tryParse(heightController.text),
+                        double.tryParse(weightController.text))
+                    .toStringAsFixed(2),
+              ),
             ],
           ),
         ),
@@ -228,8 +225,11 @@ class _GymDashboardPageState extends State<GymDashboardPage>
         ElevatedButton(
             onPressed: () {
               calcBMI(double.tryParse(heightController.text),
-                    double.tryParse(weightController.text))
-                .toStringAsFixed(2);
+                      double.tryParse(weightController.text))
+                  .toStringAsFixed(2);
+              setState(() {
+                tabIndex = 1;
+              });
             },
             child: Text(
               "Calculate BMI",
@@ -248,8 +248,8 @@ class _GymDashboardPageState extends State<GymDashboardPage>
       child: Column(
         children: [
           Container(
-            height: sH * 0.12,
-            width: double.maxFinite,
+            height: sH * 0.15,
+            width: sW * double.maxFinite,
             padding: const EdgeInsets.all(15),
             decoration: BoxDecoration(
                 color: const Color.fromARGB(255, 239, 239, 237),
