@@ -78,7 +78,7 @@ class ContactUsPage extends StatelessWidget {
            )),
            height: 233,
            width: 587, 
-           child:const Text('     Do you have any ideas or suggestions?Or would you like to report a \n     problem? \n     Here is how to reach us.\n\n     _________________________________________________________________\n\n',
+           child:const Text('     Do you have any ideas or suggestions?Or would you like to report a \n     problem? \n     Here\'s how to reach us.\n\n     _________________________________________________________________\n\n',
            style: TextStyle(fontStyle: FontStyle.italic, fontSize: 18,),),
            ),
 
