@@ -11,40 +11,43 @@ class CheckBookingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bookingCodeController = TextEditingController();
+    double sH = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: const Color(0xffC2C3A0),
       endDrawer: const Sidebar(),
       appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-          leading: GestureDetector(
-              onTap: () {
-                AutoRouter.of(context).push(const HomeRoute());
-              },
-              child: const Icon(Icons.arrow_back_ios_new)),
-        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        leading: GestureDetector(
+            onTap: () {
+              AutoRouter.of(context).push(const HomeRoute());
+            },
+            child: const Icon(Icons.arrow_back_ios_new)),
+      ),
       body: SingleChildScrollView(
-        child: Center( 
+        child: Center(
             child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40),
           child: Column(
             children: [
               const PageTitle(title: 'CHECK BOOKING'),
-              const SizedBox(height: 150),
+              SizedBox(height: sH * 0.15),
               CustomInputField(
                 icon: Icons.numbers,
                 fieldName: "Enter Booking Code Here",
                 fieldController: bookingCodeController,
               ),
-              const SizedBox(height: 150),
+              SizedBox(height: sH * 0.05),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: SizedBox(
                   height: 40,
                   width: 200,
                   child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        debugPrint(bookingCodeController.text);
+                      },
                       style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16)),

@@ -117,19 +117,17 @@ class _GymLoginPageState extends State<GymLoginPage> {
               child: Column(
                 children: [
                   // Head
-                  //const PageTitle(title: 'LOG-IN'),
-                 // SizedBox(height: screenHeight * 0.1),
-                 const Hero(
-                      tag: 'sportify_logo',
-                      child: Center(
-                        child: SportifyLogo(logoSize: 45),
-                      ),
-                 )  ,
+                  const Hero(
+                    tag: 'sportify_logo',
+                    child: Center(
+                      child: SportifyLogo(logoSize: 45),
+                    ),
+                  ),
 
                   // Body
                   Column(
                     children: [
-                      SizedBox(height: screenHeight*0.15,),
+                      SizedBox(height: screenHeight * 0.15),
                       CustomInputField(
                           fieldName: 'Email',
                           fieldController: emailController,
