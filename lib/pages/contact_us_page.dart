@@ -86,7 +86,7 @@ class ContactUsPage extends StatelessWidget {
            Column(
             children: [
              
-            ElevatedButton( child:const Text('Contact us'), 
+            ElevatedButton( child:const Text('Contact Us'), 
             onPressed: (){ 
               showDialog(
                context: context, 
