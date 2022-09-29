@@ -70,9 +70,6 @@ class _GymDashboardPageState extends State<GymDashboardPage>
     setState(() {
       result = result;
     });
-    setState(() {
-      tabIndex = 1;
-    });
     return result;
   }
 
@@ -246,8 +243,8 @@ class _GymDashboardPageState extends State<GymDashboardPage>
       child: Column(
         children: [
           Container(
-            height: sH * 0.12,
-            width: double.maxFinite,
+            height: sH * 0.15,
+            width: sW * double.maxFinite,
             padding: const EdgeInsets.all(15),
             decoration: BoxDecoration(
                 color: const Color.fromARGB(255, 239, 239, 237),

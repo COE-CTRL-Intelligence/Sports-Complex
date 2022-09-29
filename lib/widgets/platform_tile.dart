@@ -30,6 +30,8 @@ class PlatformTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ButtonStyle(
+        shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
         splashFactory: NoSplash.splashFactory,
         padding:
             MaterialStateProperty.all(const EdgeInsets.only(left: 0, right: 0)),
