@@ -10,10 +10,12 @@
 //
 // ignore_for_file: type=lint
 
+// ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i13;
 import 'package:flutter/material.dart' as _i14;
-import 'package:syncfusion_flutter_calendar/calendar.dart' as _i15;
+import 'package:syncfusion_flutter_calendar/calendar.dart' as _i16;
 
+import '../../models/booking.dart' as _i15;
 import '../about_page.dart' as _i7;
 import '../booking_page.dart' as _i3;
 import '../check_booking_page.dart' as _i4;
@@ -35,87 +37,158 @@ class AppRouter extends _i13.RootStackRouter {
   final Map<String, _i13.PageFactory> pagesMap = {
     SplashRoute.name: (routeData) {
       return _i13.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i1.SplashPage());
+        routeData: routeData,
+        child: const _i1.SplashPage(),
+      );
     },
     HomeRoute.name: (routeData) {
       return _i13.CustomPage<dynamic>(
-          routeData: routeData,
-          child: const _i2.HomePage(),
-          durationInMilliseconds: 1200,
-          opaque: true,
-          barrierDismissible: false);
+        routeData: routeData,
+        child: const _i2.HomePage(),
+        durationInMilliseconds: 1200,
+        opaque: true,
+        barrierDismissible: false,
+      );
     },
     BookingRoute.name: (routeData) {
       final args = routeData.argsAs<BookingRouteArgs>();
       return _i13.MaterialPageX<dynamic>(
-          routeData: routeData,
-          child:
-              _i3.BookingPage(key: args.key, title: args.title, id: args.id));
+        routeData: routeData,
+        child: _i3.BookingPage(
+          key: args.key,
+          title: args.title,
+          id: args.id,
+          appointment: args.appointment,
+        ),
+      );
     },
     CheckBookingRoute.name: (routeData) {
       return _i13.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i4.CheckBookingPage());
+        routeData: routeData,
+        child: const _i4.CheckBookingPage(),
+      );
     },
     GymLoginRoute.name: (routeData) {
       return _i13.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i5.GymLoginPage());
+        routeData: routeData,
+        child: const _i5.GymLoginPage(),
+      );
     },
     GymSignUpRoute.name: (routeData) {
       return _i13.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i6.GymSignUpPage());
+        routeData: routeData,
+        child: const _i6.GymSignUpPage(),
+      );
     },
     AboutRoute.name: (routeData) {
       return _i13.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i7.AboutPage());
+        routeData: routeData,
+        child: const _i7.AboutPage(),
+      );
     },
     ContactUsRoute.name: (routeData) {
       return _i13.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i8.ContactUsPage());
+        routeData: routeData,
+        child: const _i8.ContactUsPage(),
+      );
     },
     SelectSportRoute.name: (routeData) {
       return _i13.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i9.SelectSportPage());
+        routeData: routeData,
+        child: const _i9.SelectSportPage(),
+      );
     },
     GymDashboardRoute.name: (routeData) {
       return _i13.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i10.GymDashboardPage());
+        routeData: routeData,
+        child: const _i10.GymDashboardPage(),
+      );
     },
     ScheduleBookingRoute.name: (routeData) {
       final args = routeData.argsAs<ScheduleBookingRouteArgs>();
       return _i13.MaterialPageX<dynamic>(
-          routeData: routeData,
-          child: _i11.ScheduleBookingPage(
-              key: args.key,
-              inputTime: args.inputTime,
-              bookedDates: args.bookedDates));
+        routeData: routeData,
+        child: _i11.ScheduleBookingPage(
+          key: args.key,
+          inputTime: args.inputTime,
+          bookedDates: args.bookedDates,
+        ),
+      );
     },
     PaymentRoute.name: (routeData) {
+      final args = routeData.argsAs<PaymentRouteArgs>();
       return _i13.MaterialPageX<dynamic>(
-          routeData: routeData, child: _i12.PaymentPage());
-    }
+        routeData: routeData,
+        child: _i12.PaymentPage(
+          key: args.key,
+          payload: args.payload,
+          details: args.details,
+        ),
+      );
+    },
   };
 
   @override
   List<_i13.RouteConfig> get routes => [
-        _i13.RouteConfig(SplashRoute.name, path: '/'),
-        _i13.RouteConfig(HomeRoute.name, path: '/home'),
-        _i13.RouteConfig(BookingRoute.name, path: '/booking'),
-        _i13.RouteConfig(CheckBookingRoute.name, path: '/check_booking'),
-        _i13.RouteConfig(GymLoginRoute.name, path: '/gym_login'),
-        _i13.RouteConfig(GymSignUpRoute.name, path: '/gym_signup'),
-        _i13.RouteConfig(AboutRoute.name, path: '/About'),
-        _i13.RouteConfig(ContactUsRoute.name, path: '/Contact'),
-        _i13.RouteConfig(SelectSportRoute.name, path: '/select_sport_page'),
-        _i13.RouteConfig(GymDashboardRoute.name, path: '/gym_dashboard'),
-        _i13.RouteConfig(ScheduleBookingRoute.name, path: '/schedule_booking'),
-        _i13.RouteConfig(PaymentRoute.name, path: '/payment')
+        _i13.RouteConfig(
+          SplashRoute.name,
+          path: '/',
+        ),
+        _i13.RouteConfig(
+          HomeRoute.name,
+          path: '/home',
+        ),
+        _i13.RouteConfig(
+          BookingRoute.name,
+          path: '/booking',
+        ),
+        _i13.RouteConfig(
+          CheckBookingRoute.name,
+          path: '/check_booking',
+        ),
+        _i13.RouteConfig(
+          GymLoginRoute.name,
+          path: '/gym_login',
+        ),
+        _i13.RouteConfig(
+          GymSignUpRoute.name,
+          path: '/gym_signup',
+        ),
+        _i13.RouteConfig(
+          AboutRoute.name,
+          path: '/About',
+        ),
+        _i13.RouteConfig(
+          ContactUsRoute.name,
+          path: '/Contact',
+        ),
+        _i13.RouteConfig(
+          SelectSportRoute.name,
+          path: '/select_sport_page',
+        ),
+        _i13.RouteConfig(
+          GymDashboardRoute.name,
+          path: '/gym_dashboard',
+        ),
+        _i13.RouteConfig(
+          ScheduleBookingRoute.name,
+          path: '/schedule_booking',
+        ),
+        _i13.RouteConfig(
+          PaymentRoute.name,
+          path: '/payment',
+        ),
       ];
 }
 
 /// generated route for
 /// [_i1.SplashPage]
 class SplashRoute extends _i13.PageRouteInfo<void> {
-  const SplashRoute() : super(SplashRoute.name, path: '/');
+  const SplashRoute()
+      : super(
+          SplashRoute.name,
+          path: '/',
+        );
 
   static const String name = 'SplashRoute';
 }
@@ -123,7 +196,11 @@ class SplashRoute extends _i13.PageRouteInfo<void> {
 /// generated route for
 /// [_i2.HomePage]
 class HomeRoute extends _i13.PageRouteInfo<void> {
-  const HomeRoute() : super(HomeRoute.name, path: '/home');
+  const HomeRoute()
+      : super(
+          HomeRoute.name,
+          path: '/home',
+        );
 
   static const String name = 'HomeRoute';
 }
@@ -131,16 +208,32 @@ class HomeRoute extends _i13.PageRouteInfo<void> {
 /// generated route for
 /// [_i3.BookingPage]
 class BookingRoute extends _i13.PageRouteInfo<BookingRouteArgs> {
-  BookingRoute({_i14.Key? key, required String title, required String id})
-      : super(BookingRoute.name,
-            path: '/booking',
-            args: BookingRouteArgs(key: key, title: title, id: id));
+  BookingRoute({
+    _i14.Key? key,
+    required String title,
+    required String id,
+    _i15.Booking? appointment,
+  }) : super(
+          BookingRoute.name,
+          path: '/booking',
+          args: BookingRouteArgs(
+            key: key,
+            title: title,
+            id: id,
+            appointment: appointment,
+          ),
+        );
 
   static const String name = 'BookingRoute';
 }
 
 class BookingRouteArgs {
-  const BookingRouteArgs({this.key, required this.title, required this.id});
+  const BookingRouteArgs({
+    this.key,
+    required this.title,
+    required this.id,
+    this.appointment,
+  });
 
   final _i14.Key? key;
 
@@ -148,9 +241,11 @@ class BookingRouteArgs {
 
   final String id;
 
+  final _i15.Booking? appointment;
+
   @override
   String toString() {
-    return 'BookingRouteArgs{key: $key, title: $title, id: $id}';
+    return 'BookingRouteArgs{key: $key, title: $title, id: $id, appointment: $appointment}';
   }
 }
 
@@ -158,7 +253,10 @@ class BookingRouteArgs {
 /// [_i4.CheckBookingPage]
 class CheckBookingRoute extends _i13.PageRouteInfo<void> {
   const CheckBookingRoute()
-      : super(CheckBookingRoute.name, path: '/check_booking');
+      : super(
+          CheckBookingRoute.name,
+          path: '/check_booking',
+        );
 
   static const String name = 'CheckBookingRoute';
 }
@@ -166,7 +264,11 @@ class CheckBookingRoute extends _i13.PageRouteInfo<void> {
 /// generated route for
 /// [_i5.GymLoginPage]
 class GymLoginRoute extends _i13.PageRouteInfo<void> {
-  const GymLoginRoute() : super(GymLoginRoute.name, path: '/gym_login');
+  const GymLoginRoute()
+      : super(
+          GymLoginRoute.name,
+          path: '/gym_login',
+        );
 
   static const String name = 'GymLoginRoute';
 }
@@ -174,7 +276,11 @@ class GymLoginRoute extends _i13.PageRouteInfo<void> {
 /// generated route for
 /// [_i6.GymSignUpPage]
 class GymSignUpRoute extends _i13.PageRouteInfo<void> {
-  const GymSignUpRoute() : super(GymSignUpRoute.name, path: '/gym_signup');
+  const GymSignUpRoute()
+      : super(
+          GymSignUpRoute.name,
+          path: '/gym_signup',
+        );
 
   static const String name = 'GymSignUpRoute';
 }
@@ -182,7 +288,11 @@ class GymSignUpRoute extends _i13.PageRouteInfo<void> {
 /// generated route for
 /// [_i7.AboutPage]
 class AboutRoute extends _i13.PageRouteInfo<void> {
-  const AboutRoute() : super(AboutRoute.name, path: '/About');
+  const AboutRoute()
+      : super(
+          AboutRoute.name,
+          path: '/About',
+        );
 
   static const String name = 'AboutRoute';
 }
@@ -190,7 +300,11 @@ class AboutRoute extends _i13.PageRouteInfo<void> {
 /// generated route for
 /// [_i8.ContactUsPage]
 class ContactUsRoute extends _i13.PageRouteInfo<void> {
-  const ContactUsRoute() : super(ContactUsRoute.name, path: '/Contact');
+  const ContactUsRoute()
+      : super(
+          ContactUsRoute.name,
+          path: '/Contact',
+        );
 
   static const String name = 'ContactUsRoute';
 }
@@ -199,7 +313,10 @@ class ContactUsRoute extends _i13.PageRouteInfo<void> {
 /// [_i9.SelectSportPage]
 class SelectSportRoute extends _i13.PageRouteInfo<void> {
   const SelectSportRoute()
-      : super(SelectSportRoute.name, path: '/select_sport_page');
+      : super(
+          SelectSportRoute.name,
+          path: '/select_sport_page',
+        );
 
   static const String name = 'SelectSportRoute';
 }
@@ -208,7 +325,10 @@ class SelectSportRoute extends _i13.PageRouteInfo<void> {
 /// [_i10.GymDashboardPage]
 class GymDashboardRoute extends _i13.PageRouteInfo<void> {
   const GymDashboardRoute()
-      : super(GymDashboardRoute.name, path: '/gym_dashboard');
+      : super(
+          GymDashboardRoute.name,
+          path: '/gym_dashboard',
+        );
 
   static const String name = 'GymDashboardRoute';
 }
@@ -217,27 +337,35 @@ class GymDashboardRoute extends _i13.PageRouteInfo<void> {
 /// [_i11.ScheduleBookingPage]
 class ScheduleBookingRoute
     extends _i13.PageRouteInfo<ScheduleBookingRouteArgs> {
-  ScheduleBookingRoute(
-      {_i14.Key? key,
-      required DateTime? inputTime,
-      List<_i15.Appointment>? bookedDates})
-      : super(ScheduleBookingRoute.name,
-            path: '/schedule_booking',
-            args: ScheduleBookingRouteArgs(
-                key: key, inputTime: inputTime, bookedDates: bookedDates));
+  ScheduleBookingRoute({
+    _i14.Key? key,
+    required DateTime? inputTime,
+    List<_i16.Appointment>? bookedDates,
+  }) : super(
+          ScheduleBookingRoute.name,
+          path: '/schedule_booking',
+          args: ScheduleBookingRouteArgs(
+            key: key,
+            inputTime: inputTime,
+            bookedDates: bookedDates,
+          ),
+        );
 
   static const String name = 'ScheduleBookingRoute';
 }
 
 class ScheduleBookingRouteArgs {
-  const ScheduleBookingRouteArgs(
-      {this.key, required this.inputTime, this.bookedDates});
+  const ScheduleBookingRouteArgs({
+    this.key,
+    required this.inputTime,
+    this.bookedDates,
+  });
 
   final _i14.Key? key;
 
   final DateTime? inputTime;
 
-  final List<_i15.Appointment>? bookedDates;
+  final List<_i16.Appointment>? bookedDates;
 
   @override
   String toString() {
@@ -247,8 +375,39 @@ class ScheduleBookingRouteArgs {
 
 /// generated route for
 /// [_i12.PaymentPage]
-class PaymentRoute extends _i13.PageRouteInfo<void> {
-  const PaymentRoute() : super(PaymentRoute.name, path: '/payment');
+class PaymentRoute extends _i13.PageRouteInfo<PaymentRouteArgs> {
+  PaymentRoute({
+    _i14.Key? key,
+    required Map<String, dynamic> payload,
+    required List<String> details,
+  }) : super(
+          PaymentRoute.name,
+          path: '/payment',
+          args: PaymentRouteArgs(
+            key: key,
+            payload: payload,
+            details: details,
+          ),
+        );
 
   static const String name = 'PaymentRoute';
+}
+
+class PaymentRouteArgs {
+  const PaymentRouteArgs({
+    this.key,
+    required this.payload,
+    required this.details,
+  });
+
+  final _i14.Key? key;
+
+  final Map<String, dynamic> payload;
+
+  final List<String> details;
+
+  @override
+  String toString() {
+    return 'PaymentRouteArgs{key: $key, payload: $payload, details: $details}';
+  }
 }

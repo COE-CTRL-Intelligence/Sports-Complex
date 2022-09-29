@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:sports_complex/pages/routes/app_router.gr.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sports_complex/utils/colors.dart';
+import 'package:sports_complex/utils/constants.dart';
 import 'dart:convert';
 import '../widgets/gym_side_bar.dart';
 
@@ -26,12 +27,13 @@ class _GymDashboardPageState extends State<GymDashboardPage>
   void initState() {
     // to do: implement initState
     super.initState();
+    debugPrint("hello me");
     getUserData();
   }
 
   void getUserData() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    String? val = pref.getString('jsonResString');
+    String? val = pref.getString(gymUserPref);
     if (val != null) {
       setState(() {
         userData = json.decode(val);
@@ -41,7 +43,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
 
   void logout() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.remove('jsonResString');
+    await pref.remove(gymUserPref);
     if (!mounted) return;
     AutoRouter.of(context).navigate(const HomeRoute());
   }
@@ -85,7 +87,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
         },
         child: Scaffold(
           backgroundColor: const Color.fromARGB(255, 216, 215, 215),
-          endDrawer: const GymSideBar(),
+          endDrawer: GymSideBar(logout: logout),
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 1.0,

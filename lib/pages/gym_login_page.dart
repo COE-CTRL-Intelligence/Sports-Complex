@@ -43,13 +43,13 @@ class _GymLoginPageState extends State<GymLoginPage> {
 
         // If StatusCode != 200
       } else {
-        toggleButtonLoad();
         if (!mounted) return;
+        toggleButtonLoad();
         snackBarMessage(jsonData.toString(), context);
       }
     } catch (e) {
-      snackBarMessage(e.toString(), context);
       toggleButtonLoad();
+      snackBarMessage(e.toString(), context);
     }
   }
 
@@ -58,16 +58,6 @@ class _GymLoginPageState extends State<GymLoginPage> {
     setState(() {
       isVisible = !isVisible;
     });
-  }
-
-  // Check if user already logged in
-  void isLogged() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    String? token = pref.getString('jsonResString');
-    if (token != null) {
-      if (!mounted) return;
-      AutoRouter.of(context).push(const GymDashboardRoute());
-    }
   }
 
   // http getUserData method
@@ -84,8 +74,9 @@ class _GymLoginPageState extends State<GymLoginPage> {
       if (response.statusCode == 200) {
         String jsonResString = jsonEncode(userData).toString();
         SharedPreferences pref = await SharedPreferences.getInstance();
-        pref.setString('jsonResString', jsonResString);
+        pref.setString('gymPassPref', jsonResString);
         if (!mounted) return;
+        toggleButtonLoad();
         AutoRouter.of(context).replace(const GymDashboardRoute());
       }
     } catch (e) {
@@ -95,18 +86,12 @@ class _GymLoginPageState extends State<GymLoginPage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    isLogged();
-  }
-
-  @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return WillPopScope(
       onWillPop: () async {
-        AutoRouter.of(context).navigate(const HomeRoute());
+        AutoRouter.of(context).popUntilRouteWithName('HomeRoute');
         return false;
       },
       child: Scaffold(
@@ -117,7 +102,7 @@ class _GymLoginPageState extends State<GymLoginPage> {
           elevation: 0.0,
           leading: GestureDetector(
               onTap: () {
-                AutoRouter.of(context).push(const HomeRoute());
+                AutoRouter.of(context).navigate(const HomeRoute());
               },
               child: const Icon(Icons.arrow_back_ios_new)),
         ),
@@ -172,6 +157,7 @@ class _GymLoginPageState extends State<GymLoginPage> {
                                     toggleButtonLoad();
                                     login(emailController.text,
                                         passwordController.text);
+                                    // toggleButtonLoad();
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
