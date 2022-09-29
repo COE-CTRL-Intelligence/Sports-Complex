@@ -115,104 +115,102 @@ class _PaymentPageState extends State<PaymentPage> {
     double sH = MediaQuery.of(context).size.height;
     double sW = MediaQuery.of(context).size.width;
 
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColor.cream1,
-        body: Align(
-          alignment: Alignment.bottomCenter,
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  top: 20, left: 30, right: 30, bottom: 0),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [0, 1, 2].asMap().entries.map((entry) {
-                      return Container(
-                        width: 12.0,
-                        height: 12.0,
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 8.0, horizontal: 4.0),
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: (Colors.green).withOpacity(
-                                _current >= entry.key ? 0.9 : 0.4)),
-                      );
-                    }).toList(),
-                  ),
-                  SizedBox(height: sH * 0.1),
-                  Builder(
-                    builder: (context) {
-                      return CarouselSlider(
-                        carouselController: carouselController,
-                        options: CarouselOptions(
-                          onPageChanged: (index, reason) {
+    return Scaffold(
+      backgroundColor: AppColor.cream1,
+      body: Align(
+        alignment: Alignment.bottomCenter,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding:
+                const EdgeInsets.only(top: 20, left: 30, right: 30, bottom: 0),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [0, 1, 2].asMap().entries.map((entry) {
+                    return Container(
+                      width: 12.0,
+                      height: 12.0,
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 4.0),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: (Colors.green)
+                              .withOpacity(_current >= entry.key ? 0.9 : 0.4)),
+                    );
+                  }).toList(),
+                ),
+                SizedBox(height: sH * 0.1),
+                Builder(
+                  builder: (context) {
+                    return CarouselSlider(
+                      carouselController: carouselController,
+                      options: CarouselOptions(
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _current = index;
+                          });
+                        },
+                        scrollPhysics: const NeverScrollableScrollPhysics(),
+                        enableInfiniteScroll: false,
+                        autoPlay: false,
+                        height: sH * 0.6,
+                        viewportFraction: 1,
+                      ),
+                      items: [
+                        PaymentPage1(
+                          payload: widget.payload,
+                          details: widget.details,
+                        ),
+                        PaymentPage2(
+                          callback: setPhoneNumber,
+                        ),
+                        const PaymentPage3()
+                      ],
+                    );
+                  },
+                ),
+                SizedBox(height: sH * 0.05),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ConstrainedBox(
+                      constraints: BoxConstraints.tightFor(
+                          width: sW * 0.35, height: sH * 0.07),
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.red),
+                        ),
+                        onPressed: () {
+                          AutoRouter.of(context)
+                              .popUntilRouteWithName('BookingRoute');
+                        },
+                        child: const Text('Cancel'),
+                      ),
+                    ),
+                    ConstrainedBox(
+                      constraints: BoxConstraints.tightFor(
+                          width: sW * 0.35, height: sH * 0.07),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (progressClicked == false) {
+                            functionList[_current]();
                             setState(() {
-                              _current = index;
+                              progressClicked = false;
                             });
-                          },
-                          scrollPhysics: const NeverScrollableScrollPhysics(),
-                          enableInfiniteScroll: false,
-                          autoPlay: false,
-                          height: sH * 0.6,
-                          viewportFraction: 1,
-                        ),
-                        items: [
-                          PaymentPage1(
-                            payload: widget.payload,
-                            details: widget.details,
-                          ),
-                          PaymentPage2(
-                            callback: setPhoneNumber,
-                          ),
-                          const PaymentPage3()
-                        ],
-                      );
-                    },
-                  ),
-                  SizedBox(height: sH * 0.05),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ConstrainedBox(
-                        constraints: BoxConstraints.tightFor(
-                            width: sW * 0.35, height: sH * 0.07),
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.red),
-                          ),
-                          onPressed: () {
-                            AutoRouter.of(context)
-                                .popUntilRouteWithName('BookingRoute');
-                          },
-                          child: const Text('Cancel'),
-                        ),
+                          } else {
+                            null;
+                          }
+                        },
+                        child: Text(['Confirm', 'Proceed', 'Finish'][_current]
+                            .toString()),
                       ),
-                      ConstrainedBox(
-                        constraints: BoxConstraints.tightFor(
-                            width: sW * 0.35, height: sH * 0.07),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            if (progressClicked == false) {
-                              functionList[_current]();
-                              setState(() {
-                                progressClicked = false;
-                              });
-                            } else {
-                              null;
-                            }
-                          },
-                          child: Text(['Confirm', 'Proceed', 'Finish'][_current]
-                              .toString()),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20)
-                ],
-              ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20)
+              ],
             ),
           ),
         ),

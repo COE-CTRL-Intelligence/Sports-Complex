@@ -38,7 +38,6 @@ class _GymDashboardPageState extends State<GymDashboardPage>
   }
 
   void logout() async {
-    debugPrint('Logged out');
     SharedPreferences pref = await SharedPreferences.getInstance();
     pref.remove('gymPassPref');
     if (!mounted) return;

@@ -44,9 +44,11 @@ class _GymLoginPageState extends State<GymLoginPage> {
         // If StatusCode != 200
       } else {
         if (!mounted) return;
+        toggleButtonLoad();
         snackBarMessage(jsonData.toString(), context);
       }
     } catch (e) {
+      toggleButtonLoad();
       snackBarMessage(e.toString(), context);
     }
   }
@@ -74,9 +76,11 @@ class _GymLoginPageState extends State<GymLoginPage> {
         SharedPreferences pref = await SharedPreferences.getInstance();
         pref.setString('gymPassPref', jsonResString);
         if (!mounted) return;
+        toggleButtonLoad();
         AutoRouter.of(context).replace(const GymDashboardRoute());
       }
     } catch (e) {
+      toggleButtonLoad();
       snackBarMessage(e.toString(), context);
     }
   }
@@ -153,7 +157,7 @@ class _GymLoginPageState extends State<GymLoginPage> {
                                     toggleButtonLoad();
                                     login(emailController.text,
                                         passwordController.text);
-                                    toggleButtonLoad();
+                                    // toggleButtonLoad();
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
