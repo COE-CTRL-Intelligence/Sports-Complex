@@ -88,7 +88,7 @@ class _GymSignUpPageState extends State<GymSignUpPage> {
       if (response.statusCode == 200) {
         String jsonResString = jsonEncode(userData).toString();
         SharedPreferences pref = await SharedPreferences.getInstance();
-        pref.setString('jsonResString', jsonResString);
+        pref.setString('gymPassPref', jsonResString);
         if (!mounted) return;
         AutoRouter.of(context).replace(const GymDashboardRoute());
       }
@@ -115,7 +115,7 @@ class _GymSignUpPageState extends State<GymSignUpPage> {
           elevation: 0.0,
           leading: GestureDetector(
               onTap: () {
-                AutoRouter.of(context).push(const GymLoginRoute());
+                AutoRouter.of(context).navigate(const GymLoginRoute());
               },
               child: const Icon(Icons.arrow_back_ios_new)),
         ),

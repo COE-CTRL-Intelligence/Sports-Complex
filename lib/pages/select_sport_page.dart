@@ -39,7 +39,7 @@ class _SelectSportPageState extends State<SelectSportPage> {
         });
         String jsonResString = jsonEncode(jsonData).toString();
         SharedPreferences pref = await SharedPreferences.getInstance();
-        pref.setString('platformPref', jsonResString);
+        pref.setString(platformTilePref, jsonResString);
       } else {
         if (!mounted) return;
         snackBarMessage(jsonData.toString(), context);
@@ -51,7 +51,7 @@ class _SelectSportPageState extends State<SelectSportPage> {
 
   void dataLoaded() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    String? storedPlatforms = pref.getString('platformPref');
+    String? storedPlatforms = pref.getString(platformTilePref);
     if (storedPlatforms != null) {
       setState(() {
         platforms = jsonDecode(storedPlatforms)["platforms"];

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sports_complex/pages/routes/app_router.gr.dart';
 
 class PlatformTile extends StatelessWidget {
@@ -16,18 +17,27 @@ class PlatformTile extends StatelessWidget {
   final String costPerHour;
   final ImageProvider image;
 
+  // Methods
+  void pushBookingPage(BuildContext context, [bool mounted = true]) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString('platformIDPref', platformID);
+    if (!mounted) return;
+    AutoRouter.of(context)
+        .push(BookingRoute(title: platformName, id: platformID));
+  }
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ButtonStyle(
+        splashFactory: NoSplash.splashFactory,
         padding:
             MaterialStateProperty.all(const EdgeInsets.only(left: 0, right: 0)),
         backgroundColor: MaterialStateProperty.all(Colors.deepPurple),
         elevation: MaterialStateProperty.all(0),
       ),
       onPressed: () {
-        AutoRouter.of(context)
-            .push(BookingRoute(title: platformName, id: platformID));
+        pushBookingPage(context);
       },
       child: Column(
         children: [
