@@ -29,7 +29,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
 
   void getUserData() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    String? val = pref.getString('jsonResString');
+    String? val = pref.getString('gymPassPref');
     if (val != null) {
       setState(() {
         userData = json.decode(val);
@@ -38,8 +38,9 @@ class _GymDashboardPageState extends State<GymDashboardPage>
   }
 
   void logout() async {
+    debugPrint('Logged out');
     SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.remove('jsonResString');
+    pref.remove('gymPassPref');
     if (!mounted) return;
     AutoRouter.of(context).navigate(const HomeRoute());
   }

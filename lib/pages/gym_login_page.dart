@@ -43,13 +43,11 @@ class _GymLoginPageState extends State<GymLoginPage> {
 
         // If StatusCode != 200
       } else {
-        toggleButtonLoad();
         if (!mounted) return;
         snackBarMessage(jsonData.toString(), context);
       }
     } catch (e) {
       snackBarMessage(e.toString(), context);
-      toggleButtonLoad();
     }
   }
 
@@ -79,7 +77,6 @@ class _GymLoginPageState extends State<GymLoginPage> {
         AutoRouter.of(context).replace(const GymDashboardRoute());
       }
     } catch (e) {
-      toggleButtonLoad();
       snackBarMessage(e.toString(), context);
     }
   }
@@ -90,7 +87,7 @@ class _GymLoginPageState extends State<GymLoginPage> {
 
     return WillPopScope(
       onWillPop: () async {
-        AutoRouter.of(context).navigate(const HomeRoute());
+        AutoRouter.of(context).popUntilRouteWithName('HomeRoute');
         return false;
       },
       child: Scaffold(
@@ -101,7 +98,7 @@ class _GymLoginPageState extends State<GymLoginPage> {
           elevation: 0.0,
           leading: GestureDetector(
               onTap: () {
-                AutoRouter.of(context).push(const HomeRoute());
+                AutoRouter.of(context).navigate(const HomeRoute());
               },
               child: const Icon(Icons.arrow_back_ios_new)),
         ),
