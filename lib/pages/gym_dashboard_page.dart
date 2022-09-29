@@ -105,11 +105,11 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                         labelPadding:
                             const EdgeInsets.only(left: 50, right: 100),
                         labelColor: Colors.black,
-                        unselectedLabelColor: Colors.grey,
+                        unselectedLabelColor: Colors.black,
                         tabs: const [
-                          Tab(text: "Profile"),
+                          Tab(text: "MyPlan"),
                           Tab(
-                            text: "MyPlan",
+                            text: "Profile",
                           )
                         ]),
                     SizedBox(height: sH * 0.03),
@@ -119,9 +119,9 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                       width: double.maxFinite,
                       height: sH * 0.8,
                       child: TabBarView(controller: tabController, children: [
-                        profileTab(),
-                        // SizedBox(height: 10),
                         planTab(),
+                        // SizedBox(height: 10),
+                        profileTab(),
                       ]),
                     ),
                   ],
@@ -139,8 +139,36 @@ class _GymDashboardPageState extends State<GymDashboardPage>
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(children: [
+        // Container(
+        //   height: sH * 0.12,
+        //   width: double.maxFinite,
+        //   padding: const EdgeInsets.all(15),
+        //   decoration: BoxDecoration(
+        //       color: const Color.fromARGB(255, 239, 239, 237),
+        //       borderRadius: BorderRadius.circular(18)),
+        //   child: Column(
+        //     crossAxisAlignment: CrossAxisAlignment.start,
+        //     children: [
+        //       Text(
+        //         'Hello ${userData["name"]},',
+        //         style: TextStyle(
+        //             fontWeight: FontWeight.bold,
+        //             fontSize: 23,
+        //             color: AppColor.green2),
+        //       ),
+        //       const SizedBox(height: 20),
+        //       // Text('Your Email: ${userData["email"]}'),
+        //       Text(
+        //         greeting(),
+        //         style:
+        //             const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+        //       )
+        //     ],
+        //   ),
+        // ),
+        SizedBox(height: sH * 0.03),
         Container(
-          height: sH * 0.22,
+          height: sH * 0.12,
           width: double.maxFinite,
           padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
@@ -148,27 +176,22 @@ class _GymDashboardPageState extends State<GymDashboardPage>
               borderRadius: BorderRadius.circular(18)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: const [
+              Text('Monthly Bundle',
+                  style:
+                      TextStyle(fontSize: 18, fontWeight: (FontWeight.bold))),
+              SizedBox(height: 4),
               Text(
-                'Hello ${userData["name"]},',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 23,
-                    color: AppColor.green2),
+                "Expires: 26/09/22",
               ),
-              const SizedBox(height: 20),
-              // Text('Your Email: ${userData["email"]}'),
-              Text(
-                greeting(),
-                style:
-                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-              )
+              SizedBox(height: 4),
+              Text("Paid with: Momo")
             ],
           ),
         ),
         SizedBox(height: sH * 0.03),
         Container(
-          height: sH * 0.4,
+          height: sH * 0.3,
           width: double.maxFinite,
           padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
@@ -242,7 +265,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
       child: Column(
         children: [
           Container(
-            height: sH * 0.15,
+            height: sH * 0.12,
             width: double.maxFinite,
             padding: const EdgeInsets.all(15),
             decoration: BoxDecoration(
@@ -250,29 +273,34 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                 borderRadius: BorderRadius.circular(18)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text('Monthly Bundle',
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: (FontWeight.bold))),
-                SizedBox(height: 4),
+              children: [
                 Text(
-                  "Expires: 26/09/22",
+                  'Hello ${userData["name"]},',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 23,
+                      color: AppColor.green2),
                 ),
-                SizedBox(height: 4),
-                Text("Paid with: Momo")
+                const SizedBox(height: 20),
+                // Text('Your Email: ${userData["email"]}'),
+                Text(
+                  greeting(),
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500),
+                )
               ],
             ),
           ),
-          SizedBox(height: sH * 0.05),
+          SizedBox(height: sH * 0.03),
           Text(
             "Build Your Plan",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: sH * 0.04),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: sH * 0.03),
           ),
           SizedBox(height: sH * 0.02),
           // Text("Subscribe",
           //     style:
           // TextStyle(fontWeight: FontWeight.bold, fontSize: sH * 0.025)),
-          SizedBox(height: sH * 0.01),
+
           ElevatedButton(
               onPressed: () {},
               style: ButtonStyle(
@@ -286,32 +314,33 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                     height: sH * 0.007,
                   ),
                   Container(
-                    height: sH * 0.2,
+                    height: sH * 0.11,
                     width: double.infinity,
-                    padding: EdgeInsets.only(top: sH * 0.05),
+                    padding: EdgeInsets.only(top: sH * 0.02),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: const [
                         Text(
-                          "Auto-renews Monthly, cancel anytime",
+                          "Monthly",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 16),
                         ),
                         Text(
-                          "Auto-renews Monthly, cancel anytime",
+                          "GH₵120.00",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 14),
+                        ),
+                        SizedBox(
+                          height: 0.1,
                         ),
                         Text(
-                          "Auto-renews Monthly, cancel anytime",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
-                        ),
-                        Text(
-                          "Auto-renews Monthly, cancel anytime",
+                          "Auto-renews , cancel anytime",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, color: Colors.black),
@@ -337,30 +366,28 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                     height: sH * 0.007,
                   ),
                   Container(
-                    height: sH * 0.2,
+                    height: sH * 0.11,
                     width: double.infinity,
-                    padding: EdgeInsets.only(top: sH * 0.05),
+                    padding: EdgeInsets.only(top: sH * 0.02),
                     // decoration: boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.5),spreadRadius:5,blurRadius:7,offset:Offset(0,3))],
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: const [
                         Text(
-                          "Auto-renews Monthly, cancel anytime",
+                          "3-Months",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 16),
                         ),
                         Text(
-                          "Auto-renews Monthly, cancel anytime",
+                          "GH₵360.00",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
-                        ),
-                        Text(
-                          "Auto-renews Monthly, cancel anytime",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 14),
                         ),
                         Text(
                           "Auto-renews Monthly, cancel anytime",
@@ -389,27 +416,23 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                     height: sH * 0.007,
                   ),
                   Container(
-                    height: sH * 0.2,
+                    height: sH * 0.11,
                     width: double.infinity,
-                    padding: EdgeInsets.only(top: sH * 0.05),
+                    padding: EdgeInsets.only(top: sH * 0.02),
                     // decoration: boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.5),spreadRadius:5,blurRadius:7,offset:Offset(0,3))],
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: const [
                         Text(
-                          "Auto-renews Monthly, cancel anytime",
+                          "6-Months",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 16),
                         ),
                         Text(
-                          "Auto-renews Monthly, cancel anytime",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
-                        ),
-                        Text(
-                          "Auto-renews Monthly, cancel anytime",
+                          "GH₵720.00",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, color: Colors.black),
@@ -439,27 +462,23 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                     height: sH * 0.007,
                   ),
                   Container(
-                    height: sH * 0.2,
+                    height: sH * 0.11,
                     width: double.infinity,
-                    padding: EdgeInsets.only(top: sH * 0.05),
+                    padding: EdgeInsets.only(top: sH * 0.02),
                     // decoration: boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.5),spreadRadius:5,blurRadius:7,offset:Offset(0,3))],
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: const [
                         Text(
-                          "Auto-renews Monthly, cancel anytime",
+                          "Yearly",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 16),
                         ),
                         Text(
-                          "Auto-renews Monthly, cancel anytime",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
-                        ),
-                        Text(
-                          "Auto-renews Monthly, cancel anytime",
+                          "GH₵1,440.00",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, color: Colors.black),
