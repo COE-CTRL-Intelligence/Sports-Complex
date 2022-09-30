@@ -34,7 +34,7 @@ Widget buildContent() => Column(
                   
                   SizedBox(
                     child: Text(
-                      '    Sportify is a mobile app for students of Kwame Nkrumah University of Science \n and Technology and non-stuudents which serves \n  as a mobile companion for the GUSSS sports complex. \n     Its main objective is to bring functions related to using the GUSSS sports \n       complex to mobile devices.',
+                      '    Sportify is a mobile app for students of Kwame Nkrumah University of Science \n and Technology and non-students which serves \n  as a mobile companion for the GUSSS sports complex. \n     Its main objective is to bring functions related to using the GUSSS sports \n       complex to mobile devices.',
                       textAlign: TextAlign.justify,
                       style: TextStyle(
                         fontSize: 20,
@@ -52,7 +52,7 @@ Widget buildContent() => Column(
                   ),
                   SizedBox(
                     child: Text(
-                      '    Kwame Nkrumah \n  University of Science \n      and Technology \n            (KNUST)',
+                      '   Control Intelligence, \n   Kwame Nkrumah \n  University of Science \n      and Technology \n         (KNUST)',
                       style: TextStyle(
                         fontSize: 20,
                       ),

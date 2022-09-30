@@ -32,7 +32,7 @@ class ContactUsPage extends StatelessWidget {
               Container( 
                alignment: Alignment.centerRight,
                padding:const EdgeInsets.symmetric(vertical: 150.0, horizontal: 100.0,),
-               height: 400,
+               height: 422,
                width: 40,
                decoration:const BoxDecoration(color: Color(0xFF99CD32),
                borderRadius: BorderRadius.only(
