@@ -75,6 +75,20 @@ class _GymDashboardPageState extends State<GymDashboardPage>
     return result;
   }
 
+  String bmiInterpretation(double bmi) {
+    String res = '';
+    if (bmi < 18.5) {
+      res = "Underweight";
+    } else if (bmi < 24.9) {
+      res = "Healthy weight";
+    } else if (bmi < 29.9) {
+      res = "Overweight";
+    } else {
+      res = "Obesity";
+    }
+    return res;
+  }
+
   @override
   Widget build(BuildContext context) {
     double sH = MediaQuery.of(context).size.height;
