@@ -2,86 +2,91 @@ import 'package:flutter/material.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({Key? key}) : super(key: key);
+ final double coverHeight = 270;
+ @override
+ Widget build(BuildContext context) { 
+  return Scaffold(
+    appBar: AppBar( elevation: 5, toolbarHeight: 50, 
+      title: const Text('SPORTIFY', ),
+       backgroundColor:const Color(0xFF99BD32),
+     ),
+    body: ListView( padding: EdgeInsets.zero,
+    children: <Widget>[ 
+      buildtop(),
+      buildContent(), ],
+    ), 
+  );
+ }
 
-  @override
-  Widget build(BuildContext context) {
-    late double height, width;
-    height = MediaQuery.of(context).size.height;
-    width = MediaQuery.of(context).size.width;
-    return Scaffold(
-      backgroundColor: Color(0xC7FFFFFF),
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-      ),
-      body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 500),
-          child: Column(
-            children: const [
-              SizedBox(
-                height: 15,
-                width: 80,
-                child: Text(
-                  'About',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+Widget buildContent() => Column(
+  children:const [
+   
+                  SizedBox(
+                    height: 50,
+                    child: Text(
+                      '   \nDescription',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              SizedBox(
-                height: 40,
-                width: 500,
-                child: Text(
-                  ' \n______________________________________________________________',
-                  style: TextStyle(
-                    fontSize: 16,
-                    wordSpacing: 0,
+                  
+                  SizedBox(
+                    child: Text(
+                      '    Sportify is a mobile app for students of Kwame Nkrumah University of Science \n and Technology and non-stuudents which serves \n  as a mobile companion for the GUSSS sports complex. \n     Its main objective is to bring functions related to using the GUSSS sports \n       complex to mobile devices.',
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              SizedBox(
-                child: Text(
-                  'Description',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                  SizedBox(
+                    child: Text(
+                      '\nDeveloper',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              SizedBox(
-                height: 230,
-                width: 400,
-                child: Text(
-                  '              Sportify is a mobile app for \n              students of Kwame Nkrumah University of \n              Science and Technology and non-stuudent \n              which serves as a mobile \n              companion for the GUSSS sports complex.\n              Its main objective is to bring \n              functions related to using \n              the GUSSS sports complex to mobile \n              devices.',
-                  style: TextStyle(
-                    fontSize: 16,
+                  SizedBox(
+                    child: Text(
+                      '    Kwame Nkrumah \n  University of Science \n      and Technology \n            (KNUST)',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              SizedBox(
-                height: 40,
-                width: 100,
-                child: Text(
-                  '\n   Developer',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 100,
-                width: 200,
-                child: Text(
-                  '        Kwame Nkrumah \n     University of Science \n      and Technology \n             (KNUST)',
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-            ],
-          )),
-    );
-  }
+
+  ],
+);
+
+
+Widget buildtop(){
+  return Stack(
+      alignment: Alignment.center,
+      children:[  buildCoverImage(), 
+      
+      const Text('About Us', style: TextStyle(
+        fontStyle: FontStyle.normal, 
+        fontSize: 45, color: Color.fromARGB(225, 255, 255, 255), 
+        fontWeight: FontWeight.bold
+              ),),],);
+      
 }
+
+ Widget buildCoverImage() => Container(
+  color: Colors.transparent,
+  child:  Image(image:const AssetImage('assets/images/bball_court.jpg' , 
+  ),fit: BoxFit.fitWidth,
+  width: double.infinity,
+  height: coverHeight,),
+
+
+  
+
+ );
+
+ 
+ }

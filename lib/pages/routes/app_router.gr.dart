@@ -64,7 +64,7 @@ class AppRouter extends _i11.RootStackRouter {
     },
     ContactUsRoute.name: (routeData) {
       return _i11.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i8.ContactUsPage());
+          routeData: routeData, child: _i8.ContactUsPage());
     },
     ScheduleBookingRoute.name: (routeData) {
       return _i11.MaterialPageX<dynamic>(
