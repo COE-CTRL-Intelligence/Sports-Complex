@@ -26,9 +26,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
 
   @override
   void initState() {
-    // to do: implement initState
     super.initState();
-    debugPrint("hello me");
     getUserData();
   }
 
@@ -182,7 +180,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
         ),
         SizedBox(height: sH * 0.03),
         Container(
-          height: sH * 0.3,
+          height: sH * 0.4,
           width: double.maxFinite,
           padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(

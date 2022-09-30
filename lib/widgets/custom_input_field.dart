@@ -43,7 +43,11 @@ class _CustomInputFieldState extends State<CustomInputField> {
           ],
         ),
         TextFormField(
-          onSaved: (newValue) => widget.optionalFunction!(),
+          onFieldSubmitted: (newValue) {
+            if (widget.optionalFunction != null) {
+              widget.optionalFunction!();
+            }
+          },
           validator: widget.type == CustomInputType.email
               ? (value) => validateEmail(value, widget.fieldController)
               : widget.type == CustomInputType.password

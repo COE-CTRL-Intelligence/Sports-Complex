@@ -136,7 +136,7 @@ class _ScheduleBookingPageState extends State<ScheduleBookingPage> {
         AutoRouter.of(context)
             .push(PaymentRoute(payload: platformData, details: [
           platformData["name"],
-          "${platformData["duration"].toString()} hours",
+          "${platformData["duration"].toString()} ${platformData["duration"] > 1 ? 'hours' : 'hour'}",
         ]));
       } else {
         if (!mounted) return;

@@ -10,7 +10,6 @@ import 'package:sports_complex/pages/routes/app_router.gr.dart';
 import 'package:sports_complex/utils/colors.dart';
 import 'package:http/http.dart' as http;
 import 'package:sports_complex/utils/constants.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class PaymentPage extends StatefulWidget {
   const PaymentPage({super.key, required this.payload, required this.details});
@@ -186,23 +185,27 @@ class _PaymentPageState extends State<PaymentPage> {
                 ),
                 SizedBox(height: sH * 0.05),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: _current != 2
+                      ? MainAxisAlignment.spaceBetween
+                      : MainAxisAlignment.end,
                   children: [
-                    ConstrainedBox(
-                      constraints: BoxConstraints.tightFor(
-                          width: sW * 0.35, height: sH * 0.07),
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.red),
-                        ),
-                        onPressed: () {
-                          AutoRouter.of(context)
-                              .popUntilRouteWithName('BookingRoute');
-                        },
-                        child: const Text('Cancel'),
-                      ),
-                    ),
+                    _current != 2
+                        ? ConstrainedBox(
+                            constraints: BoxConstraints.tightFor(
+                                width: sW * 0.35, height: sH * 0.07),
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(Colors.red),
+                              ),
+                              onPressed: () {
+                                AutoRouter.of(context)
+                                    .popUntilRouteWithName('BookingRoute');
+                              },
+                              child: const Text('Cancel'),
+                            ),
+                          )
+                        : const SizedBox(),
                     ConstrainedBox(
                       constraints: BoxConstraints.tightFor(
                           width: sW * 0.35, height: sH * 0.07),
