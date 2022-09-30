@@ -6,6 +6,7 @@ import 'package:sports_complex/pages/routes/app_router.gr.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sports_complex/utils/colors.dart';
 import 'package:sports_complex/utils/constants.dart';
+import 'package:sports_complex/utils/snackbar_msg.dart';
 import 'dart:convert';
 import '../widgets/gym_side_bar.dart';
 
@@ -142,28 +143,28 @@ class _GymDashboardPageState extends State<GymDashboardPage>
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(children: [
-        Container(
-          height: sH * 0.15,
-          width: sW * double.maxFinite,
-          padding: const EdgeInsets.all(15),
-          decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 239, 239, 237),
-              borderRadius: BorderRadius.circular(18)),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              Text('Monthly Bundle',
-                  style:
-                      TextStyle(fontSize: 18, fontWeight: (FontWeight.bold))),
-              SizedBox(height: 4),
-              Text(
-                "Expires: 26/09/22",
-              ),
-              SizedBox(height: 4),
-              Text("Paid with: Momo")
-            ],
-          ),
-        ),
+        // Container(
+        //   height: sH * 0.15,
+        //   width: sW * double.maxFinite,
+        //   padding: const EdgeInsets.all(15),
+        //   decoration: BoxDecoration(
+        //       color: const Color.fromARGB(255, 239, 239, 237),
+        //       borderRadius: BorderRadius.circular(18)),
+        //   child: Column(
+        //     crossAxisAlignment: CrossAxisAlignment.start,
+        //     children: const [
+        //       Text('Monthly Bundle',
+        //           style:
+        //               TextStyle(fontSize: 18, fontWeight: (FontWeight.bold))),
+        //       SizedBox(height: 4),
+        //       Text(
+        //         "Expires: 26/09/22",
+        //       ),
+        //       SizedBox(height: 4),
+        //       Text("Paid with: Momo")
+        //     ],
+        //   ),
+        // ),
         SizedBox(height: sH * 0.03),
         Container(
           height: sH * 0.4,
@@ -182,6 +183,11 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                     fontWeight: FontWeight.bold, fontSize: sH * 0.025),
               ),
               TextFormField(
+                onTap: () {
+                  setState(() {
+                    tabIndex = 1;
+                  });
+                },
                 controller: heightController,
                 style: TextStyle(color: Colors.black, height: sH * 0.0005),
                 decoration: InputDecoration(
@@ -197,6 +203,11 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                 cursorColor: Colors.black,
               ),
               TextFormField(
+                onTap: () {
+                  setState(() {
+                    tabIndex = 1;
+                  });
+                },
                 controller: weightController,
                 style: TextStyle(color: Colors.black, height: sH * 0.0005),
                 decoration: InputDecoration(
@@ -283,7 +294,11 @@ class _GymDashboardPageState extends State<GymDashboardPage>
           // TextStyle(fontWeight: FontWeight.bold, fontSize: sH * 0.025)),
 
           ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                snackBarMessage(
+                    "Feature unavailable, please wait for version 2.0",
+                    context);
+              },
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.green),
                   elevation: MaterialStateProperty.all(10),
@@ -335,7 +350,11 @@ class _GymDashboardPageState extends State<GymDashboardPage>
             height: sH * 0.015,
           ),
           ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                snackBarMessage(
+                    "Feature unavailable, please wait for version 2.0",
+                    context);
+              },
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.green),
                   elevation: MaterialStateProperty.all(10),
@@ -385,7 +404,11 @@ class _GymDashboardPageState extends State<GymDashboardPage>
             height: sH * 0.015,
           ),
           ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                snackBarMessage(
+                    "Feature unavailable, please wait for version 2.0",
+                    context);
+              },
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.green),
                   elevation: MaterialStateProperty.all(10),
@@ -431,7 +454,11 @@ class _GymDashboardPageState extends State<GymDashboardPage>
               )),
           SizedBox(height: sH * 0.015),
           ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                snackBarMessage(
+                    "Feature unavailable, please wait for version 2.0",
+                    context);
+              },
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.green),
                   elevation: MaterialStateProperty.all(10),
