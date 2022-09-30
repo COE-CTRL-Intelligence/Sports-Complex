@@ -5,12 +5,19 @@ import 'package:flutter/material.dart';
 ScaffoldFeatureController<SnackBar, SnackBarClosedReason> snackBarMessage(
     String? msg, BuildContext context) {
   return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      duration: (msg != null && msg.startsWith('Copied to')
+          ? const Duration(seconds: 1)
+          : const Duration(seconds: 4)),
       backgroundColor: Colors.black,
       content: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         msg != null
-            ? Text(
-                msg,
-                style: const TextStyle(color: Colors.white),
+            ? Flexible(
+                child: Text(
+                  msg.startsWith('Failed host lookup')
+                      ? 'No Internet Connection'
+                      : msg,
+                  style: const TextStyle(color: Colors.white),
+                ),
               )
             : const Text('Something went wrong, please try again later'),
       ])));

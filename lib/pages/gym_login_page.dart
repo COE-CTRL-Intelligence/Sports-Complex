@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -8,8 +7,11 @@ import 'package:sports_complex/pages/routes/app_router.gr.dart';
 import 'package:sports_complex/utils/constants.dart';
 import 'package:sports_complex/utils/snackbar_msg.dart';
 import 'package:sports_complex/widgets/custom_input_field.dart';
-import '../widgets/sidebar.dart';
+import 'package:sports_complex/widgets/page_title.dart';
+import '../widgets/side_bar.dart';
 import 'package:http/http.dart' as http;
+
+import '../widgets/sportify_logo.dart';
 
 class GymLoginPage extends StatefulWidget {
   const GymLoginPage({Key? key}) : super(key: key);
@@ -28,7 +30,7 @@ class _GymLoginPageState extends State<GymLoginPage> {
   // http login method
   Future<void> login(String email, String password) async {
     try {
-      var response = await http.post(Uri.parse('$baseURL/api/v1/auth/login'),
+      var response = await http.post(Uri.parse('$baseURL/auth/login'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
@@ -43,13 +45,13 @@ class _GymLoginPageState extends State<GymLoginPage> {
 
         // If StatusCode != 200
       } else {
-        toggleButtonLoad();
         if (!mounted) return;
+        toggleButtonLoad();
         snackBarMessage(jsonData.toString(), context);
       }
     } catch (e) {
-      snackBarMessage(e.toString(), context);
       toggleButtonLoad();
+      snackBarMessage(e.toString(), context);
     }
   }
 
@@ -60,22 +62,11 @@ class _GymLoginPageState extends State<GymLoginPage> {
     });
   }
 
-  // Check if user already logged in
-  void isLogged() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    String? token = pref.getString('jsonResString');
-    if (token != null) {
-      toggleButtonLoad();
-      if (!mounted) return;
-      AutoRouter.of(context).push(const GymDashboardRoute());
-    }
-  }
-
   // http getUserData method
   void getUserData(String token) async {
     try {
-      var response = await http
-          .get(Uri.parse('$baseURL/api/v1/users'), headers: <String, String>{
+      var response =
+          await http.get(Uri.parse('$baseURL/users'), headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         HttpHeaders.authorizationHeader: 'Bearer $token',
       });
@@ -85,8 +76,9 @@ class _GymLoginPageState extends State<GymLoginPage> {
       if (response.statusCode == 200) {
         String jsonResString = jsonEncode(userData).toString();
         SharedPreferences pref = await SharedPreferences.getInstance();
-        pref.setString('jsonResString', jsonResString);
+        pref.setString('gymPassPref', jsonResString);
         if (!mounted) return;
+        toggleButtonLoad();
         AutoRouter.of(context).replace(const GymDashboardRoute());
       }
     } catch (e) {
@@ -96,18 +88,12 @@ class _GymLoginPageState extends State<GymLoginPage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    isLogged();
-  }
-
-  @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return WillPopScope(
       onWillPop: () async {
-        AutoRouter.of(context).navigate(const HomeRoute());
+        AutoRouter.of(context).popUntilRouteWithName('HomeRoute');
         return false;
       },
       child: Scaffold(
@@ -118,7 +104,7 @@ class _GymLoginPageState extends State<GymLoginPage> {
           elevation: 0.0,
           leading: GestureDetector(
               onTap: () {
-                AutoRouter.of(context).push(const HomeRoute());
+                AutoRouter.of(context).navigate(const HomeRoute());
               },
               child: const Icon(Icons.arrow_back_ios_new)),
         ),
@@ -131,23 +117,17 @@ class _GymLoginPageState extends State<GymLoginPage> {
               child: Column(
                 children: [
                   // Head
-                  Container(
-                    height: 35,
-                    width: 150,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16)),
-                    child: const Center(
-                      child: Text('LOG-IN',
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold)),
+                  const Hero(
+                    tag: 'sportify_logo',
+                    child: Center(
+                      child: SportifyLogo(logoSize: 45),
                     ),
                   ),
-                  SizedBox(height: screenHeight * 0.1),
 
                   // Body
                   Column(
                     children: [
+                      SizedBox(height: screenHeight * 0.15),
                       CustomInputField(
                           fieldName: 'Email',
                           fieldController: emailController,
@@ -184,6 +164,7 @@ class _GymLoginPageState extends State<GymLoginPage> {
                                     toggleButtonLoad();
                                     login(emailController.text,
                                         passwordController.text);
+                                    // toggleButtonLoad();
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(

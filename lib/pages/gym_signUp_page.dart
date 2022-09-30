@@ -8,9 +8,12 @@ import 'package:sports_complex/pages/routes/app_router.gr.dart';
 import 'package:sports_complex/utils/snackbar_msg.dart';
 import 'package:sports_complex/widgets/custom_input_field.dart';
 import 'package:sports_complex/widgets/custom_radio_button.dart';
-import 'package:sports_complex/widgets/sidebar.dart';
+import 'package:sports_complex/widgets/page_title.dart';
+import 'package:sports_complex/widgets/side_bar.dart';
 import 'package:sports_complex/utils/constants.dart';
 import 'package:http/http.dart' as http;
+
+import '../widgets/sportify_logo.dart';
 
 class GymSignUpPage extends StatefulWidget {
   const GymSignUpPage({Key? key}) : super(key: key);
@@ -33,7 +36,7 @@ class _GymSignUpPageState extends State<GymSignUpPage> {
   Future<void> register(
       String name, String email, String password, String gender) async {
     try {
-      var response = await http.post(Uri.parse('$baseURL/api/v1/auth/register'),
+      var response = await http.post(Uri.parse('$baseURL/auth/register'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8'
           },
@@ -74,8 +77,8 @@ class _GymSignUpPageState extends State<GymSignUpPage> {
   // http getUserData method
   void getUserData(String token) async {
     try {
-      var response = await http
-          .get(Uri.parse('$baseURL/api/v1/users'), headers: <String, String>{
+      var response =
+          await http.get(Uri.parse('$baseURL/users'), headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         HttpHeaders.authorizationHeader: 'Bearer $token',
       });
@@ -85,7 +88,7 @@ class _GymSignUpPageState extends State<GymSignUpPage> {
       if (response.statusCode == 200) {
         String jsonResString = jsonEncode(userData).toString();
         SharedPreferences pref = await SharedPreferences.getInstance();
-        pref.setString('jsonResString', jsonResString);
+        pref.setString('gymPassPref', jsonResString);
         if (!mounted) return;
         AutoRouter.of(context).replace(const GymDashboardRoute());
       }
@@ -112,7 +115,7 @@ class _GymSignUpPageState extends State<GymSignUpPage> {
           elevation: 0.0,
           leading: GestureDetector(
               onTap: () {
-                AutoRouter.of(context).push(const GymLoginRoute());
+                AutoRouter.of(context).navigate(const GymLoginRoute());
               },
               child: const Icon(Icons.arrow_back_ios_new)),
         ),
@@ -125,23 +128,20 @@ class _GymSignUpPageState extends State<GymSignUpPage> {
                   child: Column(
                 children: [
                   // Head
-                  Container(
-                    height: 35,
-                    width: 150,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16)),
-                    child: const Center(
-                      child: Text('SIGN-UP',
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold)),
-                    ),
-                  ),
-                  SizedBox(height: screenHeight * 0.1),
+                 // const PageTitle(title: 'SIGN-UP'),
+                  //SizedBox(height: screenHeight * 0.1),
+
+                  const Hero(
+                      tag: 'sportify_logo',
+                      child: Center(
+                        child: SportifyLogo(logoSize: 45),
+                      ),
+                  ), 
 
                   // Body
                   Column(
                     children: [
+                      SizedBox(height: screenHeight*0.09),
                       CustomInputField(
                           fieldController: nameController,
                           fieldName: 'Name',
@@ -251,8 +251,8 @@ class _GymSignUpPageState extends State<GymSignUpPage> {
                           const SizedBox(width: 5),
                           InkWell(
                               onTap: () {
-                                // AutoRouter.of(context)
-                                // .navigate(const GymLoginRoute());
+                                AutoRouter.of(context)
+                                    .navigate(const GymLoginRoute());
                               },
                               child: const Text(
                                 'login',

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 enum CustomInputType { email, password }
 
 class CustomInputField extends StatefulWidget {
+  final Function? optionalFunction;
   final TextEditingController fieldController;
   final TextEditingController? twinFieldController;
   final String fieldName;
@@ -17,7 +18,8 @@ class CustomInputField extends StatefulWidget {
       required this.fieldName,
       required this.icon,
       this.type,
-      this.twinFieldController});
+      this.twinFieldController,
+      this.optionalFunction});
 
   @override
   State<CustomInputField> createState() => _CustomInputFieldState();
@@ -41,6 +43,11 @@ class _CustomInputFieldState extends State<CustomInputField> {
           ],
         ),
         TextFormField(
+          onFieldSubmitted: (newValue) {
+            if (widget.optionalFunction != null) {
+              widget.optionalFunction!();
+            }
+          },
           validator: widget.type == CustomInputType.email
               ? (value) => validateEmail(value, widget.fieldController)
               : widget.type == CustomInputType.password
