@@ -143,8 +143,8 @@ class _GymDashboardPageState extends State<GymDashboardPage>
       margin: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(children: [
         Container(
-          height: sH * 0.12,
-          width: double.maxFinite,
+          height: sH * 0.15,
+          width: sW * double.maxFinite,
           padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
               color: const Color.fromARGB(255, 239, 239, 237),
@@ -166,7 +166,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
         ),
         SizedBox(height: sH * 0.03),
         Container(
-          height: sH * 0.3,
+          height: sH * 0.4,
           width: double.maxFinite,
           padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
@@ -225,6 +225,9 @@ class _GymDashboardPageState extends State<GymDashboardPage>
               calcBMI(double.tryParse(heightController.text),
                       double.tryParse(weightController.text))
                   .toStringAsFixed(2);
+              setState(() {
+                tabIndex = 1;
+              });
             },
             child: Text(
               "Calculate BMI",
