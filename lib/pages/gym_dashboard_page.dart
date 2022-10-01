@@ -224,27 +224,27 @@ class _GymDashboardPageState extends State<GymDashboardPage>
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(children: [
-        Container(
-          height: sH * 0.15,
-          width: sW * double.maxFinite,
-          padding: const EdgeInsets.all(15),
-          decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 239, 239, 237),
-              borderRadius: BorderRadius.circular(18)),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(currentSubscription,
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: (FontWeight.bold))),
-              const SizedBox(height: 4),
-              Text(expiryDate),
-              const SizedBox(height: 4),
-              const Text(""),
-            ],
-          ),
-        ),
-        SizedBox(height: sH * 0.03),
+        // Container(
+        //   height: sH * 0.15,
+        //   width: sW * double.maxFinite,
+        //   padding: const EdgeInsets.all(15),
+        //   decoration: BoxDecoration(
+        //       color: const Color.fromARGB(255, 239, 239, 237),
+        //       borderRadius: BorderRadius.circular(18)),
+        //   child: Column(
+        //     crossAxisAlignment: CrossAxisAlignment.start,
+        //     children: [
+        //       Text(currentSubscription,
+        //           style: const TextStyle(
+        //               fontSize: 18, fontWeight: (FontWeight.bold))),
+        //       const SizedBox(height: 4),
+        //       Text(expiryDate),
+        //       const SizedBox(height: 4),
+        //       const Text(""),
+        //     ],
+        //   ),
+        // ),
+        // SizedBox(height: sH * 0.03),
         Container(
           height: sH * 0.47,
           width: double.maxFinite,
