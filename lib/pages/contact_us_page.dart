@@ -22,7 +22,7 @@ class ContactUsPage extends StatelessWidget {
     return BackgroundImageWidget(
       image: const AssetImage('assets/images/bg.jpg'),
       child: Scaffold(
-          backgroundColor: const Color.fromARGB(255, 216, 215, 215),
+          backgroundColor: Colors.transparent,
           // endDrawer: const Sidebar(),
           appBar: AppBar(
             backgroundColor: Colors.transparent,

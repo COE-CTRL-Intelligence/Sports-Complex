@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
@@ -6,8 +7,11 @@ import 'package:sports_complex/pages/routes/app_router.gr.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sports_complex/utils/colors.dart';
 import 'package:sports_complex/utils/constants.dart';
+import 'package:sports_complex/widgets/custom_input_field.dart';
 import 'dart:convert';
+import '../utils/snackbar_msg.dart';
 import '../widgets/gym_side_bar.dart';
+import 'package:http/http.dart' as http;
 
 class GymDashboardPage extends StatefulWidget {
   const GymDashboardPage({Key? key}) : super(key: key);
@@ -16,8 +20,14 @@ class GymDashboardPage extends StatefulWidget {
   State<GymDashboardPage> createState() => _GymDashboardPageState();
 }
 
+//---------------------------------------------------------------------variables
 Map<String, dynamic> userData = {};
 int tabIndex = 0;
+String res = "";
+var userID = "";
+var planID = "";
+var currentSubscription = "";
+var expiryDate = "";
 
 class _GymDashboardPageState extends State<GymDashboardPage>
     with TickerProviderStateMixin {
@@ -28,14 +38,44 @@ class _GymDashboardPageState extends State<GymDashboardPage>
   void initState() {
     super.initState();
     getUserData();
+    tabIndex = 0;
+    res = "";
+    getUserSubscription();
   }
 
+//-----------------------------------------------------------------------methods
   void getUserData() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     String? val = pref.getString(gymUserPref);
     if (val != null) {
       setState(() {
         userData = json.decode(val);
+      });
+    }
+  }
+
+  //-------------------------------------------------------to do: finish this function!!!!
+  void getUserSubscription() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    String? val = pref.getString(gymUserPref);
+    try {
+      var subscResponse = await http.get(
+          Uri.parse('$baseURL/users/userSubscription'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          });
+      if (subscResponse.statusCode == 200) {
+        var subData = jsonDecode(subscResponse.toString());
+        setState(() {
+          currentSubscription = subData["planID"];
+          expiryDate = subData["endDate"];
+        });
+        debugPrint(subData);
+      }
+    } catch (e) {
+      setState(() {
+        currentSubscription = "User has no current subscription";
+        expiryDate = "";
       });
     }
   }
@@ -58,35 +98,61 @@ class _GymDashboardPageState extends State<GymDashboardPage>
     return 'Good Evening.';
   }
 
-  double calcBMI(double? height, double? weight) {
+  void calcBMI(double? height, double? weight) {
     double result = 0;
     if (height == null || weight == null || height == 0 || weight == 0) {
       result = 0.0;
     } else if (height >= 0 || weight >= 0) {
-      result = weight / (pow(height, 2));
+      result = weight / (height * height);
     } else {
       result = 0.0;
     }
+    String resultt = "";
     setState(() {
-      result = result;
+      resultt = result.toStringAsFixed(2);
     });
-    return result;
-  }
 
-  String bmiInterpretation(double bmi) {
-    String res = '';
-    if (bmi < 18.5) {
-      res = "Underweight";
-    } else if (bmi < 24.9) {
-      res = "Healthy weight";
-    } else if (bmi < 29.9) {
-      res = "Overweight";
+    if (result < 18.5 && result > 0) {
+      res =
+          "Your BMI is$resultt. You should be attending a restaurant instead ...";
+    } else if (result > 18.4 && result < 30.0) {
+      res = "Your BMI is $resultt. Wow you look good, can I get your number?";
+    } else if (result > 24.9 && result < 30.0) {
+      res = "Your BMI is $resultt. You're fat, you should be here often";
+    } else if (result > 29.9) {
+      res =
+          "Your BMI is hmm....I can't say, but you're what they call OLUFTUBUM";
     } else {
-      res = "Obesity";
+      res = "Invalid BMI Value";
     }
-    return res;
   }
 
+  void setPlanPayload(String planID) async {
+    //get userID from sharedpreferences
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    String? userPref = pref.getString('gymPassPref');
+    var userData = jsonDecode(userPref.toString());
+    if (userPref != null) {
+      var response = await http.get(Uri.parse('$baseURL/plans/$planID'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8'
+          });
+      var planData = jsonDecode(response.body);
+      if (!mounted) return;
+      userID = (userData["_id"]).toString();
+      planID = planID;
+
+      AutoRouter.of(context).push(PaymentRoute(payload: planData, details: [
+        planData["name"],
+        "${planData["duration"]} days",
+        "a",
+        userID,
+      ]));
+      debugPrint(userID);
+    }
+  }
+
+  //----------------------------------------------------gymDashboardPage starts
   @override
   Widget build(BuildContext context) {
     double sH = MediaQuery.of(context).size.height;
@@ -130,13 +196,10 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                         ]),
                     SizedBox(height: sH * 0.03),
                     SizedBox(
-                      // margin: EdgeInsets.only(right: sW * 0.1),
-                      // padding: const EdgeInsets.symmetric(horizontal: 15),
                       width: double.maxFinite,
                       height: sH * 0.8,
                       child: TabBarView(controller: tabController, children: [
                         planTab(),
-                        // SizedBox(height: 10),
                         profileTab(),
                       ]),
                     ),
@@ -148,7 +211,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
         ));
   }
 
-//PROFILE TAB
+//-------------------------------------------------------------------PROFILE TAB
   Container profileTab() {
     double sH = MediaQuery.of(context).size.height;
     double sW = MediaQuery.of(context).size.width;
@@ -165,22 +228,20 @@ class _GymDashboardPageState extends State<GymDashboardPage>
               borderRadius: BorderRadius.circular(18)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              Text('Monthly Bundle',
-                  style:
-                      TextStyle(fontSize: 18, fontWeight: (FontWeight.bold))),
-              SizedBox(height: 4),
-              Text(
-                "Expires: 26/09/22",
-              ),
-              SizedBox(height: 4),
-              Text("Paid with: Momo")
+            children: [
+              Text(currentSubscription,
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: (FontWeight.bold))),
+              const SizedBox(height: 4),
+              Text(expiryDate),
+              const SizedBox(height: 4),
+              const Text(""),
             ],
           ),
         ),
         SizedBox(height: sH * 0.03),
         Container(
-          height: sH * 0.4,
+          height: sH * 0.47,
           width: double.maxFinite,
           padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
@@ -190,68 +251,82 @@ class _GymDashboardPageState extends State<GymDashboardPage>
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              //------------------------------------------------------------BMI Text
               Text(
                 "Calculate Your BMI",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold, fontSize: sH * 0.025),
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, fontSize: sH * 0.03),
               ),
+              //--------------------------------------------------------height input
               TextFormField(
+                decoration: InputDecoration(
+                  alignLabelWithHint: true,
+                  prefixIcon: const Icon(Icons.height),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: BorderSide.none),
+                  fillColor: Colors.white,
+                  filled: true,
+                  hintText: "Enter Height (m)",
+                ),
                 controller: heightController,
-                style: TextStyle(color: Colors.black, height: sH * 0.0005),
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: const BorderSide(style: BorderStyle.solid)),
-                    hintText: "Enter Height",
-                    hintStyle: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: sH * 0.02,
-                        color: AppColor.grey1)),
-                cursorHeight: sH * 0.030,
-                cursorColor: Colors.black,
+                onTap: () {
+                  setState(() {
+                    tabIndex = 1;
+                  });
+                },
               ),
+
+              //--------------------------------------------------------weight input
               TextFormField(
-                controller: weightController,
-                style: TextStyle(color: Colors.black, height: sH * 0.0005),
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(7),
-                        borderSide: const BorderSide(style: BorderStyle.solid)),
-                    hintText: "Enter Weight",
-                    hintStyle: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: sH * 0.02,
-                        color: AppColor.grey1)),
-                cursorHeight: sH * 0.030,
-                cursorColor: Colors.black,
+                  alignLabelWithHint: true,
+                  prefixIcon: const Icon(Icons.boy_rounded),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: BorderSide.none),
+                  fillColor: Colors.white,
+                  filled: true,
+                  hintText: "Enter Weight (kg)",
+                ),
+                controller: weightController,
+                onTap: () {
+                  setState(() {
+                    tabIndex = 1;
+                  });
+                },
               ),
+
+              //--------------------------------------------------------BMI output text
               Text(
-                calcBMI(double.tryParse(heightController.text),
-                        double.tryParse(weightController.text))
-                    .toStringAsFixed(2),
+                res,
+                style: TextStyle(
+                    fontSize: sW * 0.035, fontWeight: FontWeight.w500),
               ),
             ],
           ),
         ),
         SizedBox(height: sH * 0.03),
+        //----------------------------------------------------------Calc BMI Button
         ElevatedButton(
+            style: ButtonStyle(
+                shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.all(Radius.circular(sW * 0.7))))),
             onPressed: () {
-              calcBMI(double.tryParse(heightController.text),
-                      double.tryParse(weightController.text))
-                  .toStringAsFixed(2);
-              setState(() {
-                tabIndex = 1;
-              });
+              calcBMI((double.tryParse(heightController.text)),
+                  double.tryParse(weightController.text));
+              tabIndex = 1;
             },
             child: Text(
               "Calculate BMI",
-              style: TextStyle(fontSize: sH * 0.025),
+              style: TextStyle(fontSize: sH * 0.03),
             )),
       ]),
     );
   }
 
-//PLAN TAB
+//---------------------------------------------------------------------PLAN TAB
   Container planTab() {
     double sH = MediaQuery.of(context).size.height;
     double sW = MediaQuery.of(context).size.width;
@@ -286,18 +361,19 @@ class _GymDashboardPageState extends State<GymDashboardPage>
               ],
             ),
           ),
+
           SizedBox(height: sH * 0.03),
+
           Text(
             "Build Your Plan",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: sH * 0.03),
           ),
           SizedBox(height: sH * 0.02),
-          // Text("Subscribe",
-          //     style:
-          // TextStyle(fontWeight: FontWeight.bold, fontSize: sH * 0.025)),
-
+          //------------------------------------------------------Monthly Button
           ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                setPlanPayload('633483bbcc7f8f2800f78018');
+              },
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.green),
                   elevation: MaterialStateProperty.all(10),
@@ -324,7 +400,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                               fontSize: 16),
                         ),
                         Text(
-                          "GH₵120.00",
+                          "GH₵100.00",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -348,8 +424,11 @@ class _GymDashboardPageState extends State<GymDashboardPage>
           SizedBox(
             height: sH * 0.015,
           ),
+          //-----------------------------------------------------3 Months Button
           ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                setPlanPayload('633483a3cc7f8f2800f78016');
+              },
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.green),
                   elevation: MaterialStateProperty.all(10),
@@ -364,7 +443,6 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                     height: sH * 0.11,
                     width: double.infinity,
                     padding: EdgeInsets.only(top: sH * 0.02),
-                    // decoration: boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.5),spreadRadius:5,blurRadius:7,offset:Offset(0,3))],
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: const [
@@ -377,7 +455,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                               fontSize: 16),
                         ),
                         Text(
-                          "GH₵360.00",
+                          "GH₵250.00",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -398,8 +476,11 @@ class _GymDashboardPageState extends State<GymDashboardPage>
           SizedBox(
             height: sH * 0.015,
           ),
+          //-----------------------------------------------------6 Months Button
           ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                setPlanPayload('63348391cc7f8f2800f78014');
+              },
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.green),
                   elevation: MaterialStateProperty.all(10),
@@ -414,7 +495,6 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                     height: sH * 0.11,
                     width: double.infinity,
                     padding: EdgeInsets.only(top: sH * 0.02),
-                    // decoration: boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.5),spreadRadius:5,blurRadius:7,offset:Offset(0,3))],
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: const [
@@ -427,7 +507,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                               fontSize: 16),
                         ),
                         Text(
-                          "GH₵720.00",
+                          "GH₵500.00",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, color: Colors.black),
@@ -444,8 +524,11 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                 ],
               )),
           SizedBox(height: sH * 0.015),
+          //-----------------------------------------------------Yearly Button
           ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                setPlanPayload('63348358cc7f8f2800f78012');
+              },
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.green),
                   elevation: MaterialStateProperty.all(10),
@@ -460,7 +543,6 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                     height: sH * 0.11,
                     width: double.infinity,
                     padding: EdgeInsets.only(top: sH * 0.02),
-                    // decoration: boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.5),spreadRadius:5,blurRadius:7,offset:Offset(0,3))],
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: const [
@@ -473,7 +555,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                               fontSize: 16),
                         ),
                         Text(
-                          "GH₵1,440.00",
+                          "GH₵1,000.00",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, color: Colors.black),

@@ -30,7 +30,9 @@ class _PaymentPage1State extends State<PaymentPage1> {
 
     return WillPopScope(
       onWillPop: () async {
-        AutoRouter.of(context).popUntilRouteWithName('BookingRoute');
+        widget.details[2] == "b"
+            ? AutoRouter.of(context).popUntilRouteWithName('BookingRoute')
+            : AutoRouter.of(context).popUntilRouteWithName('GymDashboardRoute');
         return false;
       },
       child: Column(
@@ -51,24 +53,34 @@ class _PaymentPage1State extends State<PaymentPage1> {
           mediumSpace,
           Row(
             children: [
-              Text(
-                  'GH¢${(widget.payload["costPerHour"] * widget.payload["duration"]).toString()}',
-                  style: const TextStyle(
-                    fontSize: 45,
-                    fontWeight: FontWeight.bold,
-                  )),
+              widget.details[2] == "b"
+                  ? Text(
+                      'GH¢${(widget.payload["costPerHour"] * widget.payload["duration"]).toString()}',
+                      style: const TextStyle(
+                        fontSize: 45,
+                        fontWeight: FontWeight.bold,
+                      ))
+                  : Text(
+                      "GH¢${(widget.payload["price"])}",
+                      style: const TextStyle(
+                        fontSize: 45,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
               const SizedBox(width: 5),
               Column(
-                children: const [
-                  SizedBox(height: 12),
-                  Text(
-                    '/h',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.grey,
-                    ),
-                  ),
+                children: [
+                  const SizedBox(height: 12),
+                  widget.details[2] == "b"
+                      ? const Text(
+                          '/h',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.grey,
+                          ),
+                        )
+                      : const Text("")
                 ],
               )
             ],
@@ -77,15 +89,21 @@ class _PaymentPage1State extends State<PaymentPage1> {
           const Text('Purchase details:', style: TextStyle(fontSize: 18)),
           const SizedBox(height: 20),
           SizedBox(
-            width: double.maxFinite,
-            height: sH * 0.15,
-            child: ListView.builder(
-              itemCount: widget.details.length,
-              itemBuilder: (context, index) {
-                return PurchaseTile(text: widget.details[index]);
-              },
-            ),
-          )
+              width: double.maxFinite,
+              height: sH * 0.15,
+              child: widget.details[2] == "b"
+                  ? ListView.builder(
+                      itemCount: widget.details.length,
+                      itemBuilder: (context, index) {
+                        return PurchaseTile(text: widget.details[index]);
+                      },
+                    )
+                  : ListView.builder(
+                      itemCount: 2,
+                      itemBuilder: (context, index) {
+                        return PurchaseTile(text: widget.details[index]);
+                      },
+                    ))
           // const PurchaseTile(text: 'Astro Turf Pitch'),
         ],
       ),
@@ -99,8 +117,10 @@ class PaymentPage2 extends StatefulWidget {
   const PaymentPage2({
     Key? key,
     required this.callback,
+    required this.details,
   }) : super(key: key);
   final Function callback;
+  final List<String> details;
 
   @override
   State<PaymentPage2> createState() => _PaymentPage2State();
@@ -122,7 +142,9 @@ class _PaymentPage2State extends State<PaymentPage2> {
 
     return WillPopScope(
       onWillPop: () async {
-        AutoRouter.of(context).popUntilRouteWithName('BookingRoute');
+        widget.details[2] == "b"
+            ? AutoRouter.of(context).popUntilRouteWithName('BookingRoute')
+            : AutoRouter.of(context).popUntilRouteWithName('GymDashboardRoute');
         return false;
       },
       child: Column(
@@ -166,8 +188,10 @@ class _PaymentPage2State extends State<PaymentPage2> {
 // THIRD PAYMENT PAGE
 
 class PaymentPage3 extends StatelessWidget {
-  const PaymentPage3({Key? key, required this.payload}) : super(key: key);
+  const PaymentPage3({Key? key, required this.payload, required this.details})
+      : super(key: key);
   final Map<String, dynamic>? payload;
+  final List<String> details;
 
   @override
   Widget build(BuildContext context) {
@@ -175,59 +199,75 @@ class PaymentPage3 extends StatelessWidget {
     Widget mediumSpace = SizedBox(height: sH * 0.02);
 
     return WillPopScope(
-      onWillPop: () async {
-        AutoRouter.of(context).popUntilRouteWithName('BookingRoute');
-        return false;
-      },
-      child: Column(
-        children: [
-          const Text(
-            'Purchase Successful',
-            style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-          mediumSpace,
-          const Text(
-            'Here\'s your receipt',
-            style: TextStyle(fontSize: 18),
-          ),
-          SizedBox(height: sH * 0.13),
-          const Text('Tap to copy to clipboard',
-              style: TextStyle(color: Colors.grey, fontSize: 13)),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(payload!["bookingID"].toString().substring(0, 2),
-                  style: const TextStyle(fontSize: 30, color: Colors.grey)),
-              const SizedBox(width: 5),
-              GestureDetector(
-                onTap: ([bool mounted = true]) async {
-                  await Clipboard.setData(ClipboardData(
-                      text: payload!["bookingID"].toString().substring(2)));
-                  if (!mounted) return;
-                  snackBarMessage('Copied to clipboard', context);
-                },
-                child: Container(
-                    height: 60,
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16)),
-                    child: Center(
-                        child: Text(
-                            payload!["bookingID"].toString().substring(2),
-                            style: const TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black)))),
-              ),
-            ],
-          )
-        ],
-      ),
-    );
+        onWillPop: () async {
+          details[2] == "b"
+              ? AutoRouter.of(context).popUntilRouteWithName('BookingRoute')
+              : AutoRouter.of(context).popUntilRouteWithName('GymPageRoute');
+          return false;
+        },
+        child: details[2] == "b"
+            ? Column(
+                children: [
+                  const Text(
+                    'Purchase Successful',
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  mediumSpace,
+                  const Text(
+                    'Here\'s your receipt',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  SizedBox(height: sH * 0.13),
+                  const Text('Tap to copy to clipboard',
+                      style: TextStyle(color: Colors.grey, fontSize: 13)),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(payload!["bookingID"].toString().substring(0, 2),
+                          style: const TextStyle(
+                              fontSize: 30, color: Colors.grey)),
+                      const SizedBox(width: 5),
+                      GestureDetector(
+                        onTap: ([bool mounted = true]) async {
+                          await Clipboard.setData(ClipboardData(
+                              text: payload!["bookingID"]
+                                  .toString()
+                                  .substring(2)));
+                          if (!mounted) return;
+                          snackBarMessage('Copied to clipboard', context);
+                        },
+                        child: Container(
+                            height: 60,
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(16)),
+                            child: Center(
+                                child: Text(
+                                    payload!["bookingID"]
+                                        .toString()
+                                        .substring(2),
+                                    style: const TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black)))),
+                      ),
+                    ],
+                  )
+                ],
+              )
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "You Successfully Started the ${details[0]} plan, enjoy",
+                    style: const TextStyle(fontSize: 30),
+                  )
+                ],
+              ));
   }
 }
