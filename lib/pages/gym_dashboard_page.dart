@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
@@ -8,7 +9,9 @@ import 'package:sports_complex/utils/colors.dart';
 import 'package:sports_complex/utils/constants.dart';
 import 'package:sports_complex/widgets/custom_input_field.dart';
 import 'dart:convert';
+import '../utils/snackbar_msg.dart';
 import '../widgets/gym_side_bar.dart';
+import 'package:http/http.dart' as http;
 
 class GymDashboardPage extends StatefulWidget {
   const GymDashboardPage({Key? key}) : super(key: key);
@@ -21,6 +24,10 @@ class GymDashboardPage extends StatefulWidget {
 Map<String, dynamic> userData = {};
 int tabIndex = 0;
 String res = "";
+var userID = "";
+var planID = "";
+var currentSubscription = "";
+var expiryDate = "";
 
 class _GymDashboardPageState extends State<GymDashboardPage>
     with TickerProviderStateMixin {
@@ -31,6 +38,9 @@ class _GymDashboardPageState extends State<GymDashboardPage>
   void initState() {
     super.initState();
     getUserData();
+    tabIndex = 0;
+    res = "";
+    getUserSubscription();
   }
 
 //-----------------------------------------------------------------------methods
@@ -40,6 +50,32 @@ class _GymDashboardPageState extends State<GymDashboardPage>
     if (val != null) {
       setState(() {
         userData = json.decode(val);
+      });
+    }
+  }
+
+  //-------------------------------------------------------to do: finish this function!!!!
+  void getUserSubscription() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    String? val = pref.getString(gymUserPref);
+    try {
+      var subscResponse = await http.get(
+          Uri.parse('$baseURL/users/userSubscription'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          });
+      if (subscResponse.statusCode == 200) {
+        var subData = jsonDecode(subscResponse.toString());
+        setState(() {
+          currentSubscription = subData["planID"];
+          expiryDate = subData["endDate"];
+        });
+        debugPrint(subData);
+      }
+    } catch (e) {
+      setState(() {
+        currentSubscription = "User has no current subscription";
+        expiryDate = "";
       });
     }
   }
@@ -88,6 +124,31 @@ class _GymDashboardPageState extends State<GymDashboardPage>
           "Your BMI is hmm....I can't say, but you're what they call OLUFTUBUM";
     } else {
       res = "Invalid BMI Value";
+    }
+  }
+
+  void setPlanPayload(String planID) async {
+    //get userID from sharedpreferences
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    String? userPref = pref.getString('gymPassPref');
+    var userData = jsonDecode(userPref.toString());
+    if (userPref != null) {
+      var response = await http.get(Uri.parse('$baseURL/plans/$planID'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8'
+          });
+      var planData = jsonDecode(response.body);
+      if (!mounted) return;
+      userID = (userData["_id"]).toString();
+      planID = planID;
+
+      AutoRouter.of(context).push(PaymentRoute(payload: planData, details: [
+        planData["name"],
+        "${planData["duration"]} days",
+        "a",
+        userID,
+      ]));
+      debugPrint(userID);
     }
   }
 
@@ -167,16 +228,14 @@ class _GymDashboardPageState extends State<GymDashboardPage>
               borderRadius: BorderRadius.circular(18)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              Text('Monthly Bundle',
-                  style:
-                      TextStyle(fontSize: 18, fontWeight: (FontWeight.bold))),
-              SizedBox(height: 4),
-              Text(
-                "Expires: 26/09/22",
-              ),
-              SizedBox(height: 4),
-              Text("Paid with: Momo")
+            children: [
+              Text(currentSubscription,
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: (FontWeight.bold))),
+              const SizedBox(height: 4),
+              Text(expiryDate),
+              const SizedBox(height: 4),
+              const Text(""),
             ],
           ),
         ),
@@ -199,31 +258,43 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                     TextStyle(fontWeight: FontWeight.bold, fontSize: sH * 0.03),
               ),
               //--------------------------------------------------------height input
-              CustomInputField(
-                optionalFunction: () {
+              TextFormField(
+                decoration: InputDecoration(
+                  alignLabelWithHint: true,
+                  prefixIcon: const Icon(Icons.height),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: BorderSide.none),
+                  fillColor: Colors.white,
+                  filled: true,
+                  hintText: "Enter Height (m)",
+                ),
+                controller: heightController,
+                onTap: () {
                   setState(() {
                     tabIndex = 1;
                   });
                 },
-                icon: Icons.height,
-                fieldName: "Height (m)",
-                fieldController: heightController,
               ),
 
               //--------------------------------------------------------weight input
-              CustomInputField(
-                optionalFunction: () {
+              TextFormField(
+                decoration: InputDecoration(
+                  alignLabelWithHint: true,
+                  prefixIcon: const Icon(Icons.boy_rounded),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: BorderSide.none),
+                  fillColor: Colors.white,
+                  filled: true,
+                  hintText: "Enter Weight (kg)",
+                ),
+                controller: weightController,
+                onTap: () {
                   setState(() {
                     tabIndex = 1;
                   });
                 },
-                icon: Icons.boy_rounded,
-                fieldName: "Weight (kg)",
-                fieldController: weightController,
-              ),
-
-              SizedBox(
-                height: sH * 0.02,
               ),
 
               //--------------------------------------------------------BMI output text
@@ -238,6 +309,10 @@ class _GymDashboardPageState extends State<GymDashboardPage>
         SizedBox(height: sH * 0.03),
         //----------------------------------------------------------Calc BMI Button
         ElevatedButton(
+            style: ButtonStyle(
+                shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.all(Radius.circular(sW * 0.7))))),
             onPressed: () {
               calcBMI((double.tryParse(heightController.text)),
                   double.tryParse(weightController.text));
@@ -245,7 +320,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
             },
             child: Text(
               "Calculate BMI",
-              style: TextStyle(fontSize: sH * 0.025),
+              style: TextStyle(fontSize: sH * 0.03),
             )),
       ]),
     );
@@ -294,9 +369,11 @@ class _GymDashboardPageState extends State<GymDashboardPage>
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: sH * 0.03),
           ),
           SizedBox(height: sH * 0.02),
-          //-----------------------------------------------------Monthly Button
+          //------------------------------------------------------Monthly Button
           ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                setPlanPayload('633483bbcc7f8f2800f78018');
+              },
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.green),
                   elevation: MaterialStateProperty.all(10),
@@ -323,7 +400,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                               fontSize: 16),
                         ),
                         Text(
-                          "GH₵120.00",
+                          "GH₵100.00",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -349,7 +426,9 @@ class _GymDashboardPageState extends State<GymDashboardPage>
           ),
           //-----------------------------------------------------3 Months Button
           ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                setPlanPayload('633483a3cc7f8f2800f78016');
+              },
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.green),
                   elevation: MaterialStateProperty.all(10),
@@ -376,7 +455,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                               fontSize: 16),
                         ),
                         Text(
-                          "GH₵360.00",
+                          "GH₵250.00",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -399,7 +478,9 @@ class _GymDashboardPageState extends State<GymDashboardPage>
           ),
           //-----------------------------------------------------6 Months Button
           ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                setPlanPayload('63348391cc7f8f2800f78014');
+              },
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.green),
                   elevation: MaterialStateProperty.all(10),
@@ -426,7 +507,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                               fontSize: 16),
                         ),
                         Text(
-                          "GH₵720.00",
+                          "GH₵500.00",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, color: Colors.black),
@@ -445,7 +526,9 @@ class _GymDashboardPageState extends State<GymDashboardPage>
           SizedBox(height: sH * 0.015),
           //-----------------------------------------------------Yearly Button
           ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                setPlanPayload('63348358cc7f8f2800f78012');
+              },
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.green),
                   elevation: MaterialStateProperty.all(10),
@@ -472,7 +555,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                               fontSize: 16),
                         ),
                         Text(
-                          "GH₵1,440.00",
+                          "GH₵1,000.00",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, color: Colors.black),

@@ -137,6 +137,7 @@ class _ScheduleBookingPageState extends State<ScheduleBookingPage> {
             .push(PaymentRoute(payload: platformData, details: [
           platformData["name"],
           "${platformData["duration"].toString()} ${platformData["duration"] > 1 ? 'hours' : 'hour'}",
+          "b",
         ]));
       } else {
         if (!mounted) return;
