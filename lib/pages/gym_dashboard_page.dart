@@ -138,17 +138,22 @@ class _GymDashboardPageState extends State<GymDashboardPage>
             'Content-Type': 'application/json; charset=UTF-8'
           });
       var planData = jsonDecode(response.body);
-      if (!mounted) return;
-      userID = (userData["_id"]).toString();
-      planID = planID;
+      if (response.statusCode == 200) {
+        if (!mounted) return;
+        userID = (userData["_id"]).toString();
+        planID = planID;
 
-      AutoRouter.of(context).push(PaymentRoute(payload: planData, details: [
-        planData["name"],
-        "${planData["duration"]} days",
-        "a",
-        userID,
-      ]));
-      debugPrint(userID);
+        AutoRouter.of(context).push(PaymentRoute(payload: planData, details: [
+          planData["name"],
+          "${planData["duration"]} days",
+          "a",
+          userID,
+        ]));
+        debugPrint(userID);
+      } else {
+        if (!mounted) return;
+        snackBarMessage(planData.toString(), context);
+      }
     }
   }
 
