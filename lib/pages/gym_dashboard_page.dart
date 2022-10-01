@@ -90,12 +90,12 @@ class _GymDashboardPageState extends State<GymDashboardPage>
   String greeting() {
     var hour = DateTime.now().hour;
     if (hour < 12) {
-      return 'Good Morning.';
+      return 'Good Morning,';
     }
     if (hour < 17) {
-      return 'Good Afternoon.';
+      return 'Good Afternoon,';
     }
-    return 'Good Evening.';
+    return 'Good Evening,';
   }
 
   void calcBMI(double? height, double? weight) {
@@ -166,11 +166,16 @@ class _GymDashboardPageState extends State<GymDashboardPage>
           return false;
         },
         child: Scaffold(
-          backgroundColor: const Color.fromARGB(255, 216, 215, 215),
+          backgroundColor: const Color(0xffC2C3A0),
           endDrawer: GymSideBar(logout: logout),
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 1.0,
+            leading: GestureDetector(
+                onTap: () {
+                  AutoRouter.of(context).navigate(const HomeRoute());
+                },
+                child: const Icon(Icons.arrow_back_ios_new)),
             title: const Text("GYM DASHBOARD"),
             titleSpacing: 0,
           ),
@@ -335,7 +340,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
       child: Column(
         children: [
           Container(
-            height: sH * 0.15,
+            height: sH * 0.18,
             width: sW * double.maxFinite,
             padding: const EdgeInsets.all(15),
             decoration: BoxDecoration(
@@ -351,13 +356,17 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                       fontSize: 23,
                       color: AppColor.green2),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 // Text('Your Email: ${userData["email"]}'),
                 Text(
                   greeting(),
                   style: const TextStyle(
                       fontSize: 14, fontWeight: FontWeight.w500),
-                )
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                const Text("Pick a plan to begin your journey!")
               ],
             ),
           ),
@@ -365,7 +374,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
           SizedBox(height: sH * 0.03),
 
           Text(
-            "Build Your Plan",
+            "Pick A Plan",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: sH * 0.03),
           ),
           SizedBox(height: sH * 0.02),
@@ -411,7 +420,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                           height: 0.1,
                         ),
                         Text(
-                          "Auto-renews , cancel anytime",
+                          "Auto-renews, cancel anytime",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, color: Colors.black),

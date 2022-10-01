@@ -205,7 +205,7 @@ class _BookingPageState extends State<BookingPage> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
-          backgroundColor: const Color.fromARGB(255, 44, 93, 46),
+          backgroundColor: Color.fromARGB(255, 90, 158, 93),
           actions: [
             Visibility(
               visible: bookHereVisibility,
@@ -214,7 +214,8 @@ class _BookingPageState extends State<BookingPage> {
                 child: ElevatedButton(
                     style: ButtonStyle(
                       fixedSize: MaterialStateProperty.all(const Size(100, 50)),
-                      backgroundColor: MaterialStateProperty.all(Colors.green),
+                      backgroundColor: MaterialStateProperty.all(
+                          Color.fromARGB(255, 78, 159, 80)),
                       shape: MaterialStateProperty.all(
                           const RoundedRectangleBorder(
                               borderRadius:
@@ -242,7 +243,8 @@ class _BookingPageState extends State<BookingPage> {
                 maxDate: DateTime.now().add(const Duration(days: 365)),
                 selectionDecoration: BoxDecoration(
                   color: Colors.transparent,
-                  border: Border.all(color: Colors.green, width: 2),
+                  border: Border.all(
+                      color: Color.fromARGB(255, 116, 203, 133), width: 2),
                   borderRadius: const BorderRadius.all(Radius.circular(4)),
                   shape: BoxShape.rectangle,
                 ),

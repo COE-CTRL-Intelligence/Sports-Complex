@@ -11,6 +11,8 @@ import 'package:sports_complex/widgets/side_bar.dart';
 import '../widgets/custom_input_field.dart';
 import 'package:http/http.dart' as http;
 
+import '../widgets/sportify_logo.dart';
+
 class CheckBookingPage extends StatefulWidget {
   const CheckBookingPage({Key? key}) : super(key: key);
 
@@ -90,8 +92,14 @@ class _CheckBookingPageState extends State<CheckBookingPage> {
             padding: const EdgeInsets.symmetric(horizontal: 40),
             child: Column(
               children: [
-                const PageTitle(title: 'CHECK BOOKING'),
-                SizedBox(height: bookDetails == null ? sH * 0.15 : sH * 0.05),
+                const Hero(
+                  tag: 'sportify_logo',
+                  child: Center(
+                    child: SportifyLogo(logoSize: 45),
+                  ),
+                ),
+                //const PageTitle(title: 'CHECK BOOKING'),
+                SizedBox(height: bookDetails == null ? sH * 0.15 : sH * 0.10),
                 CustomInputField(
                   optionalFunction: onSubmit,
                   icon: Icons.numbers,

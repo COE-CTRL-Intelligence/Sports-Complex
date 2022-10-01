@@ -11,6 +11,8 @@ import 'package:sports_complex/widgets/platform_tile.dart';
 import 'package:sports_complex/widgets/side_bar.dart';
 import 'package:http/http.dart' as http;
 
+import '../widgets/sportify_logo.dart';
+
 class SelectSportPage extends StatefulWidget {
   const SelectSportPage({Key? key}) : super(key: key);
 
@@ -78,7 +80,7 @@ class _SelectSportPageState extends State<SelectSportPage> {
         return false;
       },
       child: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 76, 126, 78),
+        backgroundColor: const Color(0xffC2C3A0),
         endDrawer: const Sidebar(),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -93,8 +95,27 @@ class _SelectSportPageState extends State<SelectSportPage> {
           child: Center(
               child: Column(
             children: [
+              const Hero(
+                tag: 'sportify_logo',
+                child: Center(
+                  child: SportifyLogo(logoSize: 45),
+                ),
+              ),
+              const SizedBox(height: 30),
               const PageTitle(title: 'BOOK A FACILITY'),
-              SizedBox(height: (platforms != null) ? sH * 0.08 : sH * 0.35),
+              // Text("Welcome!",
+              //     textAlign: TextAlign.left,
+              //     style: TextStyle(
+              //         fontWeight: FontWeight.normal,
+              //         color: Colors.black,
+              //         fontSize: 24)),
+              // Text("Book a facility",
+              //     textAlign: TextAlign.left,
+              //     style: TextStyle(
+              //         fontWeight: FontWeight.normal,
+              //         color: Colors.black,
+              //         fontSize: 23)),
+              SizedBox(height: (platforms != null) ? sH * 0.06 : sH * 0.25),
               (platforms != null)
                   ? Padding(
                       padding: EdgeInsets.symmetric(horizontal: sW * 0.08),
@@ -105,7 +126,7 @@ class _SelectSportPageState extends State<SelectSportPage> {
                           platformName: platforms![2]["name"].toString(),
                           costPerHour: platforms![2]["costPerHour"].toString(),
                         ),
-                        SizedBox(height: space),
+                        const SizedBox(height: 50),
                         PlatformTile(
                           image:
                               const AssetImage('assets/images/bball_court.jpg'),
@@ -113,7 +134,7 @@ class _SelectSportPageState extends State<SelectSportPage> {
                           platformID: platforms![1]["_id"].toString(),
                           costPerHour: platforms![1]["costPerHour"].toString(),
                         ),
-                        SizedBox(height: space),
+                        const SizedBox(height: 50),
                         PlatformTile(
                           image: const AssetImage(
                               'assets/images/tennis_court.jpg'),
