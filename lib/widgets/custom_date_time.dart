@@ -149,7 +149,7 @@ class TimeLabel extends StatelessWidget {
           showCupertinoModalPopup(
               context: context,
               builder: (context) => Container(
-                  color: Colors.white70,
+                  color: Colors.grey,
                   height: MediaQuery.of(context).size.height * 0.25,
                   child: CupertinoDatePicker(
                     mode: CupertinoDatePickerMode.time,
@@ -215,7 +215,7 @@ class DateLabel extends StatelessWidget {
           showCupertinoModalPopup(
               context: context,
               builder: (context) => Container(
-                    color: Colors.white70,
+                    color: Colors.grey,
                     height: MediaQuery.of(context).size.height * 0.25,
                     child: CupertinoDatePicker(
                         mode: CupertinoDatePickerMode.date,

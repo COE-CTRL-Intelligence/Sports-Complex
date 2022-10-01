@@ -208,7 +208,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                         labelColor: Colors.black,
                         unselectedLabelColor: Colors.black,
                         tabs:  [
-                          Tab(child: Text("MyPlan", style: TextStyle(fontSize: sW * 0.03),)),
+                          Tab(child: Text("MyPlan", style: TextStyle(fontSize: sW * 0.027),)),
                           Tab(child: Text("Profile", style: TextStyle(fontSize: sW * 0.03)))
                         ]),
                     SizedBox(height: sH * 0.03),
