@@ -101,8 +101,7 @@ class _SelectSportPageState extends State<SelectSportPage> {
                   child: SportifyLogo(logoSize: 45),
                 ),
               ),
-              const SizedBox(height: 30),
-              const PageTitle(title: 'BOOK A FACILITY'),
+              // const PageTitle(title: 'BOOK A FACILITY'),
               // Text("Welcome!",
               //     textAlign: TextAlign.left,
               //     style: TextStyle(
