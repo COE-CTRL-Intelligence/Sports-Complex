@@ -166,7 +166,7 @@ class _BookingPageState extends State<BookingPage> {
                 ? Colors.blue
                 : AppColor.pink1,
             subject: (bookings.last == booking && widget.appointment != null)
-                ? 'Reserved'
+                ? 'New'
                 : ''));
       }
     }

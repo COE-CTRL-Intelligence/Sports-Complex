@@ -59,8 +59,8 @@ class _PaymentPageState extends State<PaymentPage> {
             bookRes = jsonData;
           });
         } else {
-          showMyDialog('Payment Failed', null);
-          debugPrint(jsonData.toString());
+          showMyDialog(jsonData.toString(), null);
+          
         }
       } catch (e) {
         debugPrint(e.toString());
@@ -86,8 +86,7 @@ class _PaymentPageState extends State<PaymentPage> {
             subsRes = jsonData;
           });
         } else {
-          showMyDialog('Payment Failed', null);
-          debugPrint(jsonData.toString());
+          showMyDialog(jsonData.toString(), null);
         }
       } catch (e) {
         debugPrint(e.toString());

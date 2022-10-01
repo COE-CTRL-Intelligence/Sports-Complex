@@ -28,6 +28,7 @@ var userID = "";
 var planID = "";
 var currentSubscription = "";
 var expiryDate = "";
+bool isVisible = true;
 
 class _GymDashboardPageState extends State<GymDashboardPage>
     with TickerProviderStateMixin {
@@ -128,6 +129,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
   }
 
   void setPlanPayload(String planID) async {
+    toggleVisibility();
     //get userID from sharedpreferences
     SharedPreferences pref = await SharedPreferences.getInstance();
     String? userPref = pref.getString('gymPassPref');
@@ -142,7 +144,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
         if (!mounted) return;
         userID = (userData["_id"]).toString();
         planID = planID;
-
+        toggleVisibility();
         AutoRouter.of(context).push(PaymentRoute(payload: planData, details: [
           planData["name"],
           "${planData["duration"]} days",
@@ -151,10 +153,17 @@ class _GymDashboardPageState extends State<GymDashboardPage>
         ]));
         debugPrint(userID);
       } else {
+        toggleVisibility();
         if (!mounted) return;
         snackBarMessage(planData.toString(), context);
       }
     }
+  }
+
+  void toggleVisibility(){
+    setState(() {
+      isVisible = !isVisible;
+    });
   }
 
   //----------------------------------------------------gymDashboardPage starts
@@ -198,9 +207,9 @@ class _GymDashboardPageState extends State<GymDashboardPage>
                             const EdgeInsets.only(left: 50, right: 100),
                         labelColor: Colors.black,
                         unselectedLabelColor: Colors.black,
-                        tabs: const [
-                          Tab(child: Text("My Plan")),
-                          Tab(child: Text("Profile"))
+                        tabs:  [
+                          Tab(child: Text("MyPlan", style: TextStyle(fontSize: sW * 0.03),)),
+                          Tab(child: Text("Profile", style: TextStyle(fontSize: sW * 0.03)))
                         ]),
                     SizedBox(height: sH * 0.03),
                     SizedBox(
@@ -381,208 +390,222 @@ class _GymDashboardPageState extends State<GymDashboardPage>
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: sH * 0.03),
           ),
           SizedBox(height: sH * 0.02),
-          //------------------------------------------------------Monthly Button
-          ElevatedButton(
-              onPressed: () {
-                setPlanPayload('633483bbcc7f8f2800f78018');
-              },
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.green),
-                  elevation: MaterialStateProperty.all(10),
-                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)))),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: sH * 0.007,
-                  ),
-                  Container(
-                    height: sH * 0.11,
-                    width: double.infinity,
-                    padding: EdgeInsets.only(top: sH * 0.02),
+          Visibility(
+            visible: isVisible,
+            replacement: const CircularProgressIndicator(),
+            child: Column(
+              children: [
+                //------------------------------------------------------Monthly Button
+            ElevatedButton(
+                onPressed: () {
+                  setPlanPayload('633483bbcc7f8f2800f78018');
+                },
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.green),
+                    elevation: MaterialStateProperty.all(10),
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)))),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: sH * 0.007,
+                    ),
+                    Container(
+                      height: sH * 0.11,
+                      width: double.infinity,
+                      padding: EdgeInsets.only(top: sH * 0.02),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: const [
+                          Text(
+                            "Monthly",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                                fontSize: 16),
+                          ),
+                          Text(
+                            "GH₵100.00",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                                fontSize: 14),
+                          ),
+                          SizedBox(
+                            height: 0.1,
+                          ),
+                          Text(
+                            "Auto-renews, cancel anytime",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, color: Colors.black),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                )),
+            SizedBox(
+              height: sH * 0.015,
+            ),
+          
+            //-----------------------------------------------------3 Months Button
+                ElevatedButton(
+                    onPressed: () {
+                      setPlanPayload('633483a3cc7f8f2800f78016');
+                    },
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.green),
+                        elevation: MaterialStateProperty.all(10),
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15)))),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: const [
-                        Text(
-                          "Monthly",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              fontSize: 16),
-                        ),
-                        Text(
-                          "GH₵100.00",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              fontSize: 14),
-                        ),
+                      children: [
                         SizedBox(
-                          height: 0.1,
+                          height: sH * 0.007,
                         ),
-                        Text(
-                          "Auto-renews, cancel anytime",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
-                        )
+                        Container(
+                          height: sH * 0.11,
+                          width: double.infinity,
+                          padding: EdgeInsets.only(top: sH * 0.02),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: const [
+                              Text(
+                                "3-Months",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                    fontSize: 16),
+                              ),
+                              Text(
+                                "GH₵250.00",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                    fontSize: 14),
+                              ),
+                              Text(
+                                "Auto-renews Monthly, cancel anytime",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black),
+                              )
+                            ],
+                          ),
+                        ),
                       ],
-                    ),
-                  )
-                ],
-              )),
-          SizedBox(
-            height: sH * 0.015,
+                    )),
+                SizedBox(
+                  height: sH * 0.015,
+                ),
+                //-----------------------------------------------------6 Months Button
+                ElevatedButton(
+                    onPressed: () {
+                      setPlanPayload('63348391cc7f8f2800f78014');
+                    },
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.green),
+                        elevation: MaterialStateProperty.all(10),
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15)))),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: sH * 0.007,
+                        ),
+                        Container(
+                          height: sH * 0.11,
+                          width: double.infinity,
+                          padding: EdgeInsets.only(top: sH * 0.02),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: const [
+                              Text(
+                                "6-Months",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                    fontSize: 16),
+                              ),
+                              Text(
+                                "GH₵500.00",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black),
+                              ),
+                              Text(
+                                "Auto-renews Monthly, cancel anytime",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    )),
+                SizedBox(height: sH * 0.015),
+                //-----------------------------------------------------Yearly Button
+                ElevatedButton(
+                    onPressed: () {
+                      setPlanPayload('63348358cc7f8f2800f78012');
+                    },
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.green),
+                        elevation: MaterialStateProperty.all(10),
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15)))),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: sH * 0.007,
+                        ),
+                        Container(
+                          height: sH * 0.11,
+                          width: double.infinity,
+                          padding: EdgeInsets.only(top: sH * 0.02),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: const [
+                              Text(
+                                "Yearly",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                    fontSize: 16),
+                              ),
+                              Text(
+                                "GH₵1,000.00",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black),
+                              ),
+                              Text(
+                                "Auto-renews Monthly, cancel anytime",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    )),
+              ],
+            ),
           ),
-          //-----------------------------------------------------3 Months Button
-          ElevatedButton(
-              onPressed: () {
-                setPlanPayload('633483a3cc7f8f2800f78016');
-              },
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.green),
-                  elevation: MaterialStateProperty.all(10),
-                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)))),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: sH * 0.007,
-                  ),
-                  Container(
-                    height: sH * 0.11,
-                    width: double.infinity,
-                    padding: EdgeInsets.only(top: sH * 0.02),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: const [
-                        Text(
-                          "3-Months",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              fontSize: 16),
-                        ),
-                        Text(
-                          "GH₵250.00",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              fontSize: 14),
-                        ),
-                        Text(
-                          "Auto-renews Monthly, cancel anytime",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              )),
-          SizedBox(
-            height: sH * 0.015,
-          ),
-          //-----------------------------------------------------6 Months Button
-          ElevatedButton(
-              onPressed: () {
-                setPlanPayload('63348391cc7f8f2800f78014');
-              },
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.green),
-                  elevation: MaterialStateProperty.all(10),
-                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)))),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: sH * 0.007,
-                  ),
-                  Container(
-                    height: sH * 0.11,
-                    width: double.infinity,
-                    padding: EdgeInsets.only(top: sH * 0.02),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: const [
-                        Text(
-                          "6-Months",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              fontSize: 16),
-                        ),
-                        Text(
-                          "GH₵500.00",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
-                        ),
-                        Text(
-                          "Auto-renews Monthly, cancel anytime",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              )),
-          SizedBox(height: sH * 0.015),
-          //-----------------------------------------------------Yearly Button
-          ElevatedButton(
-              onPressed: () {
-                setPlanPayload('63348358cc7f8f2800f78012');
-              },
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.green),
-                  elevation: MaterialStateProperty.all(10),
-                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)))),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: sH * 0.007,
-                  ),
-                  Container(
-                    height: sH * 0.11,
-                    width: double.infinity,
-                    padding: EdgeInsets.only(top: sH * 0.02),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: const [
-                        Text(
-                          "Yearly",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              fontSize: 16),
-                        ),
-                        Text(
-                          "GH₵1,000.00",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
-                        ),
-                        Text(
-                          "Auto-renews Monthly, cancel anytime",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              )),
         ],
       ),
     );
