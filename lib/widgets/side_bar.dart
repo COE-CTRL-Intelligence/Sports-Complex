@@ -69,7 +69,7 @@ class _SidebarState extends State<Sidebar> {
               title: const Text('Contact us'),
               onTap: () => {
                 AutoRouter.of(context)
-                    .replaceAll([const HomeRoute(), const ContactUsRoute()])
+                    .replaceAll([const HomeRoute(), ContactUsRoute()])
               },
             ),
             const SizedBox(height: 15),

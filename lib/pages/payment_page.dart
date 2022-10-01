@@ -26,6 +26,7 @@ class _PaymentPageState extends State<PaymentPage> {
   String? phoneNumber;
   bool progressClicked = false;
   Map<String, dynamic>? bookRes;
+  Map<String, dynamic>? subsRes;
 
   // Methods
   void setPhoneNumber(String number) {
@@ -34,33 +35,63 @@ class _PaymentPageState extends State<PaymentPage> {
     });
   }
 
-  void placeBooking() async {
+  void placeService() async {
     showCircularProgressLoading();
-    try {
-      var response = await http.post(Uri.parse('$baseURL/bookings'),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: jsonEncode(<String, dynamic>{
-            "platformID": widget.payload["_id"],
-            "startTime": widget.payload["startTime"].toString(),
-            "endTime": widget.payload["endTime"].toString(),
-            "duration": widget.payload["duration"],
-            "number": phoneNumber
-          }));
+    //--------------------------------------------------------------for booking
+    if (widget.details[2] == "b") {
+      try {
+        var response = await http.post(Uri.parse('$baseURL/bookings'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: jsonEncode(<String, dynamic>{
+              "platformID": widget.payload["_id"],
+              "startTime": widget.payload["startTime"].toString(),
+              "endTime": widget.payload["endTime"].toString(),
+              "duration": widget.payload["duration"],
+              "number": phoneNumber
+            }));
 
-      var jsonData = jsonDecode(response.body);
-      if (response.statusCode == 201) {
-        showMyDialog('Payment Successful!', carouselController.nextPage);
-        setState(() {
-          bookRes = jsonData;
-        });
-      } else {
-        showMyDialog('Payment Failed', null);
-        debugPrint(jsonData.toString());
+        var jsonData = jsonDecode(response.body);
+        if (response.statusCode == 201) {
+          showMyDialog('Payment Successful!', carouselController.nextPage);
+          setState(() {
+            bookRes = jsonData;
+          });
+        } else {
+          showMyDialog('Payment Failed', null);
+          debugPrint(jsonData.toString());
+        }
+      } catch (e) {
+        debugPrint(e.toString());
       }
-    } catch (e) {
-      debugPrint(e.toString());
+      //--------------------------------------------------------for subscriptons
+    } else if (widget.details[2] == "a") {
+      try {
+        debugPrint(widget.details[3]);
+        var response = await http.post(Uri.parse('$baseURL/subscriptions'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: jsonEncode(<String, dynamic>{
+              "planID": widget.payload["_id"],
+              "userID": widget.details[3],
+              "number": phoneNumber
+            }));
+
+        var jsonData = jsonDecode(response.body);
+        if (response.statusCode == 201) {
+          showMyDialog('Payment Successful!', carouselController.nextPage);
+          setState(() {
+            subsRes = jsonData;
+          });
+        } else {
+          showMyDialog('Payment Failed', null);
+          debugPrint(jsonData.toString());
+        }
+      } catch (e) {
+        debugPrint(e.toString());
+      }
     }
   }
 
@@ -106,23 +137,28 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   void closePayment() {
-    Booking newAppointment = Booking(
-      platformId: widget.payload["_id"],
-      startTime: widget.payload["startTime"],
-      endTime: widget.payload["endTime"],
-    );
+    if (widget.details[2] == "b") {
+      Booking newAppointment = Booking(
+        platformId: widget.payload["_id"],
+        startTime: widget.payload["startTime"],
+        endTime: widget.payload["endTime"],
+      );
 
-    AutoRouter.of(context).push(BookingRoute(
-        title: widget.payload["name"],
-        id: widget.payload["_id"],
-        appointment: newAppointment));
+      AutoRouter.of(context).push(BookingRoute(
+          title: widget.payload["name"],
+          id: widget.payload["_id"],
+          appointment: newAppointment));
+    } else if (widget.details[2] == "a") {
+      //what you would do when closing payment for subscription
+      AutoRouter.of(context).push(const GymDashboardRoute());
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     List<Function> functionList = [
       carouselController.nextPage,
-      placeBooking,
+      placeService,
       closePayment,
     ];
     double sH = MediaQuery.of(context).size.height;
@@ -176,9 +212,14 @@ class _PaymentPageState extends State<PaymentPage> {
                           details: widget.details,
                         ),
                         PaymentPage2(
+                          details: widget.details,
                           callback: setPhoneNumber,
                         ),
-                        PaymentPage3(payload: bookRes)
+                        widget.details[2] == "b"
+                            ? PaymentPage3(
+                                payload: bookRes, details: widget.details)
+                            : PaymentPage3(
+                                payload: subsRes, details: widget.details)
                       ],
                     );
                   },
@@ -199,8 +240,12 @@ class _PaymentPageState extends State<PaymentPage> {
                                     MaterialStateProperty.all(Colors.red),
                               ),
                               onPressed: () {
-                                AutoRouter.of(context)
-                                    .popUntilRouteWithName('BookingRoute');
+                                widget.details[2] == "b"
+                                    ? AutoRouter.of(context)
+                                        .popUntilRouteWithName('BookingRoute')
+                                    : AutoRouter.of(context)
+                                        .popUntilRouteWithName(
+                                            'GymDashboardRoute');
                               },
                               child: const Text('Cancel'),
                             ),

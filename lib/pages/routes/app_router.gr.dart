@@ -87,9 +87,11 @@ class AppRouter extends _i13.RootStackRouter {
       );
     },
     ContactUsRoute.name: (routeData) {
+      final args = routeData.argsAs<ContactUsRouteArgs>(
+          orElse: () => const ContactUsRouteArgs());
       return _i13.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i8.ContactUsPage(),
+        child: _i8.ContactUsPage(key: args.key),
       );
     },
     SelectSportRoute.name: (routeData) {
@@ -156,11 +158,11 @@ class AppRouter extends _i13.RootStackRouter {
         ),
         _i13.RouteConfig(
           AboutRoute.name,
-          path: '/About',
+          path: '/about',
         ),
         _i13.RouteConfig(
           ContactUsRoute.name,
-          path: '/Contact',
+          path: '/contact',
         ),
         _i13.RouteConfig(
           SelectSportRoute.name,
@@ -291,7 +293,7 @@ class AboutRoute extends _i13.PageRouteInfo<void> {
   const AboutRoute()
       : super(
           AboutRoute.name,
-          path: '/About',
+          path: '/about',
         );
 
   static const String name = 'AboutRoute';
@@ -299,14 +301,26 @@ class AboutRoute extends _i13.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i8.ContactUsPage]
-class ContactUsRoute extends _i13.PageRouteInfo<void> {
-  const ContactUsRoute()
+class ContactUsRoute extends _i13.PageRouteInfo<ContactUsRouteArgs> {
+  ContactUsRoute({_i14.Key? key})
       : super(
           ContactUsRoute.name,
-          path: '/Contact',
+          path: '/contact',
+          args: ContactUsRouteArgs(key: key),
         );
 
   static const String name = 'ContactUsRoute';
+}
+
+class ContactUsRouteArgs {
+  const ContactUsRouteArgs({this.key});
+
+  final _i14.Key? key;
+
+  @override
+  String toString() {
+    return 'ContactUsRouteArgs{key: $key}';
+  }
 }
 
 /// generated route for
