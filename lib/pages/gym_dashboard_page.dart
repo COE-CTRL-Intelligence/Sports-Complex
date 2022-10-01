@@ -114,7 +114,7 @@ class _GymDashboardPageState extends State<GymDashboardPage>
 
     if (result < 18.5 && result > 0) {
       res =
-          "Your BMI is$resultt. You should be attending a restaurant instead ...";
+          "Your BMI is $resultt. You should be going to a restaurant instead ...";
     } else if (result > 18.4 && result < 30.0) {
       res = "Your BMI is $resultt. Wow you look good, can I get your number?";
     } else if (result > 24.9 && result < 30.0) {
