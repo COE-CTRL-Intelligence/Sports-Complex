@@ -24,14 +24,16 @@ class CustomDateTime extends StatelessWidget {
 
     return Row(
       children: [
-        SizedBox(
-          width: screenWidth * 0.2,
-          child: Text(
-            title,
-            style: TextStyle(
-              fontSize: 19,
-              fontWeight: FontWeight.bold,
-              color: AppColor.blue1,
+        Expanded(
+          child: SizedBox(
+            width: screenWidth * 0.2,
+            child: Text(
+              title,
+              style: TextStyle(
+                fontSize: 19,
+                fontWeight: FontWeight.bold,
+                color: AppColor.blue1,
+              ),
             ),
           ),
         ),
@@ -62,14 +64,16 @@ class CustomEndDateTimeField extends StatelessWidget {
 
     return Row(
       children: [
-        SizedBox(
-          width: screenWidth * 0.2,
-          child: Text(
-            'ENDS',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 19,
-              color: AppColor.blue1,
+        Expanded(
+          child: SizedBox(
+            width: screenWidth * 0.2,
+            child: Text(
+              'ENDS',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 19,
+                color: AppColor.blue1,
+              ),
             ),
           ),
         ),
